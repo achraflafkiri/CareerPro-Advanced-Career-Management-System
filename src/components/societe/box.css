@@ -1,0 +1,20 @@
+.box {
+    position: relative;
+    width: 400px ;
+    height: 200px ;
+    border-radius: 20px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    box-shadow: inset 0px 3px 3px rgba(0, 0, 0, 0.25);
+    transition: letter-spacing .2s linear;
+    cursor: pointer;
+}
+
+.box-content {
+    color: rgb(7, 20, 32);
+}
+
+.box:hover {
+    letter-spacing: 2px;
+}
