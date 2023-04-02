@@ -39,15 +39,14 @@ const LoginForm = () => {
       }, 20000);
     }
 
-    const token = Cookies.get("ACCESS_TOKEN");
+    const token = localStorage.getItem("ACCESS_TOKEN");
     if (token) {
-      window.location.href = "/";
+      window.location.reload(true);
     }
   }, [isError, message]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     dispatch(login(userObj));
   };
 

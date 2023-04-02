@@ -23,24 +23,51 @@ const SocieteCreate = () => {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     setLoading(true);
+  //     const token = localStorage.getItem("ACCESS_TOKEN");
+  //     if (!token) {
+  //       throw new Error("Token not found");
+  //     }
+  //     const response = await createNewCompany(token, formData);
+  //     if (response.status === 201) {
+  //       setSuccess(true); // set success to true on successful creation of company
+  //       console.log("create societe successfully!");
+  //     } else {
+  //       throw new Error("failed");
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setError(err.response?.data?.err?.message ?? err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("ACCESS_TOKEN");
+
+    const headers = new Headers();
+    headers.append(
+      "Authorization",
+      `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MjlhM2IzNDk1NzczNGJkMmJhYTg1OCIsImlhdCI6MTY4MDQ2MzcxMywiZXhwIjoxNjgzMDU1NzEzfQ._I7IwNM_p44rVDAb_67XzQgh2PLw5YXGSpmNvHbePuk`
+    );
+
     console.log(formData);
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("ACCESS_TOKEN");
-      const response = await createNewCompany(token, formData);
-      if (response.status === 200) {
-        setSuccess(true); // set success to true on successful creation of company
-        console.log("create societe successfully!");
-      } else {
-        throw new Error("failed");
-      }
-    } catch (err) {
-      setError(err.response.data.err.message);
-    } finally {
-      setLoading(false);
-    }
+    fetch("http://localhost:3000/api/v1/company", {
+      method: "POST",
+      body: formData,
+      headers: headers,
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
   };
 
   return (
@@ -57,7 +84,7 @@ const SocieteCreate = () => {
             <h5>Créer une nouvelle société</h5>
           </div>
           <div className="card-body">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} method="POST">
               <div className="mb-3">
                 <label htmlFor="nom">
                   Nom de société <em className="text-danger">*</em>

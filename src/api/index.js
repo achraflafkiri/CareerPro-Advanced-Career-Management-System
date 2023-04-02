@@ -6,8 +6,12 @@ export const Signup = (userData) => api.post("auth/Signup", userData);
 
 // Societe
 export const createNewCompany = (token, formData) => {
+  console.log("token", token);
+  console.log("formData", formData);
+
   const config = {
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
