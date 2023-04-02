@@ -1,13 +1,11 @@
 import { Link, Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
-import axiosClient from "../axios-client.js";
-import { useEffect } from "react";
 import Sidebar from "../components/inc/Sidebar";
 import Navbar from "../components/inc/Navbar";
 
 
-export default function DefaultLayout() {
-  const { user, token, setUser, setToken, notification } = useStateContext();
+const DefaultLayout = ({ handleNavToggle, isLinkActive, isID }) => {
+  const { user, token, setUser, setToken } = useStateContext();
 
   if (!token) {
     return <Navigate to="/login" />;
@@ -15,9 +13,9 @@ export default function DefaultLayout() {
 
   return (
     <>
-      <Navbar />
+      <Navbar handleNavToggle={handleNavToggle} />
       <div className="container-fluid page-body-wrapper">
-        <Sidebar />
+        <Sidebar isLinkActive={isLinkActive} isID={isID} />
         <div className="main-panel">
           <div className="content-wrapper">
             <Outlet />
@@ -26,4 +24,6 @@ export default function DefaultLayout() {
       </div>
     </>
   );
-}
+};
+
+export default DefaultLayout;

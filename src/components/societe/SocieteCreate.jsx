@@ -1,41 +1,73 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useFormik } from "formik";
+import React, { useState } from "react";
+import { createNewCompany } from "../../api/index";
+import { Link, Navigate } from "react-router-dom";
 
 const SocieteCreate = () => {
-  const formik = useFormik({
-    initialValues: {
-      nom: "",
-      description: "",
-      address: "",
-      phone: "",
-      email: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-      // submit the form
-    },
+  const [formData, setFormData] = useState({
+    company_name: "",
+    description: "",
+    address: "",
+    phone: "",
+    email: "",
   });
+
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(formData);
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("ACCESS_TOKEN");
+      const response = await createNewCompany(token, formData);
+      if (response.status === 200) {
+        setSuccess(true); // set success to true on successful creation of company
+        console.log("create societe successfully!");
+      } else {
+        throw new Error("failed");
+      }
+    } catch (err) {
+      setError(err.response.data.err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="row">
       <div className="col-md-16">
+        {success && (
+          <div className="mt-3 alert alert-success">
+            Société créée avec succès !
+          </div>
+        )}
+        {error && <div className="mt-3 alert alert-danger">{error}</div>}
         <div className="card">
           <div className="card-header">
             <h5>Créer une nouvelle société</h5>
           </div>
           <div className="card-body">
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="nom">
                   Nom de société <em className="text-danger">*</em>
                 </label>
                 <input
                   type="text"
-                  name="nom"
-                  id="nom"
-                  value={formik.values.nom}
-                  onChange={formik.handleChange}
+                  name="company_name"
+                  id="company_name"
+                  value={formData.company_name}
+                  onChange={handleChange}
                   className="form-control"
                 />
               </div>
@@ -46,7 +78,8 @@ const SocieteCreate = () => {
                   name="description"
                   id="description"
                   className="form-control"
-                  onChange={formik.handleChange}
+                  onChange={handleChange}
+                  value={formData.description}
                   rows="4"
                 ></textarea>
               </div>
@@ -58,8 +91,8 @@ const SocieteCreate = () => {
                   type="text"
                   name="address"
                   id="address"
-                  onChange={formik.handleChange}
-                  value={formik.values.address}
+                  onChange={handleChange}
+                  value={formData.address}
                   className="form-control"
                 />
               </div>
@@ -69,8 +102,8 @@ const SocieteCreate = () => {
                   type="text"
                   name="phone"
                   id="phone"
-                  onChange={formik.handleChange}
-                  value={formik.values.phone}
+                  onChange={handleChange}
+                  value={formData.phone}
                   className="form-control"
                 />
               </div>
@@ -82,22 +115,16 @@ const SocieteCreate = () => {
                   type="text"
                   name="email"
                   id="email"
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
+                  onChange={handleChange}
+                  value={formData.email}
                   className="form-control"
                 />
               </div>
-              <div className="mb-3">
-                <button type="submit" className="btn btn-info text-white mx-1">
-                  Send
-                </button>
-                <Link to="/societe" className="btn btn-light text-dark mx-1">
-                  Cancel
-                </Link>
-              </div>
+              <button type="submit" className="btn btn-primary">
+                Créer
+              </button>
             </form>
           </div>
-          <div className="card-footer"></div>
         </div>
       </div>
     </div>

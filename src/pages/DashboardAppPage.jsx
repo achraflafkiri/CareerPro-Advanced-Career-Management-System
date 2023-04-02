@@ -1,6 +1,5 @@
 
 const DashboardAppPage = () => {
- 
 
   return (
     <div className="content-wrapper">

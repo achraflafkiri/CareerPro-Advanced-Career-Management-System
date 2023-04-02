@@ -1,30 +1,121 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Signup } from "../../api/index";
 
 const RegisterForm = () => {
-  return (
-    <form class="p-2">
-    <div className="mb-3">
-        <label htmlFor="E-mail">username</label>
-        <input type="text" name="email" id="email" class="form-control" />
-    </div>
-    <div className="mb-3">
-        <label htmlFor="E-mail">email</label>
-        <input type="text" name="email" id="email" class="form-control" />
-        <small className="text-dark">We'll never share your email with anyone else.</small>
-    </div>
-    <div className="mb-3">
-        <label htmlFor="Password">password</label>
-        <input type="text" name="password" id="password" class="form-control" />
-    </div>
-    <div className="mb-3">
-        <label htmlFor="Password2">confirm password</label>
-        <input type="text" name="password2" id="password" class="form-control" />
-    </div>
-    <div className="mb-3">
-        <input type="submit" value="send" class="btn btn-primary btn-ms"/>
-    </div>
-</form>
-  )
-}
+  const [userObj, setUserObj] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+  });
 
-export default RegisterForm
+  const { username, email, password, confirmpassword } = userObj;
+
+  const [error, setError] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserObj((prevUserObj) => ({
+      ...prevUserObj,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("data passed", userObj);
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await Signup(userObj);
+
+      if (response.status === 201) {
+        console.log(response);
+        console.log("Registered successfully!");
+        localStorage.setItem(
+          "ACCESS_TOKEN",
+          JSON.stringify(response.data.token)
+        );
+        window.location.href = "/dashboard";
+      } else {
+        throw new Error("Registration failed");
+      }
+    } catch (err) {
+      if (err.response && err.response.data) {
+        setError([err.response.data.message]);
+      } else {
+        setError(["An unknown error occurred. Please try again."]);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="p-2">
+      {error &&
+        error.map((item) => <div className="alert alert-danger">{item}</div>)}
+      <div className="mb-3">
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          className="form-control"
+          value={username}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          className="form-control"
+          value={email}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          className="form-control"
+          value={password}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="confirmpassword">Confirm Password</label>
+        <input
+          type="password"
+          name="confirmpassword"
+          id="confirmpassword"
+          className="form-control"
+          value={confirmpassword}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="mb-3">
+        <button
+          type="submit"
+          className="btn btn-primary btn-ms"
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Register"}
+        </button>
+      </div>
+      <div className="mb-3">
+        Already have an account? <a href="/login">Login</a>
+      </div>
+    </form>
+  );
+};
+
+export default RegisterForm;

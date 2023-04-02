@@ -30,6 +30,7 @@ import EmployeeAbsence from "./components/employees/EmployeeAbsence";
 
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
+import Dashboard from "./pages/DashboardAppPage";
 
 const App = () => {
   const [isLinkActive, setIsLinkActive] = useState(false);
@@ -42,8 +43,59 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route element={<DefaultLayout handleNavIds={handleNavIds} />}>
+        <Route
+          element={
+            <DefaultLayout
+              handleNavToggle={handleNavToggle}
+              isLinkActive={isLinkActive}
+              isID={isID}
+            />
+          }
+        >
+          <Route path="/" element={<Dashboard />} />
           <Route path="/societe" element={<SocieteList />} />
+          <Route path="/societe/create" element={<SocieteCreate />} />
+          <Route
+            path="/societe/:societeId"
+            element={<SocieteDetails handleNavIds={handleNavIds} />}
+          />
+          <Route
+            path="/societe/:societeId/produits"
+            element={<ProductsList />}
+          />
+          <Route
+            path="/societe/:societeId/produits/:produitId"
+            element={<ProductsDetails />}
+          />
+          <Route
+            path="/societe/:societeId/produits/:produitId/edit"
+            element={<ProductsEdit />}
+          />
+          <Route
+            path="/societe/:societeId/employees"
+            element={<EmployeesList />}
+          />
+          <Route
+            path="/societe/:societeId/employees/create"
+            element={<EmployeesForm />}
+          />
+          <Route
+            path="/societe/:societeId/employees/:employeeId/absence-registration"
+            element={<EmployeeAbsence />}
+          />
+          <Route
+            path="/societe/:societeId/materials"
+            element={<MaterialList />}
+          />
+          <Route path="/societe/:societeId/clients" element={<ClientsList />} />
+          <Route
+            path="/societe/:societeId/clients/:produitId/edit"
+            element={<ClientEdit />}
+          />
+          <Route
+            path="/societe/:societeId/clients/create"
+            element={<ClientForm />}
+          />
         </Route>
         <Route element={<GuestLayout />}>
           <Route path="/login" element={<Login />} />

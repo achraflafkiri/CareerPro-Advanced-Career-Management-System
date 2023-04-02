@@ -1,39 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import EditModal from "./SocieteEdit";
 import DeleteModal from "./SocieteDelete";
+import { getAllCompanies } from "../../api";
 
-const initialSocieteList = [
-  {
-    id: "1",
-    nom: "Societe X",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  },
-  {
-    id: "2",
-    nom: "Societe Y",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  },
-  {
-    id: "3",
-    nom: "Societe Z",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  },
-];
+const initialSocieteList = [];
 
 const SocieteList = () => {
-  const [dataList] = useState(initialSocieteList);
+  const [dataList, setDataList] = useState(initialSocieteList);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getAllCompanies();
+      console.log(res);
+      if (res.data) {
+        setDataList(res.data.data.companies);
+        console.log(dataList);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
-      
-        <EditModal />
+      <EditModal />
 
-        <DeleteModal />
+      <DeleteModal />
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-16">
           <div class="card">
             <div class="card-header">
               <h3>
@@ -50,25 +45,35 @@ const SocieteList = () => {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>nom</th>
-                    <th>description</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Email</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {dataList?.map((item, index) => (
                     <tr key={index}>
-                      <td>{item.id}</td>
                       <td>
-                        <Link to={`/societe/${item.id}`}>{item.nom}</Link>
+                        <Link
+                          to={`/societe/${item._id}`}
+                          className="text-primary nav-link"
+                        >
+                          {item.company_name}
+                        </Link>
                       </td>
                       <td>{item.description}</td>
+                      <td>{item.address}</td>
+                      <td>{item.phone}</td>
+                      <td>{item.email}</td>
                       <td className="d-flex justify-content-between align-items-center">
                         <button
                           type="submit"
                           class="btn btn-sm btn-danger text-white mb-3"
-                          data-bs-toggle="modal" data-bs-target="#DeleteModal"
+                          data-bs-toggle="modal"
+                          data-bs-target="#DeleteModal"
                         >
                           Delete
                         </button>
