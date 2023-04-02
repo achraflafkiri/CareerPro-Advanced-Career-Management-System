@@ -11,7 +11,9 @@ const signup = async (userData) => {
   if (response.data) {
     localStorage.setItem("ACCESS_TOKEN", JSON.stringify(response.data.token));
     localStorage.setItem("user", JSON.stringify(response.data.user));
-    document.cookie = response.data.token;
+
+    // Set the token as a cookie for future requests
+    document.cookie = `ACCESS_TOKEN=${response.data.token}; path=/;`;
   }
 
   return response.data;
@@ -27,7 +29,9 @@ const login = async (userData) => {
   if (response.data) {
     localStorage.setItem("ACCESS_TOKEN", JSON.stringify(response.data.token));
     localStorage.setItem("user", JSON.stringify(response.data.user));
-    document.cookie = response.data.token;
+
+    // Set the token as a cookie for future requests
+    document.cookie = `ACCESS_TOKEN=${response.data.token}; path=/;`;
   }
 
   return response.data;
@@ -38,6 +42,11 @@ const logout = async () => {
   const response = await axios.post(`${URL}/logout`);
   localStorage.removeItem("ACCESS_TOKEN", JSON.stringify(response.data.token));
   localStorage.removeItem("user");
+
+  // Remove the token cookie
+  document.cookie =
+    "ACCESS_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
   return response.data;
 };
 
