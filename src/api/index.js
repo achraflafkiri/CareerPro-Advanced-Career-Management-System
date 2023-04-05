@@ -29,8 +29,7 @@ export const getAllCompanies = () => api.get("company");
 export const getAllProducts = () => api.get("product");
 
 export const createNewProduct = (token, formData, societeId) => {
-  console.log("token", token);
-  console.log("type of token", typeof token);
+  console.log("type of societeId", typeof societeId);
 
   const config = {
     headers: {
@@ -39,15 +38,15 @@ export const createNewProduct = (token, formData, societeId) => {
     },
   };
 
-  const { product_name, description, vente, quantity, date } = formData;
+  const { product_name, description, quantity } = formData;
   const data = {
     product_name: product_name,
     description: description,
-    vente: vente,
     quantity: quantity,
-    // date: date,
     Company: societeId,
   };
 
-  return api.post("company", data, config);
+  console.log("data you wanna send  => ", data);
+
+  return api.post("product", data, config);
 };

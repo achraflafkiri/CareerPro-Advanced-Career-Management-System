@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./box.css";
+import { getAllProducts } from "../../api";
 
 const SocieteList = ({ handleNavIds }) => {
   const [id, setId] = useState("");
@@ -11,6 +12,17 @@ const SocieteList = ({ handleNavIds }) => {
     setId(societeId);
     handleNavIds(id);
   });
+
+  const [dataProduct, setDataProduct] = useState(null);
+
+  useEffect(() => {
+    async function fetchData_products() {
+      const res = await getAllProducts();
+      setDataProduct(res.data.data.Products);
+      console.log(dataProduct);
+    }
+    fetchData_products();
+  }, []);
 
   return (
     <>
@@ -77,8 +89,6 @@ const SocieteList = ({ handleNavIds }) => {
         </div>
         <div className="col-md-16">
           <div class="tab-content" id="myTabContent">
-
-
             <div
               class="tab-pane fade"
               id="produit"
@@ -90,14 +100,54 @@ const SocieteList = ({ handleNavIds }) => {
                 <div className="card-body">
                   <table className="table">
                     <thead>
-                      <tr>
-                        <td>nom</td>
-                        <td>desc</td>
-                        <td>vente</td>
-                        <td>date</td>
-                      </tr>
+                      <th>Name</th>
+                      <th>Quantity</th>
+                      <th>Date</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
                     </thead>
-                    <tbody></tbody>
+                    {dataProduct?.map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                          <Link
+                            to={`/product/${item._id}`}
+                            className="text-primary nav-link"
+                          >
+                            {item.product_name}
+                          </Link>
+                        </td>
+                        <td>{item.quantity}</td>
+                        <td>{item.date}</td>
+                        <td>
+                          <button
+                            type="submit"
+                            class="btn  btn-primary btn-sm text-white mb-3"
+                          >
+                            <Link to={`/${item._id}`}>Edit</Link>
+                          </button>
+                        </td>
+                        <td>
+                          <Link
+                            type="button"
+                            class="btn  btn-success btn-sm text-white mb-3"
+                            to={`/product/${item._id}`}
+                          >
+                            Détails
+                          </Link>
+                        </td>
+                        <td>
+                          <button
+                            type="submit"
+                            class="btn  btn-danger btn-sm text-white mb-3"
+                            data-bs-toggle="modal"
+                            data-bs-target="#DeleteModal"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}{" "}
                   </table>
                 </div>
               </div>
@@ -177,8 +227,6 @@ const SocieteList = ({ handleNavIds }) => {
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>

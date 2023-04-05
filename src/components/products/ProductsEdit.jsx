@@ -1,127 +1,140 @@
 import React, { useState } from "react";
+import { useStateContext } from "../../context/ContextProvider";
+import { createNewProduct } from "../../api";
 import { useParams } from "react-router-dom";
 
-const ProductsEdit = () => {
-  const [dataList, setDataList] = useState({
-    produit: "",
-    vente: "",
-    quantite: "",
+const ProductCreate = () => {
+  const [formData, setFormData] = useState({
+    product_name: "",
+    description: "",
+    quantity: "",
     date: "",
-    societe: "",
-    bon_de_livraison: "",
   });
 
-  const handleEdit = (index, field, value) => {
-    // update the dataList state based on the edited field and value
-    setDataList(prevDataList => ({
-      ...prevDataList,
-      [field]: value
-    }));
-  }
+  const { product_name, description, quantity, date } = formData;
 
-  const {societeId} = useParams();
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const { token } = useStateContext();
+  //  get the id of societe
+  const { societeId } = useParams();
+  console.log("societeId => ", societeId);
+
+  const handleSubmit = async (event) => {
+    console.log("cliked");
+    event.preventDefault();
+    try {
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      const response = await createNewProduct(token, formData, societeId);
+      if (response.status === 201) {
+        console.log("create societe successfully!");
+      } else {
+        throw new Error("failed");
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
 
   return (
-    <div className="row">
-      <div className="col-md-16">
-        <form action={`/societe/${societeId}/produits`}>
-          <div className="card">
-            <div className="card-header">
-              <p className="text-dark">Modifier les données du produit</p>
-            </div>
-            <div className="card-body">
+    <div
+      className="modal fade"
+      id="addProduct"
+      tabindex="-1"
+      aria-labelledby="addProductLabel"
+      aria-hidden="true"
+    >
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="staticBackdropLabel">
+              Add new product
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="modal-body">
+            <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <select
-                  name="produit"
-                  id="produit"
-                  className="form-select" // fixed class attribute name
-                  aria-label="Default select example"
-                  value={dataList.produit} // set the select value based on state
-                  onChange={(e) => handleEdit(0, "produit", e.target.value)}
-                >
-                  <option value="">Ouvrir ce menu de sélection</option>
-                  <option value="GNF1">GNF1</option>
-                  <option value="GNF2">GNF2</option>
-                  <option value="GNT">GNT</option>
-                  <option value="G0">G0</option>
-                  <option value="G1">G1</option>
-                  <option value="G2">G2</option>
-                  <option value="SLC">SLC</option>
-                  <option value="SLNC">SLNC</option>
-                </select>
-              </div>
-              <div className="mb-3 d-flex align-items-center justify-content-start">
-                <label htmlFor="vente">vente</label>
+                <label htmlFor="product_name">Name of product</label>
                 <input
-                  type="checkbox"
-                  name="vente"
-                  id="vente"
-                  style={{ height: "30px", width: "30px" }}
-                  className="form-check-input mx-3" // fixed class attribute name
-                  checked={dataList.vente} // set the checkbox checked status based on state
-                  onChange={(e) => handleEdit(0, "vente", e.target.checked)}
-                />
-              </div>
-              <div className="mb-3">
-                <input
-                  type="number"
+                  type="text"
+                  name="product_name"
+                  id="product_name"
                   className="form-control"
-                  value={dataList.quantite}
-                  name="quantite"
-                  id="quantite"
-                  placeholder="0"
-                  onChange={(e) => handleEdit(0, "quantite", e.target.value)}
+                  value={product_name}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
+                <label htmlFor="quantity">
+                  How many product ( <em>number</em> )
+                </label>
+                <input
+                  type="text"
+                  name="quantity"
+                  id="quantity"
+                  className="form-control"
+                  value={quantity}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="date">Date</label>
                 <input
                   type="date"
-                  className="form-control"
-                  value={dataList.date}
                   name="date"
                   id="date"
-                  placeholder="0"
-                  onChange={(e) => handleEdit(0, "date", e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <div className="card-header">
-              <p className="text-dark">Modifier les informations du bon de livraison</p>
-            </div>
-            <div className="card-body">
-              <div className="mb-3 d-flex align-items-center justify-content-start">
-                <input
-                  type="input"
-                  name="societe"
-                  placeholder="societe"
-                  id="societe"
                   className="form-control"
-                  value={dataList.societe}
-                  onChange={(e) => handleEdit(0, "societe", e.target.value)}
+                  value={date}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
+                <label htmlFor="description">Description</label>
                 <input
-                  type="number"
+                  type="description"
+                  name="description"
+                  id="description"
                   className="form-control"
-                  value={dataList.bon_de_livraison}
-                  name="bon_de_livraison"
-                  id="bon_de_livraison"
-                  placeholder="0"
-                  onChange={(e) => handleEdit(0, "bon_de_livraison", e.target.value)}
+                  value={description}
+                  onChange={handleChange}
                 />
               </div>
-            </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                >
+                  Save
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="my-3">
-            <button type="submit" className="btn btn-primary text-white">send</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ProductsEdit;
+export default ProductCreate;

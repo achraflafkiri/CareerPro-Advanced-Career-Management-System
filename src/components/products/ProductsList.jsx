@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCreate from "./ProductCreate";
 import { Link, useParams } from "react-router-dom";
+import { getAllProducts } from "../../api";
 
 const ProductsList = () => {
-  const [formData, setFormData] = useState([]);
+  const [dataList, setDataList] = useState(null);
 
-  const { societeId } = useParams();
+  const { productId } = useParams();
 
-  const { product_name, description, vente, quantity, date, Company } =
-    formData;
-
-  const handleAddProduct = () => {
-    //
-  };
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getAllProducts();
+      setDataList(res.data.data.Products);
+      console.log(dataList);
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -26,14 +29,13 @@ const ProductsList = () => {
               <button
                 type="button"
                 className="btn btn-light bg-white btn-icon me-3 mt-2 mt-xl-0 mx-1"
-                onClick={handleAddProduct}
                 data-bs-toggle="modal"
                 data-bs-target="#addProduct"
               >
                 <i className="mdi mdi-plus text-muted"></i>
               </button>
               <Link
-                to={`/societe/${societeId}`}
+                to={`/product/${productId}`}
                 className="btn btn-primary btn-sm float-end text-white mx-1"
               >
                 BACK
@@ -45,13 +47,55 @@ const ProductsList = () => {
           <table className="table">
             <thead>
               <th>Name</th>
-              <th>Vente</th>
               <th>Quantity</th>
               <th>Date</th>
+              <th></th>
+              <th></th>
+              <th></th>
             </thead>
-            <tbody>
-              tbody
-            </tbody>
+            {dataList?.map((item, index) => (
+              <tr key={index}>
+                <td>
+                  <Link
+                    to={`/product/${item._id}`}
+                    className="text-primary nav-link"
+                  >
+                    {item.product_name}
+                  </Link>
+                </td>
+                <td>{item.quantity}</td>
+                <td>{item.date}</td>
+                <td>
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-primary text-white mb-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#EditModal"
+                  >
+                    Edit
+                  </button>
+                </td>
+                <td>
+                  <Link
+                    type="button"
+                    class="btn btn-sm btn-success text-white mb-3"
+                    to={`/product/${item.id}`}
+                  >
+                    Détails
+                  </Link>
+                </td>
+                <td>
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-danger text-white mb-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#DeleteModal"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}{" "}
           </table>
         </div>
       </div>

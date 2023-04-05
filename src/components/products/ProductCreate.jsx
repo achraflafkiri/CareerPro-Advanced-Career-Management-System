@@ -9,10 +9,9 @@ const ProductCreate = () => {
     description: "",
     quantity: "",
     date: "",
-    Company: "",
   });
 
-  const { product_name, description, quantity, date, Company } = formData;
+  const { product_name, description, quantity, date } = formData;
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -25,6 +24,8 @@ const ProductCreate = () => {
   const { token } = useStateContext();
   //  get the id of societe
   const { societeId } = useParams();
+  console.log("societeId => ", societeId);
+
   const handleSubmit = async (event) => {
     console.log("cliked");
     event.preventDefault();

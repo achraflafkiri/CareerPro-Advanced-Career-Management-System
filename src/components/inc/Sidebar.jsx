@@ -13,6 +13,10 @@ const Sidebar = ({ isLinkActive, isID }) => {
     setActive(isLinkActive);
   }, [isLinkActive]);
 
+  const backtolist = () => {
+    seturlId(null);
+  };
+
   return (
     <nav
       className={`sidebar sidebar-offcanvas ${active ? "active" : ""}`}
@@ -39,7 +43,11 @@ const Sidebar = ({ isLinkActive, isID }) => {
           <div className="collapse" id="ui-basic">
             <ul className="nav flex-column sub-menu">
               <li className="nav-item">
-                <Link className="nav-link" to={`/societe/`}>
+                <Link
+                  className="nav-link"
+                  to={`/societe/`}
+                  onClick={backtolist}
+                >
                   List des société
                 </Link>
               </li>
