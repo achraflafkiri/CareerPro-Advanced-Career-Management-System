@@ -3,7 +3,6 @@ import { useStateContext } from "../context/ContextProvider";
 import Sidebar from "../components/inc/Sidebar";
 import Navbar from "../components/inc/Navbar";
 
-
 const DefaultLayout = ({ handleNavToggle, isLinkActive, isID }) => {
   const { user, token, setUser, setToken } = useStateContext();
 

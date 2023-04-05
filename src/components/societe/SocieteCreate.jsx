@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { createNewCompany } from "../../api/index";
-import { Link, Navigate } from "react-router-dom";
+import { useStateContext } from "../../context/ContextProvider";
+
+import { toast } from "react-toastify";
 
 const SocieteCreate = () => {
   const [formData, setFormData] = useState({
@@ -23,51 +25,28 @@ const SocieteCreate = () => {
     }));
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     setLoading(true);
-  //     const token = localStorage.getItem("ACCESS_TOKEN");
-  //     if (!token) {
-  //       throw new Error("Token not found");
-  //     }
-  //     const response = await createNewCompany(token, formData);
-  //     if (response.status === 201) {
-  //       setSuccess(true); // set success to true on successful creation of company
-  //       console.log("create societe successfully!");
-  //     } else {
-  //       throw new Error("failed");
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //     setError(err.response?.data?.err?.message ?? err.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const { token } = useStateContext();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      setLoading(true);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const token = localStorage.getItem("ACCESS_TOKEN");
-
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MjlhM2IzNDk1NzczNGJkMmJhYTg1OCIsImlhdCI6MTY4MDQ2MzcxMywiZXhwIjoxNjgzMDU1NzEzfQ._I7IwNM_p44rVDAb_67XzQgh2PLw5YXGSpmNvHbePuk`
-    );
-
-    console.log(formData);
-    fetch("http://localhost:3000/api/v1/company", {
-      method: "POST",
-      body: formData,
-      headers: headers,
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      const response = await createNewCompany(token, formData);
+      if (response.status === 201) {
+        setSuccess(true); // set success to true on successful creation of company
+        console.log("create societe successfully!");
+      } else {
+        throw new Error("failed");
+      }
+    } catch (err) {
+      console.log(err.response);
+      toast.error("Failed to create company");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -148,7 +127,7 @@ const SocieteCreate = () => {
                 />
               </div>
               <button type="submit" className="btn btn-primary">
-                Créer
+                {loading ? "Loading..." : "Créer"}
               </button>
             </form>
           </div>

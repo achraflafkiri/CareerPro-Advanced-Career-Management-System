@@ -8,14 +8,16 @@ import "./assets/vendors/base/vendor.bundle.base.css";
 import "./assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css";
 import "./assets/css/style.css";
 import { ContextProvider } from "./context/ContextProvider.jsx";
-import { store } from "./store/store";
-import { Provider } from "react-redux";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
+  <>
     <ContextProvider>
       <App />
     </ContextProvider>
-  </Provider>
+    <ToastContainer />
+  </>
 );

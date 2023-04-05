@@ -28,7 +28,7 @@ const SocieteList = () => {
       <DeleteModal />
 
       <div class="row">
-        <div class="col-md-16">
+        <div class="col-md-12">
           <div class="card">
             <div class="card-header">
               <h3>
@@ -42,14 +42,15 @@ const SocieteList = () => {
               </h3>
             </div>
             <div class="card-body">
-              <table className="table">
+              <table className="table table-hover">
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Description</th>
                     <th>Address</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th></th>
+                    <th></th>
                     <th></th>
                   </tr>
                 </thead>
@@ -64,19 +65,10 @@ const SocieteList = () => {
                           {item.company_name}
                         </Link>
                       </td>
-                      <td>{item.description}</td>
                       <td>{item.address}</td>
                       <td>{item.phone}</td>
                       <td>{item.email}</td>
-                      <td className="d-flex justify-content-between align-items-center">
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-danger text-white mb-3"
-                          data-bs-toggle="modal"
-                          data-bs-target="#DeleteModal"
-                        >
-                          Delete
-                        </button>
+                      <td>
                         <button
                           type="submit"
                           class="btn btn-sm btn-primary text-white mb-3"
@@ -85,6 +77,8 @@ const SocieteList = () => {
                         >
                           Edit
                         </button>
+                      </td>
+                      <td>
                         <Link
                           type="button"
                           class="btn btn-sm btn-success text-white mb-3"
@@ -92,6 +86,16 @@ const SocieteList = () => {
                         >
                           Détails
                         </Link>
+                      </td>
+                      <td>
+                        <button
+                          type="submit"
+                          class="btn btn-sm btn-danger text-white mb-3"
+                          data-bs-toggle="modal"
+                          data-bs-target="#DeleteModal"
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}

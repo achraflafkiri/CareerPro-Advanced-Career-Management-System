@@ -1,53 +1,62 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom/dist";
-import { useDispatch, useSelector } from "react-redux";
-import { login, reset } from "../../store/middleware/auth/authSlice";
-import Cookies from "js-cookie";
+import { Login } from "../../api/index";
+import { useStateContext } from "../../context/ContextProvider";
 
 const LoginForm = () => {
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [userObj, setUserObj] = useState({
+  const [userInfo, setUserInfo] = useState({
     username: "",
     password: "",
   });
 
-  const { username, password } = userObj;
+  const { username, password } = userInfo;
 
   const [error, setError] = useState(null);
+  const [loading, isLoading] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUserObj((prevUserObj) => ({
+    setUserInfo((prevUserObj) => ({
       ...prevUserObj,
       [name]: value,
     }));
   };
 
-  useEffect(() => {
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      setError(message);
-      setTimeout(() => {
-        setError(null);
-      }, 20000);
-    }
-
-    const token = localStorage.getItem("ACCESS_TOKEN");
-    if (token) {
-      window.location.reload(true);
-    }
-  }, [isError, message]);
+  const { setUser, setToken } = useStateContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(login(userObj));
+
+    isLoading(true);
+    setTimeout(async () => {
+      try {
+        const response = await Login(userInfo);
+        setUser(response.data.user);
+        setToken(response.data.token);
+      } catch (err) {
+        console.log(err.response);
+        if (err.response) {
+          const status = err.response.status;
+          switch (status) {
+            case 401:
+              setError(err.response.data.message);
+              isLoading(false);
+              break;
+            case 500:
+              setError(err.response.data.message);
+              isLoading(false);
+              break;
+            default:
+              setError(err.response.data.message);
+              isLoading(false);
+              break;
+          }
+        }
+      } finally {
+        isLoading(false);
+      }
+    }, 1000);
   };
 
   return (
@@ -78,9 +87,9 @@ const LoginForm = () => {
         <button
           type="submit"
           className="btn btn-primary btn-ms"
-          disabled={isLoading}
+          disabled={loading}
         >
-          {isLoading ? "Loading..." : "Send"}
+          {loading ? "Loading..." : "Send"}
         </button>
       </div>
       <div className="mb-3">
