@@ -78,3 +78,5 @@ export const createNewEmployee = (token, formData, societeId) => {
 };
 
 export const getAllEmployee = () => api.get("employee");
+
+export const getAllMaterials = () => api.get("material");

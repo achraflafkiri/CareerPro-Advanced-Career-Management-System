@@ -6,6 +6,40 @@ const ProductsList = () => {
   const [dataList, setDataList] = useState([]);
   const [newId, setNewId] = useState(dataList.length + 1);
 
+  const [formData, setFormData] = useState({
+    material_name: "",
+    Work_per_hour: "",
+    date: "",
+  });
+
+  const { product_name, description, quantity, date } = formData;
+
+
+// getAllMaterials
+
+  const { token } = useStateContext();
+  //  get the id of societe
+  const { societeId } = useParams();
+  console.log("societeId => ", societeId);
+
+  const handleSubmit = async (event) => {
+    console.log("cliked");
+    event.preventDefault();
+    try {
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      const response = await createNew(token, formData, societeId);
+      if (response.status === 201) {
+        console.log("create societe successfully!");
+      } else {
+        throw new Error("failed");
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
   const handleAddRow = () => {
     const newDate = new Date().toISOString().slice(0, 10);
     const newRow = { id: newId, nom: "", heure: "", date: newDate };
