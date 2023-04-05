@@ -16,6 +16,7 @@ import EmployeesList from "./components/employees/EmployeesList";
 import EmployeesForm from "./components/employees/EmployeesForm";
 
 import MaterialList from "./components/material/MaterialList";
+import MaterialCreate from "./components/material/MaterialCreate";
 
 import ClientForm from "./components/clients/ClientForm";
 import ClientsList from "./components/clients/ClientsList";
@@ -86,6 +87,10 @@ const App = () => {
           <Route
             path="/societe/:societeId/materials"
             element={<MaterialList />}
+          />
+          <Route
+            path="/societe/:societeId/materials/create"
+            element={<MaterialCreate />}
           />
           <Route path="/societe/:societeId/clients" element={<ClientsList />} />
           <Route
