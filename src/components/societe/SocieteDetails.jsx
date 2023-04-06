@@ -265,11 +265,7 @@ const SocieteList = () => {
                     <tbody>
                       {client?.map((item, index) => (
                         <tr key={index}>
-                          <td>
-                            <Link className="text-primary nav-link">
-                              {item.client_name}
-                            </Link>
-                          </td>
+                          <td>{item.client_name}</td>
                           <td>{item.matricule}</td>
                           <td>{item.volume}</td>
                         </tr>

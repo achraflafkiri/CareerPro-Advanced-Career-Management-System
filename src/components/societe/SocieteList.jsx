@@ -57,13 +57,13 @@ const SocieteList = () => {
                       <th>Phone</th>
                       <th>Email</th>
                       <th>Actions</th>
-                      <th>Details</th>
                     </tr>
                   </thead>
                   <tbody>
                     {dataList?.map((item, index) => (
                       <tr key={index}>
-                        <td className="py-1">
+                        <td className="py-1 d-flex align-items-center justify-content-center">
+                          <Icon path={mdiEyeArrowRightOutline} size={1} />
                           <Link
                             to={`/societe/${item._id}`}
                             className="text-primary nav-link"
@@ -74,7 +74,7 @@ const SocieteList = () => {
                         <td>{item.address}</td>
                         <td>{item.phone}</td>
                         <td>{item.email}</td>
-                        <td className="d-flex align-items-center justify-content-between">
+                        <td className="d-flex align-items-center justify-content-center">
                           <button
                             type="submit"
                             class="btn btn-sm btn-light btn-icon m-1"
@@ -86,21 +86,12 @@ const SocieteList = () => {
 
                           <button
                             type="submit"
-                            class="btn btn-sm btn-danger text-white m-3"
+                            class="btn btn-sm btn-light btn-icon "
                             data-bs-toggle="modal"
                             data-bs-target="#DeleteModal"
                           >
                             <Icon path={mdiDeleteEmptyOutline} size={1} />
                           </button>
-                        </td>
-                        <td>
-                          <Link
-                            type="button"
-                            class="btn btn-sm btn-success text-white m-3"
-                            to={`/societe/${item.id}`}
-                          >
-                            <Icon path={mdiEyeArrowRightOutline} size={1} />
-                          </Link>
                         </td>
                       </tr>
                     ))}
