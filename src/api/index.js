@@ -24,9 +24,16 @@ export const createNewCompany = (token, formData) => {
 
   return api.post("company", data, config);
 };
-export const getAllCompanies = () => api.get("company");
 
-export const getAllProducts = () => api.get("product");
+export const getAllCompanies = () => api.get(`company`);
+
+export const getOneCompany = (societeId) => api.get(`company/${societeId}`);
+
+// products
+export const getAllProducts = (societeId) => {
+  console.log(societeId);
+  return api.get(`product?societeId=${societeId}`);
+};
 
 export const createNewProduct = (token, formData, societeId) => {
   console.log("type of societeId", typeof societeId);
@@ -51,6 +58,7 @@ export const createNewProduct = (token, formData, societeId) => {
   return api.post("product", data, config);
 };
 
+// Employees
 export const createNewEmployee = (token, formData, societeId) => {
   console.log("type of societeId", typeof societeId);
 
@@ -77,6 +85,33 @@ export const createNewEmployee = (token, formData, societeId) => {
   return api.post("employee", data, config);
 };
 
-export const getAllEmployee = () => api.get("employee");
+export const getAllEmployees = (societeId) => {
+  return api.get(`employee?societeId=${societeId}`);
+};
 
+// Materials
 export const getAllMaterials = () => api.get("material");
+
+// client
+export const createNewClient = (token, formData, societeId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { client_name, matricule, volume } = formData;
+  const data = {
+    client_name: client_name,
+    matricule: matricule,
+    volume: volume,
+    company: societeId,
+  };
+
+  console.log("data you wanna send  => ", data);
+
+  return api.post("client", data, config);
+};
+
+export const getAllClients = () => api.get("client");

@@ -3,16 +3,18 @@ import { createContext, useContext, useState } from "react";
 const StateContext = createContext({
   currentUser: null,
   token: null,
+  sidebarIconOnly: null,
   setUser: () => {},
   setToken: () => {},
+  sidebarIconOnly: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
+  const [sidebarIconOnly, _sidebarIconOnly] = useState();
   const [user, setUser] = useState({});
   const [token, _setToken] = useState(
     JSON.parse(localStorage.getItem("ACCESS_TOKEN"))
   );
-  // const [token, _setToken] = useState(1234);
 
   const setToken = (token) => {
     _setToken(token);
@@ -23,6 +25,12 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const setSidebarIconOnly = (sidebarIconOnly) => {
+    sidebarIconOnly
+      ? document.body.classList.add("sidebar-icon-only")
+      : document.body.classList.remove("sidebar-icon-only");
+  };
+
   return (
     <StateContext.Provider
       value={{
@@ -30,6 +38,8 @@ export const ContextProvider = ({ children }) => {
         setUser,
         token,
         setToken,
+        sidebarIconOnly,
+        setSidebarIconOnly,
       }}
     >
       {children}

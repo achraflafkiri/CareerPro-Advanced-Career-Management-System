@@ -4,11 +4,17 @@ import EditModal from "./SocieteEdit";
 import DeleteModal from "./SocieteDelete";
 import { getAllCompanies } from "../../api";
 
+import Icon from "@mdi/react";
+import { mdiPencil } from "@mdi/js";
+import { mdiDeleteEmptyOutline } from "@mdi/js";
+import { mdiEyeArrowRightOutline } from "@mdi/js";
+
 const initialSocieteList = [];
 
 const SocieteList = () => {
   const [dataList, setDataList] = useState(initialSocieteList);
 
+  // Fetch company data
   useEffect(() => {
     async function fetchData() {
       const res = await getAllCompanies();
@@ -27,80 +33,80 @@ const SocieteList = () => {
 
       <DeleteModal />
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h3>
+      <div className="row">
+        <div className="col-lg-16 grid-margin stretch-card">
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">
                 Liste des sociétés
                 <Link
                   to="/societe/create"
-                  class="btn btn-primary btn-sm float-end text-white"
+                  className="btn btn-primary btn-sm float-end text-white card-description"
                 >
                   Ajouter une societé
                 </Link>
               </h3>
             </div>
-            <div class="card-body">
-              <table className="table table-hover">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataList?.map((item, index) => (
-                    <tr key={index}>
-                      <td>
-                        <Link
-                          to={`/societe/${item._id}`}
-                          className="text-primary nav-link"
-                        >
-                          {item.company_name}
-                        </Link>
-                      </td>
-                      <td>{item.address}</td>
-                      <td>{item.phone}</td>
-                      <td>{item.email}</td>
-                      <td>
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-primary text-white mb-3"
-                          data-bs-toggle="modal"
-                          data-bs-target="#EditModal"
-                        >
-                          Edit
-                        </button>
-                      </td>
-                      <td>
-                        <Link
-                          type="button"
-                          class="btn btn-sm btn-success text-white mb-3"
-                          to={`/societe/${item.id}`}
-                        >
-                          Détails
-                        </Link>
-                      </td>
-                      <td>
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-danger text-white mb-3"
-                          data-bs-toggle="modal"
-                          data-bs-target="#DeleteModal"
-                        >
-                          Delete
-                        </button>
-                      </td>
+            <div className="card-body">
+              <div className="table-responsive">
+                <table className="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Address</th>
+                      <th>Phone</th>
+                      <th>Email</th>
+                      <th>Actions</th>
+                      <th>Details</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {dataList?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="py-1">
+                          <Link
+                            to={`/societe/${item._id}`}
+                            className="text-primary nav-link"
+                          >
+                            {item.company_name}
+                          </Link>
+                        </td>
+                        <td>{item.address}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.email}</td>
+                        <td className="d-flex align-items-center justify-content-between">
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-light btn-icon m-1"
+                            data-bs-toggle="modal"
+                            data-bs-target="#EditModal"
+                          >
+                            <Icon path={mdiPencil} size={1} />
+                          </button>
+
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-danger text-white m-3"
+                            data-bs-toggle="modal"
+                            data-bs-target="#DeleteModal"
+                          >
+                            <Icon path={mdiDeleteEmptyOutline} size={1} />
+                          </button>
+                        </td>
+                        <td>
+                          <Link
+                            type="button"
+                            class="btn btn-sm btn-success text-white m-3"
+                            to={`/societe/${item.id}`}
+                          >
+                            <Icon path={mdiEyeArrowRightOutline} size={1} />
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

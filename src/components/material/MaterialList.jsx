@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import MaterialCreate from "./MaterialCreate";
+import { Link, useParams } from "react-router-dom";
+import { useStateContext } from "../../context/ContextProvider";
+// import MaterialCreate from "./MaterialCreate";
 
 const ProductsList = () => {
   const [dataList, setDataList] = useState([]);
@@ -14,8 +15,7 @@ const ProductsList = () => {
 
   const { product_name, description, quantity, date } = formData;
 
-
-// getAllMaterials
+  // getAllMaterials
 
   const { token } = useStateContext();
   //  get the id of societe
@@ -25,19 +25,19 @@ const ProductsList = () => {
   const handleSubmit = async (event) => {
     console.log("cliked");
     event.preventDefault();
-    try {
-      if (!token) {
-        throw new Error("Token not found");
-      }
-      const response = await createNew(token, formData, societeId);
-      if (response.status === 201) {
-        console.log("create societe successfully!");
-      } else {
-        throw new Error("failed");
-      }
-    } catch (err) {
-      console.log(err.response);
-    }
+    // try {
+    //   if (!token) {
+    //     throw new Error("Token not found");
+    //   }
+    //   const response = await createNewMaterials(token, formData, societeId);
+    //   if (response.status === 201) {
+    //     console.log("create societe successfully!");
+    //   } else {
+    //     throw new Error("failed");
+    //   }
+    // } catch (err) {
+    //   console.log(err.response);
+    // }
   };
 
   const handleAddRow = () => {
@@ -61,7 +61,7 @@ const ProductsList = () => {
 
   return (
     <>
-          <div className="row">
+      <div className="row">
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">

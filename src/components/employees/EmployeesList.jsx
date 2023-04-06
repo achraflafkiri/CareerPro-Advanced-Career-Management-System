@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getAllEmployee } from "../../api";
+import { getAllEmployees } from "../../api";
 
 const EmployeesList = () => {
   const [dataList, setDataList] = useState(null);
@@ -9,7 +9,7 @@ const EmployeesList = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await getAllEmployee();
+      const res = await getAllEmployees();
       console.log(res.data.data.employees);
       setDataList(res.data.data.employees);
       console.log(dataList);

@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../../context/ContextProvider";
 
 const Navbar = ({ handleNavToggle }) => {
   const [isLinkActive, setIsLinkActive] = useState(false);
+  const { sidebarIconOnly, setSidebarIconOnly } = useStateContext();
 
   const handleToggle = () => {
     setIsLinkActive(!isLinkActive);
     handleNavToggle(isLinkActive); // isLinkActive is true
+  };
+
+  const handleShowIcons = () => {
+    setSidebarIconOnly(!sidebarIconOnly);
+    console.log(sidebarIconOnly);
   };
 
   const handleLogout = (e) => {
@@ -25,6 +32,7 @@ const Navbar = ({ handleNavToggle }) => {
             className="navbar-toggler navbar-toggler align-self-center"
             type="button"
             data-toggle="minimize"
+            onClick={handleShowIcons}
           >
             <span className="mdi mdi-sort-variant"></span>
           </button>

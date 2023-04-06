@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-const Sidebar = ({ isLinkActive, isID }) => {
+const Sidebar = ({ isLinkActive }) => {
   const [active, setActive] = useState();
-  const [urlId, seturlId] = useState("");
+
+  const [isSocieteId, setIsSocieteId] = useState(null);
+  const { societeId } = useParams();
 
   useEffect(() => {
-    seturlId(isID);
-  }, [isID]);
+    setIsSocieteId(societeId);
+  }, [societeId]);
 
   useEffect(() => {
     setActive(isLinkActive);
   }, [isLinkActive]);
-
-  const backtolist = () => {
-    seturlId(null);
-  };
 
   return (
     <nav
@@ -36,18 +34,14 @@ const Sidebar = ({ isLinkActive, isID }) => {
             aria-expanded="false"
             aria-controls="ui-basic"
           >
-            <i class="mdi mdi-circle-outline menu-icon"></i>
+            <i class="mdi mdi-domain menu-icon"></i>
             <span class="menu-title">Société</span>
             <i class="menu-arrow"></i>
           </a>
           <div className="collapse" id="ui-basic">
             <ul className="nav flex-column sub-menu">
               <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  to={`/societe/`}
-                  onClick={backtolist}
-                >
+                <Link className="nav-link" to={`/societe/`}>
                   List des société
                 </Link>
               </li>
@@ -59,7 +53,7 @@ const Sidebar = ({ isLinkActive, isID }) => {
             </ul>
           </div>
         </li>
-        {urlId ? (
+        {isSocieteId ? (
           <>
             <li className="nav-item">
               <a
@@ -69,15 +63,43 @@ const Sidebar = ({ isLinkActive, isID }) => {
                 aria-expanded="false"
                 aria-controls="ui-pro"
               >
-                <i className="mdi mdi-circle-outline menu-icon"></i>
+                <i className="mdi mdi-chart-bar menu-icon"></i>
                 <span className="menu-title">Produits</span>
                 <i className="menu-arrow"></i>
               </a>
               <div className="collapse" id="ui-pro">
                 <ul className="nav flex-column sub-menu">
                   <li className="nav-item">
-                    <Link className="nav-link" to={`societe/${urlId}/produits`}>
+                    <Link
+                      className="nav-link"
+                      to={`societe/${isSocieteId}/produits`}
+                    >
                       Gestion des produits
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                data-bs-toggle="collapse"
+                href="#ui-client"
+                aria-expanded="false"
+                aria-controls="ui-client"
+              >
+                <i className="mdi mdi-truck-delivery menu-icon"></i>
+                <span className="menu-title">client</span>
+                <i className="menu-arrow"></i>
+              </a>
+              <div className="collapse" id="ui-client">
+                <ul className="nav flex-column sub-menu">
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      to={`societe/${isSocieteId}/clients`}
+                    >
+                      Gestion des clients
                     </Link>
                   </li>
                 </ul>
@@ -91,7 +113,7 @@ const Sidebar = ({ isLinkActive, isID }) => {
                 aria-expanded="false"
                 aria-controls="ui-Employees"
               >
-                <i className="mdi mdi-circle-outline menu-icon"></i>
+                <i className="mdi mdi-human-greeting menu-icon"></i>
                 <span className="menu-title">Employees</span>
                 <i className="menu-arrow"></i>
               </a>
@@ -100,7 +122,7 @@ const Sidebar = ({ isLinkActive, isID }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`societe/${urlId}/employees/create`}
+                      to={`societe/${isSocieteId}/employees/create`}
                     >
                       Ajouter une nouvelle employés
                     </Link>
@@ -108,7 +130,7 @@ const Sidebar = ({ isLinkActive, isID }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`societe/${urlId}/employees/absence-registration`}
+                      to={`societe/${isSocieteId}/employees/absence-registration`}
                     >
                       Enregistrement des absences
                     </Link>
@@ -116,7 +138,7 @@ const Sidebar = ({ isLinkActive, isID }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`societe/${urlId}/employees/`}
+                      to={`societe/${isSocieteId}/employees/`}
                     >
                       List des employés
                     </Link>
@@ -132,7 +154,7 @@ const Sidebar = ({ isLinkActive, isID }) => {
                 aria-expanded="false"
                 aria-controls="ui-materials"
               >
-                <i className="mdi mdi-circle-outline menu-icon"></i>
+                <i className="mdi mdi-maxcdn menu-icon"></i>
                 <span className="menu-title">materials</span>
                 <i className="menu-arrow"></i>
               </a>
@@ -141,13 +163,13 @@ const Sidebar = ({ isLinkActive, isID }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`societe/${urlId}/materials/create`}
+                      to={`societe/${isSocieteId}/materials/create`}
                     >
                       Ajouter de nouveaux matériaux
                     </Link>
                     <Link
                       className="nav-link"
-                      to={`societe/${urlId}/materials`}
+                      to={`societe/${isSocieteId}/materials`}
                     >
                       List des matériaux
                     </Link>

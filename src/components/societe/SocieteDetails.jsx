@@ -1,33 +1,113 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./box.css";
-import { getAllProducts } from "../../api";
+import {
+  getAllProducts,
+  getAllEmployees,
+  getOneCompany,
+  getAllClients,
+} from "../../api";
 
-const SocieteList = ({ handleNavIds }) => {
-  const [id, setId] = useState("");
+const SocieteList = () => {
+  const [products, setProducts] = useState(null);
+  const [employees, setEmployees] = useState(null);
+  const [company, setCompany] = useState(null);
+  const [client, setClient] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   const { societeId } = useParams();
 
+  // Fetch product data
   useEffect(() => {
-    setId(societeId);
-    handleNavIds(id);
-  });
-
-  const [dataProduct, setDataProduct] = useState(null);
-
-  useEffect(() => {
-    async function fetchData_products() {
-      const res = await getAllProducts();
-      setDataProduct(res.data.data.Products);
-      console.log(dataProduct);
+    async function fetchData() {
+      try {
+        const res = await getAllProducts(societeId);
+        if (res.data) {
+          setProducts(res.data.data.products);
+          setLastUpdated(new Date());
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
-    fetchData_products();
-  }, []);
+    fetchData();
+  }, [societeId]);
+
+  // Fetch employee data
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await getAllEmployees(societeId);
+        if (res.data) {
+          setEmployees(res.data.data.employees);
+          setLastUpdated(new Date());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, [societeId]);
+
+  // Get One company by ID
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await getOneCompany(societeId);
+        if (res.data) {
+          setCompany(res.data.company);
+          setLastUpdated(new Date());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, [societeId]);
+
+  // Get One Client by ID
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await getAllClients(societeId);
+        console.log(res.data.data.clients);
+        if (res.data.data.clients) {
+          setClient(res.data.data.clients);
+          setLastUpdated(new Date());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, [societeId]);
+
+  // Calculate the time elapsed since the last update
+  const elapsed = lastUpdated
+    ? Math.round((new Date() - lastUpdated) / 1000)
+    : null;
+  const timeSinceLastUpdate = elapsed ? `${elapsed} seconds ago` : null;
 
   return (
     <>
       <div className="row">
-        <div className="col-md-16">
+        <div className="col-md-12">
+          <div className="card">
+            <div className="card-body rounded">
+              <h2 className="card-title">
+                Details of Company{" "}
+                <span className="text-info">{company?.company_name}</span>
+              </h2>
+              <p class="card-text">{company?.description}</p>
+              <p className="card-text">
+                <small className="text-muted">
+                  Last updated {timeSinceLastUpdate}
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-12">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
               <button
@@ -87,7 +167,7 @@ const SocieteList = ({ handleNavIds }) => {
             </li>
           </ul>
         </div>
-        <div className="col-md-16">
+        <div className="col-md-12">
           <div class="tab-content" id="myTabContent">
             <div
               class="tab-pane fade"
@@ -103,51 +183,23 @@ const SocieteList = ({ handleNavIds }) => {
                       <th>Name</th>
                       <th>Quantity</th>
                       <th>Date</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
                     </thead>
-                    {dataProduct?.map((item, index) => (
-                      <tr key={index}>
-                        <td>
-                          <Link
-                            to={`/product/${item._id}`}
-                            className="text-primary nav-link"
-                          >
-                            {item.product_name}
-                          </Link>
-                        </td>
-                        <td>{item.quantity}</td>
-                        <td>{item.date}</td>
-                        <td>
-                          <button
-                            type="submit"
-                            class="btn  btn-primary btn-sm text-white mb-3"
-                          >
-                            <Link to={`/${item._id}`}>Edit</Link>
-                          </button>
-                        </td>
-                        <td>
-                          <Link
-                            type="button"
-                            class="btn  btn-success btn-sm text-white mb-3"
-                            to={`/product/${item._id}`}
-                          >
-                            Détails
-                          </Link>
-                        </td>
-                        <td>
-                          <button
-                            type="submit"
-                            class="btn  btn-danger btn-sm text-white mb-3"
-                            data-bs-toggle="modal"
-                            data-bs-target="#DeleteModal"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}{" "}
+                    <tbody>
+                      {products?.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            <Link
+                              to={`/product/${item._id}`}
+                              className="text-primary nav-link"
+                            >
+                              {item.product_name}
+                            </Link>
+                          </td>
+                          <td>{item.quantity}</td>
+                          <td>{item.date}</td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -165,15 +217,29 @@ const SocieteList = ({ handleNavIds }) => {
                   <table className="table">
                     <thead>
                       <tr>
-                        <td>nom</td>
-                        <td>prenom</td>
-                        <td>address</td>
-                        <td>phone</td>
-                        <td>email</td>
-                        <td>cni</td>
+                        <td>First name</td>
+                        <td>Last name</td>
+                        <td>CNI</td>
+                        <td>Phone</td>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {employees?.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            <Link
+                              to={`/product/${item._id}`}
+                              className="text-primary nav-link"
+                            >
+                              {item.employee_fname}
+                            </Link>
+                          </td>
+                          <td>{item.employee_lname}</td>
+                          <td>{item.cni}</td>
+                          <td>{item.phone}</td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -191,14 +257,24 @@ const SocieteList = ({ handleNavIds }) => {
                   <table className="table">
                     <thead>
                       <tr>
-                        <td>nom</td>
-                        <td>address</td>
-                        <td>phone</td>
-                        <td>cni</td>
-                        <td>email</td>
+                        <td>Full name</td>
+                        <td>Matricule</td>
+                        <td>Volume</td>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {client?.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            <Link className="text-primary nav-link">
+                              {item.client_name}
+                            </Link>
+                          </td>
+                          <td>{item.matricule}</td>
+                          <td>{item.volume}</td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                 </div>
               </div>
