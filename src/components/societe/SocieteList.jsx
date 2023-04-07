@@ -16,6 +16,7 @@ const initialSocieteList = [];
 const SocieteList = () => {
   const [dataList, setDataList] = useState(initialSocieteList);
   const [editForm, setEditForm] = useState(null);
+  const [societeId, setSocieteId] = useState(null);
 
   // Fetch company data
   useEffect(() => {
@@ -32,7 +33,7 @@ const SocieteList = () => {
 
   const handleGetData = async (event, societeId) => {
     event.preventDefault();
-
+    setSocieteId(societeId);
     try {
       const response = await getOneCompany(societeId);
       if (response.data) {
@@ -46,7 +47,7 @@ const SocieteList = () => {
 
   return (
     <>
-      <EditModal value={editForm} />
+      <EditModal value={editForm} societeId={societeId} />
 
       <DeleteModal />
 

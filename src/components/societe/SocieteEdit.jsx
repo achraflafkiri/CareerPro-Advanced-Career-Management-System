@@ -1,47 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { updateCompany } from "../../api/index";
 import { useStateContext } from "../../context/ContextProvider";
 
-const SocieteEdit = ({ value }) => {
-  const [formData, setFormData] = useState({
-    company_name: value.company_name || "",
-    description: value.description || "",
-    address: value.address || "",
-    phone: value.phone || "",
-    email: value.email || "",
+const SocieteEdit = ({ value, societeId }) => {
+  const [newEditVal, setNewEditVal] = useState({
+    company_name: "",
+    description: "",
+    address: "",
+    phone: "",
+    email: "",
   });
 
-  const { company_name, description, address, phone, email } = formData;
+  const { company_name, description, address, phone, email } = newEditVal;
+
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevState) => ({
+    setNewEditVal((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
+  useEffect(() => {
+    if (value) {
+      setNewEditVal({
+        company_name: value.company_name,
+        description: value.description,
+        address: value.address,
+        phone: value.phone,
+        email: value.email,
+      });
+    }
+  }, [value]);
+
   const { token } = useStateContext();
   const handleSubmit = async (event) => {
-    console.log(value);
     event.preventDefault();
     try {
+      setLoading(true);
+
       if (!token) {
         throw new Error("Token not found");
       }
-      const response = await updateCompany(societeId, token, formData);
-      console.log("societe updated successfully! ", response);
+      const response = await updateCompany(societeId, token, newEditVal);
       if (response.status === 201) {
+        setSuccess(true);
         console.log("societe updated successfully!");
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <div
       class="modal fade"
@@ -99,6 +117,7 @@ const SocieteEdit = ({ value }) => {
                   onChange={handleChange}
                 />
               </div>
+
               <div className="mb-3">
                 <label htmlFor="Phone">Phone</label>
                 <input
