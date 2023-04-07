@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import EditModal from "./SocieteEdit";
 import DeleteModal from "./SocieteDelete";
 import { getAllCompanies } from "../../api";
-
 import Icon from "@mdi/react";
-import { mdiPencil } from "@mdi/js";
-import { mdiDeleteEmptyOutline } from "@mdi/js";
-import { mdiEyeArrowRightOutline } from "@mdi/js";
+import {
+  mdiPencil,
+  mdiDeleteEmptyOutline,
+  mdiEyeArrowRightOutline,
+} from "@mdi/js";
+import { getOneCompany } from "../../api";
 
 const initialSocieteList = [];
 
 const SocieteList = () => {
   const [dataList, setDataList] = useState(initialSocieteList);
+  const [editForm, setEditForm] = useState(null);
 
   // Fetch company data
   useEffect(() => {
@@ -27,9 +30,23 @@ const SocieteList = () => {
     fetchData();
   }, []);
 
+  const handleGetData = async (event, societeId) => {
+    event.preventDefault();
+
+    try {
+      const response = await getOneCompany(societeId);
+      if (response.data) {
+        setEditForm(response.data.company);
+        console.log(response.data.company);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-      <EditModal />
+      <EditModal value={editForm} />
 
       <DeleteModal />
 
@@ -80,6 +97,7 @@ const SocieteList = () => {
                             class="btn btn-sm btn-light btn-icon m-1"
                             data-bs-toggle="modal"
                             data-bs-target="#EditModal"
+                            onClick={(e) => handleGetData(e, item._id)}
                           >
                             <Icon path={mdiPencil} size={1} />
                           </button>

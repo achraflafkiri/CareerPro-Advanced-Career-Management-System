@@ -29,6 +29,24 @@ export const getAllCompanies = () => api.get(`company`);
 
 export const getOneCompany = (societeId) => api.get(`company/${societeId}`);
 
+export const updateCompany = (societeId, token, formData) => {
+  console.log("societeId => ", societeId);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { company_name, ...rest } = formData;
+  const data = {
+    company_name: company_name,
+    ...rest,
+  };
+
+  return api.put(`company/${societeId}`, data, config);
+};
+
 // products
 export const getAllProducts = (societeId) => {
   console.log(societeId);
