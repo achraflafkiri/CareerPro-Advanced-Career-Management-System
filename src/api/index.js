@@ -47,6 +47,17 @@ export const updateCompany = (societeId, token, formData) => {
   return api.put(`company/${societeId}`, data, config);
 };
 
+export const deleteCompany = (societeId, token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return api.delete(`company/${societeId}`, config);
+};
+
 // products
 export const getAllProducts = (societeId) => {
   console.log(societeId);
@@ -153,4 +164,5 @@ export const createNewClient = (token, formData, societeId) => {
   return api.post("client", data, config);
 };
 
-export const getAllClients = () => api.get("client");
+export const getAllClients = (societeId) =>
+  api.get(`client?societeId=${societeId}`);

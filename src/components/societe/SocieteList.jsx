@@ -16,16 +16,15 @@ const initialSocieteList = [];
 const SocieteList = () => {
   const [dataList, setDataList] = useState(initialSocieteList);
   const [editForm, setEditForm] = useState(null);
+  const [deleteForm, setdeleteForm] = useState(null);
   const [societeId, setSocieteId] = useState(null);
 
   // Fetch company data
   useEffect(() => {
     async function fetchData() {
       const res = await getAllCompanies();
-      console.log(res);
       if (res.data) {
         setDataList(res.data.data.companies);
-        console.log(dataList);
       }
     }
     fetchData();
@@ -38,7 +37,8 @@ const SocieteList = () => {
       const response = await getOneCompany(societeId);
       if (response.data) {
         setEditForm(response.data.company);
-        console.log(response.data.company);
+        setdeleteForm(response.data.company);
+        console.log("response.data.company => ", response.data.company);
       }
     } catch (error) {
       console.log(error);
@@ -49,7 +49,7 @@ const SocieteList = () => {
     <>
       <EditModal value={editForm} societeId={societeId} />
 
-      <DeleteModal />
+      <DeleteModal value={deleteForm} societeId={societeId} />
 
       <div className="row">
         <div className="col-lg-16 grid-margin stretch-card">
@@ -108,6 +108,7 @@ const SocieteList = () => {
                             class="btn btn-sm btn-light btn-icon "
                             data-bs-toggle="modal"
                             data-bs-target="#DeleteModal"
+                            onClick={(e) => handleGetData(e, item._id)}
                           >
                             <Icon path={mdiDeleteEmptyOutline} size={1} />
                           </button>
