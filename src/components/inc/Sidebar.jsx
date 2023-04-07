@@ -97,7 +97,7 @@ const Sidebar = ({ isLinkActive }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`societe/${isSocieteId}/clients`}
+                      to={`societe/${isSocieteId}/client`}
                     >
                       Gestion des clients
                     </Link>

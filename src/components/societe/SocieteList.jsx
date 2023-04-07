@@ -49,7 +49,7 @@ const SocieteList = () => {
             </div>
             <div className="card-body">
               <div className="table-responsive">
-                <table className="table table-hover table-bordered">
+                <table className="table table-bordered">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -62,11 +62,11 @@ const SocieteList = () => {
                   <tbody>
                     {dataList?.map((item, index) => (
                       <tr key={index}>
-                        <td className="py-1 d-flex align-items-center justify-content-center">
+                        <td className="d-flex justify-content-center">
                           <Icon path={mdiEyeArrowRightOutline} size={1} />
                           <Link
                             to={`/societe/${item._id}`}
-                            className="text-primary nav-link"
+                            className="text-primary nav-link "
                           >
                             {item.company_name}
                           </Link>
