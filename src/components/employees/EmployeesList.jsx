@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getAllEmployees } from "../../api/functions/employees";
 
-const EmployeesList = () => {
+const EmployeesCreate = () => {
   const [dataList, setDataList] = useState(null);
 
   const { societeId } = useParams();
 
   useEffect(() => {
     async function fetchData() {
-      const res = await getAllEmployees();
-      console.log(res.data.data.employees);
+      const res = await getAllEmployees(societeId);
       setDataList(res.data.data.employees);
       console.log(dataList);
     }
@@ -112,4 +111,4 @@ const EmployeesList = () => {
   );
 };
 
-export default EmployeesList;
+export default EmployeesCreate;

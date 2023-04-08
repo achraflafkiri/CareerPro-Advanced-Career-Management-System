@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const Sidebar = ({ isLinkActive }) => {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState();
+
   const [isSocieteId, setIsSocieteId] = useState(null);
   const { societeId } = useParams();
 
@@ -25,34 +26,34 @@ const Sidebar = ({ isLinkActive }) => {
             <span className="menu-title">Dashboard</span>
           </Link>
         </li>
-        <li className="nav-item">
+        <li class="nav-item">
           <a
-            className="nav-link"
+            class="nav-link"
             data-bs-toggle="collapse"
             href="#ui-basic"
             aria-expanded="false"
             aria-controls="ui-basic"
           >
-            <i className="mdi mdi-domain menu-icon"></i>
-            <span className="menu-title">Société</span>
-            <i className="menu-arrow"></i>
+            <i class="mdi mdi-domain menu-icon"></i>
+            <span class="menu-title">Société</span>
+            <i class="menu-arrow"></i>
           </a>
           <div className="collapse" id="ui-basic">
             <ul className="nav flex-column sub-menu">
               <li className="nav-item">
-                <Link className="nav-link" to="/societe/">
-                  Liste des sociétés
+                <Link className="nav-link" to={`/societe/`}>
+                  List des société
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/societe/create">
+                <Link className="nav-link" to={`/societe/create`}>
                   Créer une nouvelle société
                 </Link>
               </li>
             </ul>
           </div>
         </li>
-        {isSocieteId && (
+        {isSocieteId ? (
           <>
             <li className="nav-item">
               <a
@@ -63,7 +64,7 @@ const Sidebar = ({ isLinkActive }) => {
                 aria-controls="ui-pro"
               >
                 <i className="mdi mdi-chart-bar menu-icon"></i>
-                <span className="menu-title">Produits</span>
+                <span className="menu-title">products</span>
                 <i className="menu-arrow"></i>
               </a>
               <div className="collapse" id="ui-pro">
@@ -71,7 +72,7 @@ const Sidebar = ({ isLinkActive }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`/societe/${isSocieteId}/products`}
+                      to={`societe/${isSocieteId}/products`}
                     >
                       Gestion des produits
                     </Link>
@@ -79,26 +80,27 @@ const Sidebar = ({ isLinkActive }) => {
                 </ul>
               </div>
             </li>
+
             <li className="nav-item">
               <a
                 className="nav-link"
                 data-bs-toggle="collapse"
-                href="#ui-client"
+                href="#ui-Employees"
                 aria-expanded="false"
-                aria-controls="ui-client"
+                aria-controls="ui-Employees"
               >
-                <i className="mdi mdi-truck-delivery menu-icon"></i>
-                <span className="menu-title">Clients</span>
+                <i className="mdi mdi-human-greeting menu-icon"></i>
+                <span className="menu-title">Employees</span>
                 <i className="menu-arrow"></i>
               </a>
-              <div className="collapse" id="ui-client">
+              <div className="collapse" id="ui-Employees">
                 <ul className="nav flex-column sub-menu">
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`/societe/${isSocieteId}/clients`}
+                      to={`societe/${isSocieteId}/employees`}
                     >
-                      Gestion des clients
+                      Gestion des employees
                     </Link>
                   </li>
                 </ul>
@@ -108,28 +110,61 @@ const Sidebar = ({ isLinkActive }) => {
               <a
                 className="nav-link"
                 data-bs-toggle="collapse"
-                href="#ui-commande"
+                href="#ui-materials"
                 aria-expanded="false"
-                aria-controls="ui-commande"
+                aria-controls="ui-materials"
               >
-                <i className="mdi mdi-cart-plus menu-icon"></i>
-                <span className="menu-title">Commandes</span>
+                <i className="mdi mdi-maxcdn menu-icon"></i>
+                <span className="menu-title">materials</span>
                 <i className="menu-arrow"></i>
               </a>
-              <div className="collapse" id="ui-commande">
+              <div className="collapse" id="ui-materials">
                 <ul className="nav flex-column sub-menu">
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`/societe/${isSocieteId}/commandes`}
+                      to={`societe/${isSocieteId}/materials/create`}
                     >
-                      Gestion des commandes
+                      Ajouter de nouveaux matériaux
                     </Link>
+                    <Link
+                      className="nav-link"
+                      to={`societe/${isSocieteId}/materials`}
+                    >
+                      List des matériaux
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      data-bs-toggle="collapse"
+                      href="#ui-client"
+                      aria-expanded="false"
+                      aria-controls="ui-client"
+                    >
+                      <i className="mdi mdi-truck-delivery menu-icon"></i>
+                      <span className="menu-title">clients</span>
+                      <i className="menu-arrow"></i>
+                    </a>
+                    <div className="collapse" id="ui-client">
+                      <ul className="nav flex-column sub-menu">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link"
+                            to={`societe/${isSocieteId}/clients`}
+                          >
+                            Gestion des clients
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                 </ul>
               </div>
             </li>
           </>
+        ) : (
+          <></>
         )}
       </ul>
     </nav>

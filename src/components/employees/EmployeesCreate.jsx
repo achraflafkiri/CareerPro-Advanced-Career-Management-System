@@ -99,9 +99,7 @@ const EmployeesForm = () => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="email">
-                  Email <span className="text-danger">*</span>
-                </label>
+                <label htmlFor="email">Email</label>
                 <input
                   type="text"
                   name="email"

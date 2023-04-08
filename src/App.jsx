@@ -13,7 +13,7 @@ import ProductsDetails from "./components/products/ProductsDetails";
 import ProductsEdit from "./components/products/ProductsEdit";
 
 import EmployeesList from "./components/employees/EmployeesList";
-import EmployeesForm from "./components/employees/EmployeesForm";
+import EmployeesCreate from "./components/employees/EmployeesCreate";
 
 import MaterialList from "./components/material/MaterialList";
 import MaterialCreate from "./components/material/MaterialCreate";
@@ -78,7 +78,7 @@ const App = () => {
           />
           <Route
             path="/societe/:societeId/employees/create"
-            element={<EmployeesForm />}
+            element={<EmployeesCreate />}
           />
           <Route
             path="/societe/:societeId/employees/:employeeId/absence-registration"

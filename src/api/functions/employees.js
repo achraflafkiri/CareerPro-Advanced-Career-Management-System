@@ -18,14 +18,13 @@ export const createNewEmployee = (token, formData, societeId) => {
     phone: phone,
     email: email,
     role: role,
-    Company: societeId,
   };
 
   console.log("data you wanna send  => ", data);
 
-  return api.post("employee", data, config);
+  return api.post(`companies/${societeId}/employees/`, data, config);
 };
 
 export const getAllEmployees = (societeId) => {
-  return api.get(`employee?societeId=${societeId}`);
+  return api.get(`companies/${societeId}/employees/`);
 };
