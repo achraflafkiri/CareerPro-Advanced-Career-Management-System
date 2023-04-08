@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { createNewCompany } from "../../api/index";
+import { createNewCompany } from "../../api/functions/companies";
 import { useStateContext } from "../../context/ContextProvider";
-
 import { toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
 
 const SocieteCreate = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +13,6 @@ const SocieteCreate = () => {
     email: "",
   });
 
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
@@ -26,6 +24,7 @@ const SocieteCreate = () => {
   };
 
   const { token } = useStateContext();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -36,14 +35,33 @@ const SocieteCreate = () => {
       }
       const response = await createNewCompany(token, formData);
       if (response.status === 201) {
-        setSuccess(true); // set success to true on successful creation of company
-        console.log("create societe successfully!");
+        toast.success("societe created successfully!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+        window.location.reload();
+        return <Navigate to="/societe" />;
       } else {
         throw new Error("failed");
       }
     } catch (err) {
       console.log(err.response);
-      toast.error("Failed to create company");
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }
@@ -52,18 +70,12 @@ const SocieteCreate = () => {
   return (
     <div className="row">
       <div className="col-md-16">
-        {success && (
-          <div className="mt-3 alert alert-success">
-            Société créée avec succès !
-          </div>
-        )}
-        {error && <div className="mt-3 alert alert-danger">{error}</div>}
         <div className="card">
           <div className="card-header">
             <h5>Créer une nouvelle société</h5>
           </div>
           <div className="card-body">
-            <form onSubmit={handleSubmit} method="POST">
+            <form onSubmit={handleSubmit} method="POST" action="/societe">
               <div className="mb-3">
                 <label htmlFor="nom">
                   Nom de société <em className="text-danger">*</em>
@@ -97,38 +109,49 @@ const SocieteCreate = () => {
                   type="text"
                   name="address"
                   id="address"
+                  className="form-control"
                   onChange={handleChange}
                   value={formData.address}
-                  className="form-control"
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="phone">Phone</label>
+                <label htmlFor="phone">
+                  Téléphone <em className="text-danger">*</em>
+                </label>
                 <input
                   type="text"
                   name="phone"
                   id="phone"
+                  className="form-control"
                   onChange={handleChange}
                   value={formData.phone}
-                  className="form-control"
                 />
               </div>
               <div className="mb-3">
                 <label htmlFor="email">
-                  E-mail <em className="text-danger">*</em>
+                  Email <em className="text-danger">*</em>
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   id="email"
+                  className="form-control"
                   onChange={handleChange}
                   value={formData.email}
-                  className="form-control"
                 />
               </div>
-              <button type="submit" className="btn btn-primary">
-                {loading ? "Loading..." : "Créer"}
-              </button>
+
+              <div className="row">
+                <div className="col-md-12">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={loading}
+                  >
+                    {loading ? "En cours..." : "Créer"}
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
         </div>

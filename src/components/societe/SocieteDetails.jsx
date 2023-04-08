@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./box.css";
-import {
-  getAllProducts,
-  getAllEmployees,
-  getOneCompany,
-  getAllClients,
-} from "../../api";
+import { getAllProducts } from "../../api/functions/products";
+import { getAllEmployees } from "../../api/functions/employees";
+import { getOneCompany } from "../../api/functions/companies";
+import { getAllClients } from "../../api/functions/clients";
 
 const SocieteList = () => {
   const [products, setProducts] = useState(null);

@@ -1,104 +1,118 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { updateProduct } from "../../api/functions/products";
 import { useStateContext } from "../../context/ContextProvider";
-import { createNewProduct } from "../../api";
-import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const ProductCreate = () => {
-  const [formData, setFormData] = useState({
+const SocieteEdit = ({ value, societeId, productId }) => {
+  const [newEditVal, setNewEditVal] = useState({
     product_name: "",
     description: "",
     quantity: "",
     date: "",
   });
 
-  const { product_name, description, quantity, date } = formData;
+  const { product_name, description, quantity, date } = newEditVal;
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    const { name, value } = event.target;
+    setNewEditVal((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const { token } = useStateContext();
-  //  get the id of societe
-  const { societeId } = useParams();
-  console.log("societeId => ", societeId);
+  useEffect(() => {
+    if (value) {
+      setNewEditVal({
+        product_name: value.product_name,
+        description: value.description,
+        quantity: value.quantity,
+        date: value.date,
+      });
+    }
+  }, [value]);
 
+  const { token } = useStateContext();
   const handleSubmit = async (event) => {
-    console.log("cliked");
     event.preventDefault();
     try {
+      setLoading(true);
+
       if (!token) {
         throw new Error("Token not found");
       }
-      const response = await createNewProduct(token, formData, societeId);
+      const response = await updateProduct(
+        societeId,
+        productId,
+        token,
+        newEditVal
+      );
+      console.log(response);
       if (response.status === 201) {
-        console.log("create societe successfully!");
+        toast.success("Product updated successfully!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+        window.location.reload();
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
+      // toast.warn(`${err.response.data.message}`, {
+      //   position: "bottom-right",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: false,
+      //   progress: undefined,
+      //   theme: "colored",
+      // });
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <div
-      className="modal fade"
-      id="addProduct"
+      class="modal fade"
+      id="EditProduct"
       tabindex="-1"
-      aria-labelledby="addProductLabel"
+      aria-labelledby="EditModalLabel"
       aria-hidden="true"
     >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
-              Add new product
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="EditModalLabel">
+              Edit Products
             </h5>
             <button
               type="button"
-              className="btn-close"
+              class="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">
-            <form onSubmit={handleSubmit}>
+          <form action="/societe">
+            <div class="modal-body">
               <div className="mb-3">
-                <label htmlFor="product_name">Name of product</label>
+                <label htmlFor="product_name">Product name</label>
                 <input
                   type="text"
                   name="product_name"
                   id="product_name"
-                  className="form-control"
                   value={product_name}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="quantity">
-                  How many product ( <em>number</em> )
-                </label>
-                <input
-                  type="text"
-                  name="quantity"
-                  id="quantity"
                   className="form-control"
-                  value={quantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="date">Date</label>
-                <input
-                  type="date"
-                  name="date"
-                  id="date"
-                  className="form-control"
-                  value={date}
                   onChange={handleChange}
                 />
               </div>
@@ -108,33 +122,64 @@ const ProductCreate = () => {
                   type="description"
                   name="description"
                   id="description"
-                  className="form-control"
                   value={description}
+                  className="form-control"
                   onChange={handleChange}
                 />
               </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={handleSubmit}
-                >
-                  Save
-                </button>
+              <div className="mb-3">
+                <label htmlFor="quantity">Quantity</label>
+                <input
+                  type="quantity"
+                  name="quantity"
+                  id="quantity"
+                  value={quantity}
+                  className="form-control"
+                  onChange={handleChange}
+                />
               </div>
-            </form>
-          </div>
+              <div className="mb-3">
+                <label htmlFor="date">Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  id="date"
+                  value={date}
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="submit"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? (
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                ) : (
+                  "Save Changes"
+                )}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   );
 };
 
-export default ProductCreate;
+export default SocieteEdit;

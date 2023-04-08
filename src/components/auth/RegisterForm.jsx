@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Signup } from "../../api/index";
+import { Signup } from "../../api/functions/auth";
 
 const RegisterForm = () => {
   const [userObj, setUserObj] = useState({

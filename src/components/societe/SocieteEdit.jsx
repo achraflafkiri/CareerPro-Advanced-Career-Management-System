@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { updateCompany } from "../../api/index";
+import { updateCompany } from "../../api/functions/companies";
 import { useStateContext } from "../../context/ContextProvider";
+import { toast } from "react-toastify";
 
 const SocieteEdit = ({ value, societeId }) => {
   const [newEditVal, setNewEditVal] = useState({
@@ -14,7 +15,6 @@ const SocieteEdit = ({ value, societeId }) => {
 
   const { company_name, description, address, phone, email } = newEditVal;
 
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -49,13 +49,31 @@ const SocieteEdit = ({ value, societeId }) => {
       }
       const response = await updateCompany(societeId, token, newEditVal);
       if (response.status === 201) {
-        setSuccess(true);
-        console.log("societe updated successfully!");
+        toast.success("societe updated successfully!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+        window.location.reload();
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      console.log(err.response);
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }
@@ -117,9 +135,8 @@ const SocieteEdit = ({ value, societeId }) => {
                   onChange={handleChange}
                 />
               </div>
-
               <div className="mb-3">
-                <label htmlFor="Phone">Phone</label>
+                <label htmlFor="phone">Phone number</label>
                 <input
                   type="text"
                   name="phone"
@@ -130,9 +147,9 @@ const SocieteEdit = ({ value, societeId }) => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="email">email</label>
+                <label htmlFor="email">Email address</label>
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   id="email"
                   value={email}
@@ -140,21 +157,31 @@ const SocieteEdit = ({ value, societeId }) => {
                   onChange={handleChange}
                 />
               </div>
+              {error && <div className="alert alert-danger">{error}</div>}
             </div>
             <div class="modal-footer">
               <button
-                type="button"
-                className="btn btn-light text-dark"
+                type="submit"
+                class="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
               <button
-                type="button"
-                class="btn btn-info text-white"
+                type="submit"
+                class="btn btn-primary"
                 onClick={handleSubmit}
+                disabled={loading}
               >
-                Save changes
+                {loading ? (
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                ) : (
+                  "Save Changes"
+                )}
               </button>
             </div>
           </form>

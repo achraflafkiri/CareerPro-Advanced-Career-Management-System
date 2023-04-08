@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useStateContext } from "../../context/ContextProvider";
-import { createNewProduct } from "../../api";
+import { createNewProduct } from "../../api/functions/products";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProductCreate = () => {
   const [formData, setFormData] = useState({
@@ -35,12 +36,31 @@ const ProductCreate = () => {
       }
       const response = await createNewProduct(token, formData, societeId);
       if (response.status === 201) {
-        console.log("create societe successfully!");
+        toast.success("product created successfully!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+        window.location.reload();
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      console.log(err.response);
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 

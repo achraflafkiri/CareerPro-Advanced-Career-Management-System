@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { createNewMaterial } from "../../api";
+import { createNewMaterial } from "../../api/functions/materials";
 import { useStateContext } from "../../context/ContextProvider";
 
 const MaterialCreate = () => {

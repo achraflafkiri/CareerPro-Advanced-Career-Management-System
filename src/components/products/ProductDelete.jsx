@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../context/ContextProvider";
-import { deleteCompany } from "../../api/functions/companies";
+import { deleteProduct } from "../../api/functions/products";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const SocieteDelete = ({ value, societeId }) => {
-  const [input, setInput] = useState("");
-  const [isDisabled, setIsDisabled] = useState(true);
-
-  useEffect(() => {
-    if (input === value?.company_name) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  }, [input, value]);
-
+const ProductDelete = ({ value, societeId }) => {
   const { token } = useStateContext();
   const handleDelete = async (event, societeId) => {
     event.preventDefault();
@@ -23,7 +12,7 @@ const SocieteDelete = ({ value, societeId }) => {
       if (!token) {
         throw new Error("Token not found");
       }
-      const response = await deleteCompany(societeId, token);
+      const response = await deleteProduct(societeId, token);
       if (response.status === 200) {
         window.location.reload();
       } else {
@@ -55,7 +44,7 @@ const SocieteDelete = ({ value, societeId }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="DeleteModalLabel">
-              Delete Company {value?.company_name}
+              Delete Product {value?.product_name}
             </h5>
             <button
               type="button"
@@ -67,23 +56,7 @@ const SocieteDelete = ({ value, societeId }) => {
           <form action="/societe" method="POST">
             <div className="modal-body">
               <div className="modal-title">
-                Are you sure you want to delete this societe
-              </div>
-              <br />
-              <p className="mb-2">
-                To confirm type " <strong>{value?.company_name}</strong> " in
-                the box below
-              </p>
-              <br />
-              <div className="mb-2">
-                <input
-                  type="text"
-                  className="form-control border-danger border-raduis-10"
-                  name="cofirm"
-                  id="cofirm"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                />
+                Are you sure you want to delete this product
               </div>
             </div>
             <div className="modal-footer">
@@ -98,7 +71,6 @@ const SocieteDelete = ({ value, societeId }) => {
                 type="button"
                 className="btn btn-danger text-white"
                 onClick={(e) => handleDelete(e, societeId)}
-                disabled={isDisabled}
               >
                 Delete
               </button>
@@ -110,4 +82,4 @@ const SocieteDelete = ({ value, societeId }) => {
   );
 };
 
-export default SocieteDelete;
+export default ProductDelete;

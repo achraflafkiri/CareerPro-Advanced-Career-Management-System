@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getAllEmployees } from "../../api";
+import { getAllEmployees } from "../../api/functions/employees";
 
 const EmployeesList = () => {
   const [dataList, setDataList] = useState(null);

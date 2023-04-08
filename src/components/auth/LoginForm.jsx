@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom/dist";
-import { Login } from "../../api/index";
+import { Login } from "../../api/functions/auth";
 import { useStateContext } from "../../context/ContextProvider";
 
 const LoginForm = () => {

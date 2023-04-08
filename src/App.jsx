@@ -61,15 +61,15 @@ const App = () => {
             element={<SocieteDetails handleNavIds={handleNavIds} />}
           />
           <Route
-            path="/societe/:societeId/produits"
+            path="/societe/:societeId/products"
             element={<ProductsList />}
           />
           <Route
-            path="/societe/:societeId/produits/:produitId"
+            path="/societe/:societeId/products/:productId"
             element={<ProductsDetails />}
           />
           <Route
-            path="/societe/:societeId/produits/:produitId/edit"
+            path="/societe/:societeId/products/:productId/edit"
             element={<ProductsEdit />}
           />
           <Route
@@ -94,7 +94,7 @@ const App = () => {
           />
           <Route path="/societe/:societeId/clients" element={<ClientsList />} />
           <Route
-            path="/societe/:societeId/clients/:produitId/edit"
+            path="/societe/:societeId/clients/:productId/edit"
             element={<ClientEdit />}
           />
           <Route

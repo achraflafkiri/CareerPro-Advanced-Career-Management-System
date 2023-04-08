@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import EditModal from "./SocieteEdit";
 import DeleteModal from "./SocieteDelete";
-import { getAllCompanies } from "../../api";
+import { getAllCompanies, getOneCompany } from "../../api/functions/companies";
 import Icon from "@mdi/react";
 import {
   mdiPencil,
   mdiDeleteEmptyOutline,
   mdiEyeArrowRightOutline,
 } from "@mdi/js";
-import { getOneCompany } from "../../api";
 
 const initialSocieteList = [];
 

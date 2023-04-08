@@ -64,7 +64,7 @@ const Sidebar = ({ isLinkActive }) => {
                 aria-controls="ui-pro"
               >
                 <i className="mdi mdi-chart-bar menu-icon"></i>
-                <span className="menu-title">Produits</span>
+                <span className="menu-title">products</span>
                 <i className="menu-arrow"></i>
               </a>
               <div className="collapse" id="ui-pro">
@@ -72,9 +72,9 @@ const Sidebar = ({ isLinkActive }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`societe/${isSocieteId}/produits`}
+                      to={`societe/${isSocieteId}/products`}
                     >
-                      Gestion des produits
+                      Gestion des products
                     </Link>
                   </li>
                 </ul>
@@ -89,7 +89,7 @@ const Sidebar = ({ isLinkActive }) => {
                 aria-controls="ui-client"
               >
                 <i className="mdi mdi-truck-delivery menu-icon"></i>
-                <span className="menu-title">client</span>
+                <span className="menu-title">clients</span>
                 <i className="menu-arrow"></i>
               </a>
               <div className="collapse" id="ui-client">

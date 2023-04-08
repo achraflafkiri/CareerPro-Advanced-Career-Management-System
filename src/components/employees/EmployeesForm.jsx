@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createNewEmployee } from "../../api/index";
+import { createNewEmployee } from "../../api/functions/employees";
 import { useStateContext } from "../../context/ContextProvider";
 import { useParams } from "react-router-dom";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { createNewClient } from "../../api";
+import { createNewClient } from "../../api/functions/clients";
 import { useStateContext } from "../../context/ContextProvider";
 
 const ClientForm = () => {
