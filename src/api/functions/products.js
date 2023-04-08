@@ -1,12 +1,10 @@
 import api from "../http-service";
 
 export const getAllProducts = (societeId) =>
-  api.get(`company/${societeId}/products`);
+  api.get(`companies/${societeId}/products`);
 
 export const getOneProduct = (societeId, productId) => {
-  console.log("societeId", societeId);
-  console.log("productId", productId);
-  return api.get(`company/${societeId}/products/${productId}`);
+  return api.get(`companies/${societeId}/products/${productId}`);
 };
 
 export const createNewProduct = (token, formData, societeId) => {
@@ -24,10 +22,21 @@ export const createNewProduct = (token, formData, societeId) => {
     quantity: quantity,
   };
 
-  return api.post(`company/${societeId}/products`, data, config);
+  return api.post(`companies/${societeId}/products`, data, config);
 };
 
-export const updateProduct = (societeId, productId, token, newEditVal) => {
+export const updateProduct = (societeId, productId, token, formData) => {
+  console.log(
+    // "societeId => ",
+    // societeId,
+    "productId => ",
+    productId
+    // "token => ",
+    // token,
+    // "formData => ",
+    // formData
+  );
+
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +44,7 @@ export const updateProduct = (societeId, productId, token, newEditVal) => {
     },
   };
 
-  const { product_name, description, quantity, date } = newEditVal;
+  const { product_name, description, quantity, date } = formData;
   const data = {
     product_name,
     description,
@@ -43,10 +52,10 @@ export const updateProduct = (societeId, productId, token, newEditVal) => {
     date,
   };
 
-  return api.put(`company/${societeId}/products/${productId}`, data, config);
+  return api.put(`companies/${societeId}/products/${productId}`, data, config);
 };
 
-export const deleteProduct = (societeId, productId, token) => {
+export const deleteProduct = (token, societeId, productId) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -54,5 +63,5 @@ export const deleteProduct = (societeId, productId, token) => {
     },
   };
 
-  return api.delete(`company/${societeId}/product/${productId}`, config);
+  return api.delete(`companies/${societeId}/products/${productId}`, config);
 };

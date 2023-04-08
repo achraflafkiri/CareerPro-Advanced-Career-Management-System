@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { createNewClient } from "../../api/functions/clients";
 import { useStateContext } from "../../context/ContextProvider";
+import { toast } from "react-toastify";
 
-const ClientForm = () => {
+const ClientCreate = () => {
   const [formData, setFormData] = useState({
     client_name: "",
     matricule: "",
     volume: "",
+    partner: "",
+    matricule: "",
   });
 
   const handleChange = (e) => {
@@ -18,7 +21,6 @@ const ClientForm = () => {
   const { token } = useStateContext();
   //  get the id of societe
   const { societeId } = useParams();
-
   const handleSubmit = async (event) => {
     console.log("cliked");
     event.preventDefault();
@@ -28,11 +30,12 @@ const ClientForm = () => {
       }
       const response = await createNewClient(token, formData, societeId);
       if (response.status === 201) {
-        console.log("create client successfully!");
+        toast.success("create client successfully!");
       } else {
         throw new Error("failed");
       }
     } catch (err) {
+      toast.success(err.response);
       console.log(err.response);
     }
   };
@@ -93,6 +96,39 @@ const ClientForm = () => {
                   />
                 </div>
               </div>
+              <h4 className="card-title">Bon de commande</h4>
+              <div className="form-group row">
+                <label htmlFor="partner" className="col-sm-3 col-form-label">
+                  partner
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="partner"
+                    name="partner"
+                    placeholder="partner"
+                    value={formData.partner}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label htmlFor="matricule" className="col-sm-3 col-form-label">
+                  matricule
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="matricule"
+                    name="matricule"
+                    placeholder="matricule"
+                    value={formData.matricule}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
               <button type="submit" className="btn btn-primary me-2">
                 Submit
               </button>
@@ -104,4 +140,4 @@ const ClientForm = () => {
   );
 };
 
-export default ClientForm;
+export default ClientCreate;

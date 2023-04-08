@@ -50,8 +50,8 @@ const SocieteEdit = ({ value, societeId, productId }) => {
         token,
         newEditVal
       );
-      console.log(response);
-      if (response.status === 201) {
+
+      if (response.status === 200) {
         toast.success("Product updated successfully!", {
           position: "bottom-right",
           autoClose: 5000,
@@ -62,22 +62,20 @@ const SocieteEdit = ({ value, societeId, productId }) => {
           progress: undefined,
           theme: "colored",
         });
-        window.location.reload();
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      console.log(err);
-      // toast.warn(`${err.response.data.message}`, {
-      //   position: "bottom-right",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: false,
-      //   progress: undefined,
-      //   theme: "colored",
-      // });
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }

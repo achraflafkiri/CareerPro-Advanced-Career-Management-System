@@ -4,7 +4,7 @@ import { deleteProduct } from "../../api/functions/products";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ProductDelete = ({ value, societeId }) => {
+const ProductDelete = ({ value, societeId, productId }) => {
   const { token } = useStateContext();
   const handleDelete = async (event, societeId) => {
     event.preventDefault();
@@ -12,7 +12,7 @@ const ProductDelete = ({ value, societeId }) => {
       if (!token) {
         throw new Error("Token not found");
       }
-      const response = await deleteProduct(societeId, token);
+      const response = await deleteProduct(token, societeId, productId);
       if (response.status === 200) {
         window.location.reload();
       } else {

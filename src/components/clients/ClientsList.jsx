@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import ClientForm from "./ClientForm";
+import ClientForm from "./ClientCreate";
 
 const initialData = [
   {

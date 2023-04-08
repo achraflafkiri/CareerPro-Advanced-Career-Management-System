@@ -17,12 +17,14 @@ export const createNewCompany = (token, formData) => {
     ...rest,
   };
 
-  return api.post("company", data, config);
+  console.log("data");
+
+  return api.post("companies", data, config);
 };
 
-export const getAllCompanies = () => api.get(`company`);
+export const getAllCompanies = () => api.get(`companies`);
 
-export const getOneCompany = (societeId) => api.get(`company/${societeId}`);
+export const getOneCompany = (societeId) => api.get(`companies/${societeId}`);
 
 export const updateCompany = (societeId, token, formData) => {
   console.log("societeId => ", societeId);
@@ -39,7 +41,7 @@ export const updateCompany = (societeId, token, formData) => {
     ...rest,
   };
 
-  return api.put(`company/${societeId}`, data, config);
+  return api.put(`companies/${societeId}`, data, config);
 };
 
 export const deleteCompany = (societeId, token) => {
@@ -50,5 +52,5 @@ export const deleteCompany = (societeId, token) => {
     },
   };
 
-  return api.delete(`company/${societeId}`, config);
+  return api.delete(`companies/${societeId}`, config);
 };

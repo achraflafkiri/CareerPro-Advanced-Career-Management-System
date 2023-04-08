@@ -20,5 +20,5 @@ export const createNewMaterial = (token, formData, societeId) => {
     ...rest,
   };
 
-  return api.post("material", data, config);
+  return api.post("materials", data, config);
 };

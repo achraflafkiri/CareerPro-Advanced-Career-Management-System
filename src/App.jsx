@@ -18,7 +18,7 @@ import EmployeesForm from "./components/employees/EmployeesForm";
 import MaterialList from "./components/material/MaterialList";
 import MaterialCreate from "./components/material/MaterialCreate";
 
-import ClientForm from "./components/clients/ClientForm";
+import ClientCreate from "./components/clients/ClientCreate";
 import ClientsList from "./components/clients/ClientsList";
 import ClientEdit from "./components/clients/ClientEdit";
 
@@ -99,7 +99,7 @@ const App = () => {
           />
           <Route
             path="/societe/:societeId/clients/create"
-            element={<ClientForm />}
+            element={<ClientCreate />}
           />
         </Route>
         <Route element={<GuestLayout />}>

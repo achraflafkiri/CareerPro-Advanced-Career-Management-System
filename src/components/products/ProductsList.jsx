@@ -33,8 +33,7 @@ const ProductsList = () => {
       if (response.data) {
         setEditForm(response.data.product);
         setdeleteForm(response.data.product);
-        setProductId(response.data.product);
-        console.log(response.data.product);
+        setProductId(response.data.product._id);
       }
     } catch (err) {
       toast.warn(`${err.response.data.message}`, {
@@ -56,7 +55,11 @@ const ProductsList = () => {
 
       <EditModal value={editForm} societeId={societeId} productId={productId} />
 
-      <DeleteModal value={deleteForm} societeId={societeId} />
+      <DeleteModal
+        value={deleteForm}
+        societeId={societeId}
+        productId={productId}
+      />
 
       <div className="card">
         <div className="card-header">

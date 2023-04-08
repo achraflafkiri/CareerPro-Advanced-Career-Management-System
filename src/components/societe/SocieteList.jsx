@@ -10,10 +10,8 @@ import {
   mdiEyeArrowRightOutline,
 } from "@mdi/js";
 
-const initialSocieteList = [];
-
 const SocieteList = () => {
-  const [dataList, setDataList] = useState(initialSocieteList);
+  const [dataList, setDataList] = useState(null);
   const [editForm, setEditForm] = useState(null);
   const [deleteForm, setdeleteForm] = useState(null);
   const [societeId, setSocieteId] = useState(null);
