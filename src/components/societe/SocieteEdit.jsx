@@ -3,8 +3,11 @@ import { useParams, Link } from "react-router-dom";
 import { updateCompany } from "../../api/functions/companies";
 import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const SocieteEdit = ({ value, societeId }) => {
+  const navigate = useNavigate();
+
   const [newEditVal, setNewEditVal] = useState({
     company_name: "",
     description: "",
@@ -48,7 +51,7 @@ const SocieteEdit = ({ value, societeId }) => {
         throw new Error("Token not found");
       }
       const response = await updateCompany(societeId, token, newEditVal);
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast.success("societe updated successfully!", {
           position: "bottom-right",
           autoClose: 5000,
@@ -59,21 +62,22 @@ const SocieteEdit = ({ value, societeId }) => {
           progress: undefined,
           theme: "colored",
         });
-        window.location.reload();
+        navigate("/societe");
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.error("err ", err);
+      // toast.warn(`${err.response.data.message}`, {
+      //   position: "bottom-right",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: false,
+      //   progress: undefined,
+      //   theme: "colored",
+      // });
     } finally {
       setLoading(false);
     }
@@ -160,13 +164,6 @@ const SocieteEdit = ({ value, societeId }) => {
               {error && <div className="alert alert-danger">{error}</div>}
             </div>
             <div class="modal-footer">
-              <button
-                type="submit"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
               <button
                 type="submit"
                 class="btn btn-primary"

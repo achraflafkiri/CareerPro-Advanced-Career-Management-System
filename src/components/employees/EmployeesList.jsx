@@ -1,23 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getAllEmployees } from "../../api/functions/employees";
+import { getAllEmployees, getOneEmployee } from "../../api/functions/employees";
+import DeleteModal from "./EmployeeDelete";
 
-const EmployeesCreate = () => {
+import Icon from "@mdi/react";
+import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+
+const EmployeesList = () => {
   const [dataList, setDataList] = useState(null);
+  const [deleteForm, setdeleteForm] = useState(null);
+  const [employeeId, setEmployeeId] = useState(null);
 
   const { societeId } = useParams();
 
   useEffect(() => {
     async function fetchData() {
       const res = await getAllEmployees(societeId);
-      setDataList(res.data.data.employees);
-      console.log(dataList);
+      setDataList(res.data.employees);
     }
     fetchData();
   }, []);
 
+  const handleGetData = async (event, employeeId) => {
+    event.preventDefault();
+    try {
+      const response = await getOneEmployee(societeId, employeeId);
+
+      if (response.data) {
+        setdeleteForm(response.data.employee);
+        setEmployeeId(response.data.employee._id);
+        console.log("  employeeId **** ", response.data.employee);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
+      <DeleteModal
+        value={deleteForm}
+        societeId={societeId}
+        employeeId={employeeId}
+      />
+
       <div className="row">
         <div className="col-md-12">
           <div className="card">
@@ -59,8 +85,6 @@ const EmployeesCreate = () => {
                     <th>Prenom</th>
                     <th>CNI</th>
                     <th></th>
-                    <th></th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,31 +96,20 @@ const EmployeesCreate = () => {
                       <td>{item.quantity}</td>
                       <td>{item.date}</td>
                       <td>
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-primary text-white mb-3"
-                          to={`/employee/${item._id}/edit`}
-                        >
-                          Edit
-                        </button>
-                      </td>
-                      <td>
                         <Link
-                          type="button"
-                          class="btn btn-sm btn-success text-white mb-3"
-                          to={`/employee/${item._id}`}
+                          to={`${item._id}/edit`}
+                          class="btn btn-sm btn-light btn-icon m-1"
                         >
-                          Détails
+                          <Icon path={mdiPencil} size={1} />
                         </Link>
-                      </td>
-                      <td>
                         <button
                           type="submit"
-                          class="btn btn-sm btn-danger text-white mb-3"
+                          class="btn btn-sm btn-light btn-icon "
                           data-bs-toggle="modal"
                           data-bs-target="#DeleteModal"
+                          onClick={(e) => handleGetData(e, item._id)}
                         >
-                          Delete
+                          <Icon path={mdiDeleteEmptyOutline} size={1} />
                         </button>
                       </td>
                     </tr>
@@ -111,4 +124,4 @@ const EmployeesCreate = () => {
   );
 };
 
-export default EmployeesCreate;
+export default EmployeesList;

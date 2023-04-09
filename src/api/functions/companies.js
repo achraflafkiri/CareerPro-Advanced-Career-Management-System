@@ -27,7 +27,6 @@ export const getAllCompanies = () => api.get(`companies`);
 export const getOneCompany = (societeId) => api.get(`companies/${societeId}`);
 
 export const updateCompany = (societeId, token, formData) => {
-  console.log("societeId => ", societeId);
   const config = {
     headers: {
       "Content-Type": "application/json",

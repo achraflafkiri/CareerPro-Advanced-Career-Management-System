@@ -64,7 +64,7 @@ const Sidebar = ({ isLinkActive }) => {
                 aria-controls="ui-pro"
               >
                 <i className="mdi mdi-chart-bar menu-icon"></i>
-                <span className="menu-title">products</span>
+                <span className="menu-title">Products</span>
                 <i className="menu-arrow"></i>
               </a>
               <div className="collapse" id="ui-pro">
@@ -80,7 +80,31 @@ const Sidebar = ({ isLinkActive }) => {
                 </ul>
               </div>
             </li>
-
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                data-bs-toggle="collapse"
+                href="#ui-client"
+                aria-expanded="false"
+                aria-controls="ui-client"
+              >
+                <i className="mdi mdi-truck-delivery menu-icon"></i>
+                <span className="menu-title">clients</span>
+                <i className="menu-arrow"></i>
+              </a>
+              <div className="collapse" id="ui-client">
+                <ul className="nav flex-column sub-menu">
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      to={`societe/${isSocieteId}/clients`}
+                    >
+                      Gestion des clients
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -100,7 +124,7 @@ const Sidebar = ({ isLinkActive }) => {
                       className="nav-link"
                       to={`societe/${isSocieteId}/employees`}
                     >
-                      Gestion des employees
+                      Gestion des employés
                     </Link>
                   </li>
                 </ul>
@@ -123,41 +147,10 @@ const Sidebar = ({ isLinkActive }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to={`societe/${isSocieteId}/materials/create`}
+                      to={`societe/${isSocieteId}/materials/`}
                     >
-                      Ajouter de nouveaux matériaux
+                      Gestion des matériaux
                     </Link>
-                    <Link
-                      className="nav-link"
-                      to={`societe/${isSocieteId}/materials`}
-                    >
-                      List des matériaux
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      data-bs-toggle="collapse"
-                      href="#ui-client"
-                      aria-expanded="false"
-                      aria-controls="ui-client"
-                    >
-                      <i className="mdi mdi-truck-delivery menu-icon"></i>
-                      <span className="menu-title">clients</span>
-                      <i className="menu-arrow"></i>
-                    </a>
-                    <div className="collapse" id="ui-client">
-                      <ul className="nav flex-column sub-menu">
-                        <li className="nav-item">
-                          <Link
-                            className="nav-link"
-                            to={`societe/${isSocieteId}/clients`}
-                          >
-                            Gestion des clients
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
                   </li>
                 </ul>
               </div>

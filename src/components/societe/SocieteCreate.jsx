@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { createNewCompany } from "../../api/functions/companies";
 import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SocieteCreate = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     company_name: "",
     description: "",
@@ -24,7 +25,6 @@ const SocieteCreate = () => {
   };
 
   const { token } = useStateContext();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -35,6 +35,7 @@ const SocieteCreate = () => {
       }
       const response = await createNewCompany(token, formData);
       if (response.status === 201) {
+        navigate("/societe");
         toast.success("societe created successfully!", {
           position: "bottom-right",
           autoClose: 5000,
@@ -45,8 +46,6 @@ const SocieteCreate = () => {
           progress: undefined,
           theme: "colored",
         });
-        window.location.reload();
-        return <Navigate to="/societe" />;
       } else {
         throw new Error("failed");
       }

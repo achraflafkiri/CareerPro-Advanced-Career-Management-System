@@ -14,6 +14,7 @@ import ProductsEdit from "./components/products/ProductsEdit";
 
 import EmployeesList from "./components/employees/EmployeesList";
 import EmployeesCreate from "./components/employees/EmployeesCreate";
+import EmployeeEdit from "./components/employees/EmployeeEdit";
 
 import MaterialList from "./components/material/MaterialList";
 import MaterialCreate from "./components/material/MaterialCreate";
@@ -79,6 +80,10 @@ const App = () => {
           <Route
             path="/societe/:societeId/employees/create"
             element={<EmployeesCreate />}
+          />
+          <Route
+            path="/societe/:societeId/employees/:employeeId/edit"
+            element={<EmployeeEdit />}
           />
           <Route
             path="/societe/:societeId/employees/:employeeId/absence-registration"

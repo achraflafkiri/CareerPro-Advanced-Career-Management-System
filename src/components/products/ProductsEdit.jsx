@@ -62,6 +62,7 @@ const SocieteEdit = ({ value, societeId, productId }) => {
           progress: undefined,
           theme: "colored",
         });
+        window.location.reload();
       } else {
         throw new Error("failed");
       }

@@ -1,45 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../context/ContextProvider";
-import { deleteCompany } from "../../api/functions/companies";
+import { deleteEmployee } from "../../api/functions/employees";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const SocieteDelete = ({ value, societeId }) => {
-  const [input, setInput] = useState("");
-  const [isDisabled, setIsDisabled] = useState(true);
-
-  useEffect(() => {
-    if (input === value?.company_name) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  }, [input, value]);
-
+const EmployeeDelete = ({ value, societeId, employeeId }) => {
+  console.log(employeeId);
   const { token } = useStateContext();
-  const handleDelete = async (event, societeId) => {
+  const handleDelete = async (event) => {
     event.preventDefault();
     try {
       if (!token) {
         throw new Error("Token not found");
       }
-      const response = await deleteCompany(societeId, token);
+      const response = await deleteEmployee(token, societeId, employeeId);
       if (response.status === 200) {
         window.location.reload();
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.error(err.response);
     }
   };
 
@@ -55,7 +36,7 @@ const SocieteDelete = ({ value, societeId }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="DeleteModalLabel">
-              Delete Company {value?.company_name}
+              Delete Employee {value?.Employee_name}
             </h5>
             <button
               type="button"
@@ -67,23 +48,7 @@ const SocieteDelete = ({ value, societeId }) => {
           <form action="/societe" method="POST">
             <div className="modal-body">
               <div className="modal-title">
-                Are you sure you want to delete this societe
-              </div>
-              <br />
-              <p className="mb-2">
-                To confirm type "<strong>{value?.company_name}</strong>" in the
-                box below
-              </p>
-              <br />
-              <div className="mb-2">
-                <input
-                  type="text"
-                  className="form-control border-danger border-raduis-10"
-                  name="cofirm"
-                  id="cofirm"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                />
+                Are you sure you want to delete this Employee
               </div>
             </div>
             <div className="modal-footer">
@@ -97,8 +62,7 @@ const SocieteDelete = ({ value, societeId }) => {
               <button
                 type="button"
                 className="btn btn-danger text-white"
-                onClick={(e) => handleDelete(e, societeId)}
-                disabled={isDisabled}
+                onClick={handleDelete}
               >
                 Delete
               </button>
@@ -110,4 +74,4 @@ const SocieteDelete = ({ value, societeId }) => {
   );
 };
 
-export default SocieteDelete;
+export default EmployeeDelete;

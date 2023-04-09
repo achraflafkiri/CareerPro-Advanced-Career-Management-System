@@ -28,3 +28,44 @@ export const createNewEmployee = (token, formData, societeId) => {
 export const getAllEmployees = (societeId) => {
   return api.get(`companies/${societeId}/employees/`);
 };
+
+export const updateEmployee = (token, formData, societeId, employeeId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { employee_fname, employee_lname, cni, phone, email, role } = formData;
+  const data = {
+    employee_fname: employee_fname,
+    employee_lname: employee_lname,
+    cni: cni,
+    phone: phone,
+    email: email,
+    role: role,
+  };
+
+  return api.put(
+    `companies/${societeId}/employees/${employeeId}`,
+    data,
+    config
+  );
+};
+
+export const getOneEmployee = (societeId, employeeId) => {
+  console.log(societeId, employeeId);
+  return api.get(`companies/${societeId}/employees/${employeeId}`);
+};
+
+export const deleteEmployee = (token, societeId, employeeId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return api.delete(`companies/${societeId}/employees/${employeeId}`, config);
+};

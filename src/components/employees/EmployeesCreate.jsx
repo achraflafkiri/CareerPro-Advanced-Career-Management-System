@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { createNewEmployee } from "../../api/functions/employees";
 import { useStateContext } from "../../context/ContextProvider";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const EmployeesForm = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     employee_fname: "",
     employee_lname: "",
@@ -14,7 +17,6 @@ const EmployeesForm = () => {
   });
 
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
@@ -39,6 +41,7 @@ const EmployeesForm = () => {
       if (response.status === 201) {
         setSuccess(true); // set success to true on successful creation of company
         console.log("create employee successfully!");
+        navigate(`/societe/${societeId}/employees`);
       } else {
         throw new Error("failed");
       }
