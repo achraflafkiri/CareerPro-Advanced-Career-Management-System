@@ -5,6 +5,7 @@ import DeleteModal from "./EmployeeDelete";
 
 import Icon from "@mdi/react";
 import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+import { toast } from "react-toastify";
 
 const EmployeesList = () => {
   const [dataList, setDataList] = useState(null);
@@ -29,11 +30,24 @@ const EmployeesList = () => {
       if (response.data) {
         setdeleteForm(response.data.employee);
         setEmployeeId(response.data.employee._id);
-        console.log("  employeeId **** ", response.data.employee);
       }
     } catch (err) {
-      console.error(err);
+      toast.error(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     }
+  };
+
+  const fetchData = async () => {
+    const res = await getAllEmployees(societeId);
+    setDataList(res.data.products);
   };
 
   return (
@@ -42,6 +56,7 @@ const EmployeesList = () => {
         value={deleteForm}
         societeId={societeId}
         employeeId={employeeId}
+        fetchData={fetchData}
       />
 
       <div className="row">

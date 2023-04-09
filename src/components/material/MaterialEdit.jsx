@@ -4,7 +4,7 @@ import { updateMaterial } from "../../api/functions/materials";
 import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";
 
-const MaterialEdit = ({ value, societeId, materialId }) => {
+const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
   const [newEditVal, setNewEditVal] = useState({
     material_name: "",
     Work_per_hour: "",
@@ -60,7 +60,7 @@ const MaterialEdit = ({ value, societeId, materialId }) => {
           progress: undefined,
           theme: "colored",
         });
-        window.location.reload();
+        fetchData();
       } else {
         throw new Error("failed");
       }
@@ -146,7 +146,7 @@ const MaterialEdit = ({ value, societeId, materialId }) => {
             </div>
 
             <button type="submit" className="btn btn-primary me-2">
-              Submit
+              {loading ? "loading..." : "Submit"}
             </button>
           </form>
         </div>

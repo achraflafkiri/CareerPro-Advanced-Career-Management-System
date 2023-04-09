@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { updateProduct } from "../../api/functions/products";
 import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";
 
-const SocieteEdit = ({ value, societeId, productId }) => {
+const SocieteEdit = ({ value, societeId, productId, fetchData }) => {
+  const navigate = useNavigate();
   const [newEditVal, setNewEditVal] = useState({
     product_name: "",
     description: "",
@@ -52,6 +53,8 @@ const SocieteEdit = ({ value, societeId, productId }) => {
       );
 
       if (response.status === 200) {
+        fetchData();
+        navigate(`/societe/${societeId}/products`);
         toast.success("Product updated successfully!", {
           position: "bottom-right",
           autoClose: 5000,
@@ -62,7 +65,6 @@ const SocieteEdit = ({ value, societeId, productId }) => {
           progress: undefined,
           theme: "colored",
         });
-        window.location.reload();
       } else {
         throw new Error("failed");
       }

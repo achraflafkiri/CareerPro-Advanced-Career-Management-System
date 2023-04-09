@@ -39,7 +39,6 @@ const ProductCreate = () => {
       }
       const response = await createNewProduct(token, formData, societeId);
       if (response.status === 201) {
-        navigate(`/societe/${societeId}/materials`);
         toast.success("product created successfully!", {
           position: "bottom-right",
           autoClose: 5000,
@@ -50,7 +49,7 @@ const ProductCreate = () => {
           progress: undefined,
           theme: "colored",
         });
-        window.location.reload();
+        navigate(`societe/${societeId}/products`);
       } else {
         throw new Error("failed");
       }

@@ -5,12 +5,18 @@ import { getAllProducts } from "../../api/functions/products";
 import { getAllEmployees } from "../../api/functions/employees";
 import { getOneCompany } from "../../api/functions/companies";
 import { getAllClients } from "../../api/functions/clients";
+import { getAllMaterials } from "../../api/functions/materials";
+import Icon from "@mdi/react";
+import { mdiPlusBox } from "@mdi/js";
+import { mdiDownloadBox } from "@mdi/js";
+import { toast } from "react-toastify";
 
 const SocieteList = () => {
   const [products, setProducts] = useState(null);
   const [employees, setEmployees] = useState(null);
   const [company, setCompany] = useState(null);
-  const [client, setClient] = useState(null);
+  const [clients, setClients] = useState(null);
+  const [materials, setMaterials] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
 
   const { societeId } = useParams();
@@ -70,7 +76,32 @@ const SocieteList = () => {
         const res = await getAllClients(societeId);
         console.log(res.data.data.clients);
         if (res.data.data.clients) {
-          setClient(res.data.data.clients);
+          setClients(res.data.data.clients);
+        }
+      } catch (err) {
+        toast.warn(`${err.response.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    }
+    fetchData();
+  }, [societeId]);
+
+  // Get One Materials by ID
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await getAllMaterials(societeId);
+        console.log(res.data.data.materials);
+        if (res.data.data.materials) {
+          setMaterials(res.data.data.materials);
         }
       } catch (error) {
         console.log(error);
@@ -142,7 +173,7 @@ const SocieteList = () => {
                 aria-controls="client"
                 aria-selected="false"
               >
-                client
+                clients
               </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -163,6 +194,7 @@ const SocieteList = () => {
         </div>
         <div className="col-md-12">
           <div class="tab-content" id="myTabContent">
+            {/* products */}
             <div
               class="tab-pane fade"
               id="produit"
@@ -170,7 +202,22 @@ const SocieteList = () => {
               aria-labelledby="produit-tab"
             >
               <div className="card">
-                <div className="card-header"></div>
+                <div className="card-header">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div>The number of products is {products?.length}</div>
+                    <div className="d-flex align-items-center justify-content-center">
+                      <Link
+                        to={`/societe/${societeId}/products/`}
+                        className="btn btn-light btn-icon"
+                      >
+                        <Icon path={mdiPlusBox} size={1} />
+                      </Link>
+                      <Link to={`/`} className="btn btn-light btn-icon">
+                        <Icon path={mdiDownloadBox} size={1} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
                 <div className="card-body">
                   <table className="table">
                     <thead>
@@ -199,6 +246,7 @@ const SocieteList = () => {
               </div>
             </div>
 
+            {/* employees */}
             <div
               class="tab-pane fade show active"
               id="employee"
@@ -206,7 +254,22 @@ const SocieteList = () => {
               aria-labelledby="employee-tab"
             >
               <div className="card">
-                <div className="card-header"></div>
+                <div className="card-header">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div>The number of employees is {employees?.length}</div>
+                    <div className="d-flex align-items-center justify-content-center">
+                      <Link
+                        to={`/societe/${societeId}/employees/`}
+                        className="btn btn-light btn-icon"
+                      >
+                        <Icon path={mdiPlusBox} size={1} />
+                      </Link>
+                      <Link to={`/`} className="btn btn-light btn-icon">
+                        <Icon path={mdiDownloadBox} size={1} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
                 <div className="card-body">
                   <table className="table">
                     <thead>
@@ -239,6 +302,7 @@ const SocieteList = () => {
               </div>
             </div>
 
+            {/* clients */}
             <div
               class="tab-pane fade"
               id="client"
@@ -246,7 +310,22 @@ const SocieteList = () => {
               aria-labelledby="client-tab"
             >
               <div className="card">
-                <div className="card-header"></div>
+                <div className="card-header">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div>The number of clients is {clients?.length}</div>
+                    <div className="d-flex align-items-center justify-content-center">
+                      <Link
+                        to={`/societe/${societeId}/clients/`}
+                        className="btn btn-light btn-icon"
+                      >
+                        <Icon path={mdiPlusBox} size={1} />
+                      </Link>
+                      <Link to={`/`} className="btn btn-light btn-icon">
+                        <Icon path={mdiDownloadBox} size={1} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
                 <div className="card-body">
                   <table className="table">
                     <thead>
@@ -257,7 +336,7 @@ const SocieteList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {client?.map((item, index) => (
+                      {clients?.map((item, index) => (
                         <tr key={index}>
                           <td>{item.client_name}</td>
                           <td>{item.matricule}</td>
@@ -270,6 +349,7 @@ const SocieteList = () => {
               </div>
             </div>
 
+            {/* materials */}
             <div
               class="tab-pane fade"
               id="material"
@@ -277,7 +357,22 @@ const SocieteList = () => {
               aria-labelledby="material-tab"
             >
               <div className="card">
-                <div className="card-header"></div>
+                <div className="card-header">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div>The number of materials is {materials?.length}</div>
+                    <div className="d-flex align-items-center justify-content-center">
+                      <Link
+                        to={`/societe/${societeId}/materials/`}
+                        className="btn btn-light btn-icon"
+                      >
+                        <Icon path={mdiPlusBox} size={1} />
+                      </Link>
+                      <Link to={`/`} className="btn btn-light btn-icon">
+                        <Icon path={mdiDownloadBox} size={1} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
                 <div className="card-body">
                   <table className="table">
                     <thead>

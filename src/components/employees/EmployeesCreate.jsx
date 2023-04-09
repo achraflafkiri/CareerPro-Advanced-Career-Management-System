@@ -56,7 +56,16 @@ const EmployeesForm = () => {
         throw new Error("failed");
       }
     } catch (err) {
-      console.log(err.response);
+      toast.error(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }

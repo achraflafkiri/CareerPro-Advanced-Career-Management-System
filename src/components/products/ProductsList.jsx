@@ -36,20 +36,40 @@ const ProductsList = () => {
         setProductId(response.data.product._id);
       }
     } catch (err) {
-      console.error(err);
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     }
+  };
+
+  const fetchData = async () => {
+    const res = await getAllProducts(societeId);
+    setDataList(res.data.products);
   };
 
   return (
     <>
       <ProductCreate />
 
-      <EditModal value={editForm} societeId={societeId} productId={productId} />
+      <EditModal
+        value={editForm}
+        societeId={societeId}
+        productId={productId}
+        fetchData={fetchData}
+      />
 
       <DeleteModal
         value={deleteForm}
         societeId={societeId}
         productId={productId}
+        fetchData={fetchData}
       />
 
       <div className="card">
@@ -66,7 +86,7 @@ const ProductsList = () => {
                 <i className="mdi mdi-plus text-muted"></i>
               </button>
               <Link
-                to={`societe/${societeId}`}
+                to={`/societe/${societeId}`}
                 className="btn btn-primary btn-sm float-end text-white mx-1"
               >
                 BACK

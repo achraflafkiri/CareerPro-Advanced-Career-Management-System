@@ -4,7 +4,7 @@ import { deleteCompany } from "../../api/functions/companies";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const SocieteDelete = ({ value, societeId }) => {
+const SocieteDelete = ({ value, societeId, fetchData }) => {
   const [input, setInput] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -25,7 +25,7 @@ const SocieteDelete = ({ value, societeId }) => {
       }
       const response = await deleteCompany(societeId, token);
       if (response.status === 200) {
-        window.location.reload();
+        fetchData();
       } else {
         throw new Error("failed");
       }

@@ -6,6 +6,7 @@ import EditModal from "./MaterialEdit";
 
 import Icon from "@mdi/react";
 import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+import { toast } from "react-toastify";
 
 const MaterialList = () => {
   const [dataList, setDataList] = useState(null);
@@ -32,11 +33,24 @@ const MaterialList = () => {
         setEditForm(response.data.material);
         setdeleteForm(response.data.material);
         setmaterialId(response.data.material._id);
-        console.log("  materialId **** ", response.data.material);
       }
     } catch (err) {
-      console.error(err);
+      toast.error(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     }
+  };
+
+  const fetchData = async () => {
+    const res = await getAllMaterials(societeId);
+    setDataList(res.data.products);
   };
 
   return (
@@ -45,12 +59,14 @@ const MaterialList = () => {
         value={deleteForm}
         societeId={societeId}
         materialId={materialId}
+        fetchData={fetchData}
       />
 
       <DeleteModal
         value={deleteForm}
         societeId={societeId}
         materialId={materialId}
+        fetchData={fetchData}
       />
 
       <div className="row">

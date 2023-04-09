@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import EditModal from "./EmployeeEdit";
 import { updateEmployee, getOneEmployee } from "../../api/functions/employees";
 import { toast } from "react-toastify";
 import { useStateContext } from "../../context/ContextProvider";
 
 const EmployeeEdit = () => {
+  const navigate = useNavigate();
   const { societeId, employeeId } = useParams();
   const [newEditVal, setNewEditVal] = useState({
     employee_fname: "",
@@ -46,7 +47,16 @@ const EmployeeEdit = () => {
           console.log("employeeId **** ", response.data.employee);
         }
       } catch (err) {
-        console.error(err);
+        toast.warn(`${err.response.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     };
 
@@ -80,7 +90,7 @@ const EmployeeEdit = () => {
           progress: undefined,
           theme: "colored",
         });
-        window.location.reload();
+        navigate(`/societe/${societeId}/employees`);
       } else {
         throw new Error("failed");
       }

@@ -9,6 +9,7 @@ import {
   mdiDeleteEmptyOutline,
   mdiEyeArrowRightOutline,
 } from "@mdi/js";
+import { toast } from "react-toastify";
 
 const SocieteList = () => {
   const [dataList, setDataList] = useState(null);
@@ -37,16 +38,34 @@ const SocieteList = () => {
         setdeleteForm(response.data.company);
         console.log("response.data.company => ", response.data.company);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      toast.error(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     }
+  };
+
+  const fetchData = async () => {
+    const res = await getAllCompanies(societeId);
+    setDataList(res.data.products);
   };
 
   return (
     <>
-      <EditModal value={editForm} societeId={societeId} />
+      <EditModal value={editForm} societeId={societeId} fetchData={fetchData} />
 
-      <DeleteModal value={deleteForm} societeId={societeId} />
+      <DeleteModal
+        value={deleteForm}
+        societeId={societeId}
+        fetchData={fetchData}
+      />
 
       <div className="row">
         <div className="col-lg-16 grid-margin stretch-card">

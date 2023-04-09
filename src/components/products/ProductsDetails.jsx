@@ -10,9 +10,7 @@ const ProductsDetails = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await getOneProduct(societeId, productId);
-      console.log(res.data.product);
       setProduct(res.data.product);
-      console.log("product.product_name => ", product.product_name);
     }
     fetchData();
   }, []);
@@ -48,8 +46,10 @@ const ProductsDetails = () => {
           <div className="card-body">
             <ul className="list-group">
               <li className="list-group-item">Nom: {product?.product_name}</li>
-              <li className="list-group-item">Nom: {product?.description}</li>
-              <li className="list-group-item">Quantité: {product?.quantity}</li>
+              <li className="list-group-item">
+                Description: {product?.description}
+              </li>
+              <li className="list-group-item">Quantity: {product?.quantity}</li>
               <li className="list-group-item">Date: {product?.date}</li>
             </ul>{" "}
           </div>

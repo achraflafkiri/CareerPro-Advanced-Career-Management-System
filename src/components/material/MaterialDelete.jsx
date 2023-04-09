@@ -4,7 +4,7 @@ import { deleteMaterial } from "../../api/functions/materials";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const MaterialDelete = ({ value, societeId, materialId }) => {
+const MaterialDelete = ({ value, societeId, materialId, fetchData }) => {
   const { token } = useStateContext();
   const handleDelete = async (event, societeId) => {
     event.preventDefault();
@@ -14,7 +14,7 @@ const MaterialDelete = ({ value, societeId, materialId }) => {
       }
       const response = await deleteMaterial(token, societeId, materialId);
       if (response.status === 200) {
-        window.location.reload();
+        fetchData();
       } else {
         throw new Error("failed");
       }

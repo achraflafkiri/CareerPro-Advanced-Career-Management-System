@@ -5,7 +5,7 @@ import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const SocieteEdit = ({ value, societeId }) => {
+const SocieteEdit = ({ value, societeId, fetchData }) => {
   const navigate = useNavigate();
 
   const [newEditVal, setNewEditVal] = useState({
@@ -62,22 +62,22 @@ const SocieteEdit = ({ value, societeId }) => {
           progress: undefined,
           theme: "colored",
         });
+        fetchData();
         navigate("/societe");
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      console.error("err ", err);
-      // toast.warn(`${err.response.data.message}`, {
-      //   position: "bottom-right",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: false,
-      //   progress: undefined,
-      //   theme: "colored",
-      // });
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }

@@ -50,7 +50,6 @@ const SocieteCreate = () => {
         throw new Error("failed");
       }
     } catch (err) {
-      console.log(err.response);
       toast.warn(`${err.response.data.message}`, {
         position: "bottom-right",
         autoClose: 5000,
