@@ -4,7 +4,10 @@ import { createNewProduct } from "../../api/functions/products";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { useNavigate } from "react-router-dom";
+
 const ProductCreate = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     product_name: "",
     description: "",
@@ -36,6 +39,7 @@ const ProductCreate = () => {
       }
       const response = await createNewProduct(token, formData, societeId);
       if (response.status === 201) {
+        navigate(`/societe/${societeId}/materials`);
         toast.success("product created successfully!", {
           position: "bottom-right",
           autoClose: 5000,

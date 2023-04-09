@@ -84,31 +84,6 @@ const Sidebar = ({ isLinkActive }) => {
               <a
                 className="nav-link"
                 data-bs-toggle="collapse"
-                href="#ui-client"
-                aria-expanded="false"
-                aria-controls="ui-client"
-              >
-                <i className="mdi mdi-truck-delivery menu-icon"></i>
-                <span className="menu-title">clients</span>
-                <i className="menu-arrow"></i>
-              </a>
-              <div className="collapse" id="ui-client">
-                <ul className="nav flex-column sub-menu">
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link"
-                      to={`societe/${isSocieteId}/clients`}
-                    >
-                      Gestion des clients
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                data-bs-toggle="collapse"
                 href="#ui-Employees"
                 aria-expanded="false"
                 aria-controls="ui-Employees"
@@ -150,6 +125,31 @@ const Sidebar = ({ isLinkActive }) => {
                       to={`societe/${isSocieteId}/materials/`}
                     >
                       Gestion des matériaux
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                data-bs-toggle="collapse"
+                href="#ui-client"
+                aria-expanded="false"
+                aria-controls="ui-client"
+              >
+                <i className="mdi mdi-truck-delivery menu-icon"></i>
+                <span className="menu-title">clients</span>
+                <i className="menu-arrow"></i>
+              </a>
+              <div className="collapse" id="ui-client">
+                <ul className="nav flex-column sub-menu">
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      to={`societe/${isSocieteId}/clients`}
+                    >
+                      Gestion des clients
                     </Link>
                   </li>
                 </ul>

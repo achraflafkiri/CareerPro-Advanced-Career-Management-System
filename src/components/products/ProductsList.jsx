@@ -66,7 +66,7 @@ const ProductsList = () => {
                 <i className="mdi mdi-plus text-muted"></i>
               </button>
               <Link
-                to={`/product/`}
+                to={`societe/${societeId}`}
                 className="btn btn-primary btn-sm float-end text-white mx-1"
               >
                 BACK
@@ -85,10 +85,7 @@ const ProductsList = () => {
             {dataList?.map((item, index) => (
               <tr key={index}>
                 <td>
-                  <Link
-                    to={`/product/${item._id}`}
-                    className="text-primary nav-link"
-                  >
+                  <Link to={`${item._id}`} className="text-primary nav-link">
                     {item.product_name}
                   </Link>
                 </td>

@@ -58,4 +58,13 @@ export const deleteMaterial = (token, societeId, materialId) => {
   return api.delete(`companies/${societeId}/materials/${materialId}`, config);
 };
 
-// deleteMaterial
+export const deleteAllMaterials = (token, societeId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return api.delete(`companies/${societeId}/materials/`, config);
+};

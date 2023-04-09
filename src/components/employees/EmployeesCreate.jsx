@@ -3,6 +3,7 @@ import { createNewEmployee } from "../../api/functions/employees";
 import { useStateContext } from "../../context/ContextProvider";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const EmployeesForm = () => {
   const navigate = useNavigate();
@@ -40,8 +41,17 @@ const EmployeesForm = () => {
       const response = await createNewEmployee(token, formData, societeId);
       if (response.status === 201) {
         setSuccess(true); // set success to true on successful creation of company
-        console.log("create employee successfully!");
         navigate(`/societe/${societeId}/employees`);
+        toast.success("employee created successfully!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
         throw new Error("failed");
       }

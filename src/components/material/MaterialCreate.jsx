@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { createNewMaterial } from "../../api/functions/materials";
 import { useStateContext } from "../../context/ContextProvider";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const MaterialCreate = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     material_name: "",
     Work_per_hour: "",
@@ -30,7 +34,17 @@ const MaterialCreate = () => {
       }
       const response = await createNewMaterial(token, formData, societeId);
       if (response.status === 201) {
-        console.log("create client successfully!");
+        navigate(`/societe/${societeId}/materials`);
+        toast.success("material created successfully!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
         throw new Error("failed");
       }

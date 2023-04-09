@@ -21,8 +21,8 @@ const SocieteList = () => {
       try {
         const res = await getAllProducts(societeId);
         if (res.data) {
-          setProducts(res.data.data.products);
-          setLastUpdated(new Date());
+          // console.log(res.data.products);
+          setProducts(res.data.products);
         }
       } catch (error) {
         console.log(error);
@@ -37,8 +37,7 @@ const SocieteList = () => {
       try {
         const res = await getAllEmployees(societeId);
         if (res.data) {
-          setEmployees(res.data.data.employees);
-          setLastUpdated(new Date());
+          setEmployees(res.data.employees);
         }
       } catch (error) {
         console.log(error);
@@ -53,8 +52,9 @@ const SocieteList = () => {
       try {
         const res = await getOneCompany(societeId);
         if (res.data) {
+          console.log(res.data);
           setCompany(res.data.company);
-          setLastUpdated(new Date());
+          setLastUpdated(res.data.company.updatedAt);
         }
       } catch (error) {
         console.log(error);
@@ -71,7 +71,6 @@ const SocieteList = () => {
         console.log(res.data.data.clients);
         if (res.data.data.clients) {
           setClient(res.data.data.clients);
-          setLastUpdated(new Date());
         }
       } catch (error) {
         console.log(error);
@@ -81,10 +80,7 @@ const SocieteList = () => {
   }, [societeId]);
 
   // Calculate the time elapsed since the last update
-  const elapsed = lastUpdated
-    ? Math.round((new Date() - lastUpdated) / 1000)
-    : null;
-  const timeSinceLastUpdate = elapsed ? `${elapsed} seconds ago` : null;
+  const lastUpdate = new Date(lastUpdated);
 
   return (
     <>
@@ -99,7 +95,7 @@ const SocieteList = () => {
               <p class="card-text">{company?.description}</p>
               <p className="card-text">
                 <small className="text-muted">
-                  Last updated {timeSinceLastUpdate}
+                  Last updated {lastUpdate.toLocaleString()}
                 </small>
               </p>
             </div>
@@ -187,7 +183,7 @@ const SocieteList = () => {
                         <tr key={index}>
                           <td>
                             <Link
-                              to={`/product/${item._id}`}
+                              to={`products/${item._id}`}
                               className="text-primary nav-link"
                             >
                               {item.product_name}
@@ -226,7 +222,7 @@ const SocieteList = () => {
                         <tr key={index}>
                           <td>
                             <Link
-                              to={`/product/${item._id}`}
+                              to={`employees/${item._id}`}
                               className="text-primary nav-link"
                             >
                               {item.employee_fname}

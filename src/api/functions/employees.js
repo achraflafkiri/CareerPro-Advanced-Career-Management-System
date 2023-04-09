@@ -25,10 +25,6 @@ export const createNewEmployee = (token, formData, societeId) => {
   return api.post(`companies/${societeId}/employees/`, data, config);
 };
 
-export const getAllEmployees = (societeId) => {
-  return api.get(`companies/${societeId}/employees/`);
-};
-
 export const updateEmployee = (token, formData, societeId, employeeId) => {
   const config = {
     headers: {
@@ -54,6 +50,10 @@ export const updateEmployee = (token, formData, societeId, employeeId) => {
   );
 };
 
+export const getAllEmployees = (societeId) => {
+  return api.get(`companies/${societeId}/employees/`);
+};
+
 export const getOneEmployee = (societeId, employeeId) => {
   console.log(societeId, employeeId);
   return api.get(`companies/${societeId}/employees/${employeeId}`);
@@ -68,4 +68,15 @@ export const deleteEmployee = (token, societeId, employeeId) => {
   };
 
   return api.delete(`companies/${societeId}/employees/${employeeId}`, config);
+};
+
+export const deleteAllEmployees = (token, societeId, employeeId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return api.delete(`companies/${societeId}/employees/`, config);
 };

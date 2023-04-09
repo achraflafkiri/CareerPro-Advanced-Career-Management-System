@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-
-const data = [
-  {
-    id: 1,
-    nom: "GNF",
-    vente: true,
-    quantite: 29,
-    date: "2023-11-03",
-  },
-];
+import { getOneProduct } from "../../api/functions/products";
 
 const ProductsDetails = () => {
-  const [produit] = useState(data);
+  const [product, setProduct] = useState(null);
 
-  const { produitId, societeId } = useParams();
+  const { productId, societeId } = useParams();
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getOneProduct(societeId, productId);
+      console.log(res.data.product);
+      setProduct(res.data.product);
+      console.log("product.product_name => ", product.product_name);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="row">
@@ -22,7 +23,7 @@ const ProductsDetails = () => {
         <div className="d-flex justify-content-between flex-wrap">
           <div className="d-flex align-items-end flex-wrap">
             <div className="me-md-3 me-xl-5">
-              <h2>Données du produit {produitId}.</h2>
+              <h2>{product?.product_name} details</h2>
             </div>
           </div>
           <div className="d-flex justify-content-between align-items-end flex-wrap">
@@ -33,10 +34,10 @@ const ProductsDetails = () => {
               <i className="mdi mdi-download text-muted"></i>
             </button>
             <Link
-              to={`/societe/${societeId}/produits/`}
+              to={`/societe/${societeId}/products/`}
               className="btn btn-primary text-white mx-1"
             >
-              Ajouter produit
+              Ajouter product
             </Link>
           </div>
         </div>
@@ -44,17 +45,14 @@ const ProductsDetails = () => {
       <div className="col-md-12 grid-margin">
         <div className="card">
           <div className="card-header"></div>
-          {produit?.map((item, index) => (
-            <div className="card-body" key={index}>
-              <ul className="list-group">
-                <li className="list-group-item">ID: {item.id}</li>
-                <li className="list-group-item">Nom: {item.nom}</li>
-                <li className="list-group-item">Vente: {item.vente}</li>
-                <li className="list-group-item">Quantité: {item.quantite}</li>
-                <li className="list-group-item">Date: {item.date}</li>
-              </ul>
-            </div>
-          ))}
+          <div className="card-body">
+            <ul className="list-group">
+              <li className="list-group-item">Nom: {product?.product_name}</li>
+              <li className="list-group-item">Nom: {product?.description}</li>
+              <li className="list-group-item">Quantité: {product?.quantity}</li>
+              <li className="list-group-item">Date: {product?.date}</li>
+            </ul>{" "}
+          </div>
           <div className="card-footer"></div>
         </div>
       </div>

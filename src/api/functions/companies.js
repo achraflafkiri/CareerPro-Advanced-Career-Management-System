@@ -22,10 +22,6 @@ export const createNewCompany = (token, formData) => {
   return api.post("companies", data, config);
 };
 
-export const getAllCompanies = () => api.get(`companies`);
-
-export const getOneCompany = (societeId) => api.get(`companies/${societeId}`);
-
 export const updateCompany = (societeId, token, formData) => {
   const config = {
     headers: {
@@ -42,6 +38,10 @@ export const updateCompany = (societeId, token, formData) => {
 
   return api.put(`companies/${societeId}`, data, config);
 };
+
+export const getAllCompanies = () => api.get(`companies`);
+
+export const getOneCompany = (societeId) => api.get(`companies/${societeId}`);
 
 export const deleteCompany = (societeId, token) => {
   const config = {

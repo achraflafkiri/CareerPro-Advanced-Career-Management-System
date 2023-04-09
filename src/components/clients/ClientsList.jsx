@@ -1,21 +1,49 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import ClientForm from "./ClientCreate";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getAllClients, getOneClient } from "../../api/functions/clients";
+import DeleteModal from "./ClientDelete";
 
-const initialData = [
-  {
-    id: 1,
-    nom: "achraf lafkiri",
-    matricule: "Arz57",
-    volume: "",
-  },
-];
+import Icon from "@mdi/react";
+import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
 
 const ClientsList = () => {
-  const [dataList] = useState(initialData);
+  const [dataList, setDataList] = useState(null);
+  const [deleteForm, setDeleteForm] = useState(null);
+  const [clientId, setClientId] = useState(null);
+
+  const { societeId } = useParams();
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getAllClients(societeId);
+      // setDataList(res.data);
+      console.log(res);
+      console.log("*** societeId ***", societeId);
+    }
+    fetchData();
+  }, []);
+
+  const handleGetData = async (event, clientId) => {
+    event.preventDefault();
+    try {
+      const response = await getOneClient(societeId, clientId);
+      if (response.data) {
+        setDeleteForm(response.data.Client);
+        setClientId(response.data.client._id);
+        console.log("  ClientId **** ", response.data.client);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
+      <DeleteModal
+        value={deleteForm}
+        societeId={societeId}
+        clientId={clientId}
+      />
       <div className="row">
         <div className="col-md-12">
           <div className="card">
@@ -64,21 +92,24 @@ const ClientsList = () => {
                   {dataList?.map((item, index) => (
                     <tr key={index}>
                       <td>{item.id}</td>
-                      <td>{item.nom}</td>
+                      <td>{item.client_name}</td>
                       <td>{item.matricule}</td>
                       <td>{item.volume}</td>
-                      <td className="d-flex">
+                      <td>
+                        <Link
+                          to={`${item._id}/edit`}
+                          class="btn btn-sm btn-light btn-icon m-1"
+                        >
+                          <Icon path={mdiPencil} size={1} />
+                        </Link>
                         <button
                           type="submit"
-                          class="btn btn-sm btn-danger text-white"
+                          class="btn btn-sm btn-light btn-icon "
+                          data-bs-toggle="modal"
+                          data-bs-target="#DeleteModal"
+                          onClick={(e) => handleGetData(e, item._id)}
                         >
-                          Delete
-                        </button>
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-primary text-white"
-                        >
-                          Edit
+                          <Icon path={mdiDeleteEmptyOutline} size={1} />
                         </button>
                       </td>
                     </tr>
