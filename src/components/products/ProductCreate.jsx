@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
 
-const ProductCreate = () => {
+const ProductCreate = ({ fetchData }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     product_name: "",
@@ -49,7 +49,8 @@ const ProductCreate = () => {
           progress: undefined,
           theme: "colored",
         });
-        navigate(`societe/${societeId}/products`);
+        navigate(`/societe/${societeId}/products`);
+        fetchData();
       } else {
         throw new Error("failed");
       }

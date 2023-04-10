@@ -56,7 +56,7 @@ const ProductsList = () => {
 
   return (
     <>
-      <ProductCreate />
+      <ProductCreate fetchData={fetchData} />
 
       <EditModal
         value={editForm}
