@@ -6,12 +6,12 @@ const StateContext = createContext({
   sidebarIconOnly: null,
   setUser: () => {},
   setToken: () => {},
-  sidebarIconOnly: () => {},
+  setSidebarIconOnly: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
-  const [sidebarIconOnly, _sidebarIconOnly] = useState();
-  const [user, setUser] = useState({});
+  const [sidebarIconOnly, _setSidebarIconOnly] = useState();
+  const [user, _setUser] = useState({});
   const [token, _setToken] = useState(
     JSON.parse(localStorage.getItem("ACCESS_TOKEN"))
   );
@@ -25,7 +25,17 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const setUser = (user) => {
+    _setUser(user);
+    if (user) {
+      localStorage.setItem("USER", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("USER");
+    }
+  };
+
   const setSidebarIconOnly = (sidebarIconOnly) => {
+    _setSidebarIconOnly(sidebarIconOnly);
     sidebarIconOnly
       ? document.body.classList.add("sidebar-icon-only")
       : document.body.classList.remove("sidebar-icon-only");

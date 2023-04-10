@@ -24,7 +24,7 @@ const ProductsList = () => {
       setDataList(res.data.products);
     }
     fetchData();
-  }, []);
+  }, [societeId]);
 
   const handleGetData = async (event, productId) => {
     event.preventDefault();

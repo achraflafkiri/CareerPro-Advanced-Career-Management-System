@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import EditModal from "./SocieteEdit";
 import DeleteModal from "./SocieteDelete";
 import { getAllCompanies, getOneCompany } from "../../api/functions/companies";
@@ -54,7 +54,7 @@ const SocieteList = () => {
 
   const fetchData = async () => {
     const res = await getAllCompanies(societeId);
-    setDataList(res.data.products);
+    setDataList(res.data.companies);
   };
 
   return (

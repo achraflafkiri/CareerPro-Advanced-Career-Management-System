@@ -21,9 +21,16 @@ const Sidebar = ({ isLinkActive }) => {
       id="sidebar"
     >
       <ul className="nav">
-        <li className="nav-item">
-          <Link className="nav-link" to="/">
+        {/* <li className="nav-item">
+          <Icon path={mdiViewDashboard} size={1} />
+          <Link className="nav-link" to="/dashboard">
             <span className="menu-title">Dashboard</span>
+          </Link>
+        </li> */}
+        <li class="nav-item">
+          <Link class="nav-link" to="/dashboard">
+            <i class="mdi mdi-home menu-icon"></i>
+            <span class="menu-title">Dashboard</span>
           </Link>
         </li>
         <li class="nav-item">

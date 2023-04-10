@@ -1,4 +1,4 @@
-import {Navigate, Outlet} from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 
 export default function GuestLayout() {
@@ -6,7 +6,7 @@ export default function GuestLayout() {
 
   if (token) {
     console.log("Token ", token);
-    return <Navigate to="/" />;
+    return <Navigate to="/dashboard" />;
   }
 
   return (

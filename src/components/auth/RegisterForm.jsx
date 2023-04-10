@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Signup } from "../../api/functions/auth";
+import { useStateContext } from "../../context/ContextProvider";
 
 const RegisterForm = () => {
+  const { setUser, setToken } = useStateContext();
   const [userObj, setUserObj] = useState({
     username: "",
     email: "",
@@ -33,13 +35,9 @@ const RegisterForm = () => {
       const response = await Signup(userObj);
 
       if (response.status === 201) {
-        console.log(response);
-        console.log("Registered successfully!");
-        localStorage.setItem(
-          "ACCESS_TOKEN",
-          JSON.stringify(response.data.token)
-        );
-        window.location.href = "/dashboard";
+        setUser(response.data.user);
+        setToken(response.data.token);
+        console.log(response.data.user);
       } else {
         throw new Error("Registration failed");
       }
@@ -57,7 +55,11 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit} className="p-2">
       {error &&
-        error.map((item) => <div className="alert alert-danger">{item}</div>)}
+        error.map((item, index) => (
+          <div key={index} className="alert alert-danger">
+            {item}
+          </div>
+        ))}
       <div className="mb-3">
         <label htmlFor="username">Username</label>
         <input

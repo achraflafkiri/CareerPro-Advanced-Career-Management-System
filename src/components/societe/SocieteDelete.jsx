@@ -26,6 +26,16 @@ const SocieteDelete = ({ value, societeId, fetchData }) => {
       const response = await deleteCompany(societeId, token);
       if (response.status === 200) {
         fetchData();
+        toast.success(`${response.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
         throw new Error("failed");
       }

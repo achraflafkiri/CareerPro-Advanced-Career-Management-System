@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
 import { updateCompany } from "../../api/functions/companies";
 import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";

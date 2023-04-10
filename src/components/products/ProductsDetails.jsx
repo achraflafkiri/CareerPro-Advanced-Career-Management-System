@@ -13,7 +13,7 @@ const ProductsDetails = () => {
       setProduct(res.data.product);
     }
     fetchData();
-  }, []);
+  }, [societeId, productId]);
 
   return (
     <div className="row">
