@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getOneClient, updateClient } from "../../api/functions/clients";
 import { toast } from "react-toastify";
 import { useStateContext } from "../../context/ContextProvider";
+import CommandeEdit from "./commandes/CommandeEdit";
 
 const ClientForm = () => {
   const navigate = useNavigate();
@@ -16,7 +17,12 @@ const ClientForm = () => {
   const { client_name, matricule, volume } = newEditVal;
 
   const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(!societeId);
 
+  useEffect(() => {
+    setDisabled(!societeId);
+  }, [societeId]);
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
     setNewEditVal((prevState) => ({
@@ -104,90 +110,126 @@ const ClientForm = () => {
 
   return (
     <div className="row">
-      <div className="card">
-        <div className="card-body">
-          <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li className="nav-item" role="presentation">
-              <button
-                className="nav-link active"
-                id="pills-client-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#pills-client"
-                type="button"
-                role="tab"
-                aria-controls="pills-client"
-                aria-selected="true"
+      <div className="col-md-16">
+        <div className="card">
+          <div className="card-body">
+            <ul className="nav nav-tabs" id="myTab" role="tablist">
+              <li className="nav-item" role="presentation">
+                <button
+                  className="nav-link active"
+                  id="home-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#home"
+                  type="button"
+                  role="tab"
+                  aria-controls="home"
+                  aria-selected="true"
+                >
+                  Client
+                </button>
+              </li>
+              <li className="nav-item" role="presentation">
+                <button
+                  className="nav-link"
+                  id="profile-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#profile"
+                  type="button"
+                  role="tab"
+                  aria-controls="profile"
+                  aria-selected="false"
+                  disabled={disabled}
+                  onClick={() => {
+                    if (clientId) {
+                      // setDisabled(!disabled);
+                    } else {
+                      toast.error(`Please add the client first`, {
+                        position: "bottom-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                        theme: "colored",
+                      });
+                    }
+                  }}
+                >
+                  Commande
+                </button>
+              </li>
+            </ul>
+            <div className="tab-content" id="myTabContent">
+              <div
+                className="tab-pane fade show active"
+                id="home"
+                role="tabpanel"
+                aria-labelledby="home-tab"
               >
-                Edit Client
-              </button>
-            </li>
-          </ul>
-          <div className="tab-content" id="pills-tabContent">
-            <div
-              className="tab-pane fade show active"
-              id="pills-client"
-              role="tabpanel"
-              aria-labelledby="pills-client-tab"
-            >
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="client_name" className="form-label">
-                    Client Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="client_name"
-                    name="client_name"
-                    value={client_name}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="matricule" className="form-label">
-                    Matricule
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="matricule"
-                    name="matricule"
-                    value={matricule}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="volume" className="form-label">
-                    Volume
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="volume"
-                    name="volume"
-                    value={volume}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <button
-                    type="submit"
-                    className="btn  btn-primary  text-white"
-                    disabled={loading}
-                  >
-                    {loading ? "Updating..." : "Update"}
+                <h3 className="mt-3 mb-3">Edit client</h3>
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label htmlFor="client_name" className="form-label">
+                      Nom du client
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="client_name"
+                      name="client_name"
+                      value={client_name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="matricule" className="form-label">
+                      Matricule
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="matricule"
+                      name="matricule"
+                      value={matricule}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="volume" className="form-label">
+                      Volume
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="volume"
+                      name="volume"
+                      value={volume}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <button type="submit" className="btn btn-primary">
+                    Enregistrer
                   </button>
                   <Link
                     to={`/societe/${societeId}/clients`}
-                    className="btn  btn-light  text-dark text-dark ms-2"
+                    className="btn btn-danger ms-3"
                   >
-                    Cancel
+                    Annuler
                   </Link>
-                </div>
-              </form>
+                </form>
+              </div>
+              <div
+                className="tab-pane fade"
+                id="profile"
+                role="tabpanel"
+                aria-labelledby="profile-tab"
+              >
+                {clientId && <CommandeEdit clientId={clientId} />}
+              </div>
             </div>
           </div>
         </div>

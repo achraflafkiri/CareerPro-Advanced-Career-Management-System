@@ -33,6 +33,8 @@ import EmployeeAbsence from "./components/employees/EmployeeAbsence";
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
 import Dashboard from "./pages/DashboardAppPage";
+import CommandeEdit from "./components/clients/commandes/CommandeEdit";
+import CommandeCreate from "./components/clients/commandes/CommandeCreate";
 
 const App = () => {
   const [isLinkActive, setIsLinkActive] = useState(false);
@@ -105,6 +107,10 @@ const App = () => {
           <Route
             path="/societe/:societeId/clients/create"
             element={<ClientCreate />}
+          />
+          <Route
+            path="/societe/:societeId/clients/:clientId/commandes/:commandeId"
+            element={<CommandeEdit />}
           />
         </Route>
         <Route element={<GuestLayout />}>

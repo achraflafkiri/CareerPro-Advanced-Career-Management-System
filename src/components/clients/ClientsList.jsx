@@ -99,6 +99,7 @@ const ClientsList = () => {
                       <th className="text-center align-middle">Full name</th>
                       <th className="text-center align-middle">Matricule</th>
                       <th className="text-center align-middle">Volume</th>
+                      <th className="text-center align-middle">orders</th>
                       <th className="text-center align-middle">Action</th>
                     </tr>
                   </thead>
@@ -116,6 +117,11 @@ const ClientsList = () => {
                         </td>
                         <td className="text-center align-middle">
                           {client.volume}
+                        </td>
+                        <td className="text-center align-middle">
+                          {client.commandes.length > 0
+                            ? client.commandes.length
+                            : "0"}
                         </td>
                         <td className="text-center align-middle">
                           <Link
