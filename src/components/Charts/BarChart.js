@@ -1,11 +1,10 @@
-import { Chart as ChartJS, BarElement } from "chart.js";
+import { Chart as ChartJS, BarElement, CategoryScale } from "chart.js";
 import React, { useState, useEffect } from "react";
 
 import { Bar } from "react-chartjs-2";
 import { getAllCompanies } from "../../api/functions/companies";
-import { getAllProducts } from "../../api/functions/products";
-
-ChartJS.register(BarElement);
+import Chart from "chart.js/auto";
+Chart.register(CategoryScale);
 
 const BarChart = () => {
   const [companies, setCompanies] = useState(null);
@@ -47,7 +46,15 @@ const BarChart = () => {
   };
   var options = {
     maintainAspectRatio: false,
-    scales: {},
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
     legend: {
       labels: {
         fontSize: 25,

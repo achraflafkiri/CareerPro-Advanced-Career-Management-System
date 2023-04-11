@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createNewEmployee } from "../../api/functions/employees";
 import { useStateContext } from "../../context/ContextProvider";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -151,14 +151,16 @@ const EmployeesForm = () => {
                 />
               </div>
               <div className="mb-3">
-                <button
-                  type="submit"
-                  className="btn btn-secondary text-white"
-                  data-bs-dismiss="modal"
+                <Link
+                  to={`/societe/${societeId}/employees`}
+                  className="btn btn-light text-dark"
                 >
                   Close
-                </button>
-                <button type="submit" className="btn btn-primary text-white">
+                </Link>
+                <button
+                  type="submit"
+                  className="btn btn-primary text-white mx-2"
+                >
                   SAVE
                 </button>
               </div>

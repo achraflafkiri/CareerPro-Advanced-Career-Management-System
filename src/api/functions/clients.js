@@ -18,7 +18,7 @@ export const createNewClient = (token, formData, societeId) => {
 
   console.log("data you wanna send  => ", data);
 
-  return api.post(`companies/${societeId}/materials/`, data, config);
+  return api.post(`companies/${societeId}/clients/`, data, config);
 };
 
 export const updateClients = (token, formData, societeId, clientId) => {
@@ -29,27 +29,28 @@ export const updateClients = (token, formData, societeId, clientId) => {
     },
   };
 
-  const { material_name, ...rest } = formData;
+  const { client_name, ...rest } = formData;
   const data = {
-    material_name: material_name,
+    client_name: client_name,
     ...rest,
   };
 
-  return api.put(`companies/${societeId}/materials/${clientId}`, data, config);
+  return api.put(`companies/${societeId}/clients/${clientId}`, data, config);
 };
 
 export const getAllClients = (societeId) => {
-  api.get(`companies/64329ed6ab4b364b34b86897/clients/`);
+  return api.get(`companies/${societeId}/clients/`);
 };
 
 export const getOneClient = (societeId, clientId) => {
-  api.get(`companies/${societeId}/clients/${clientId}`);
+  console.log("ids => ", societeId, clientId);
+  return api.get(`companies/${societeId}/clients/${clientId}`);
 };
 
 export const deleteClient = (societeId, clientId) => {
-  api.get(`companies/${societeId}/clients/${clientId}`);
+  return api.delete(`companies/${societeId}/clients/${clientId}`);
 };
 
 export const deleteAllClients = (societeId) => {
-  api.get(`companies/${societeId}/clients/`);
+  return api.delete(`companies/${societeId}/clients/`);
 };

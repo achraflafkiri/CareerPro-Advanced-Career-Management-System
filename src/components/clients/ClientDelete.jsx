@@ -3,11 +3,8 @@ import { useStateContext } from "../../context/ContextProvider";
 import { deleteClient } from "../../api/functions/clients";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 
-const ClientDelete = ({ value, societeId, clientId }) => {
-  const navigate = useNavigate();
-  console.log(clientId);
+const ClientDelete = ({ value, societeId, clientId, fetchData }) => {
   const { token } = useStateContext();
   const handleDelete = async (event) => {
     event.preventDefault();
@@ -17,12 +14,31 @@ const ClientDelete = ({ value, societeId, clientId }) => {
       }
       const response = await deleteClient(token, societeId, clientId);
       if (response.status === 200) {
-        return navigate(`societe/${societeId}/clients`);
+        fetchData();
+        toast.success(`${response.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      console.error(err.response);
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
@@ -38,7 +54,7 @@ const ClientDelete = ({ value, societeId, clientId }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="DeleteModalLabel">
-              Delete Client {value?.Client_name}
+              Delete Client {value?.client_name}
             </h5>
             <button
               type="button"
@@ -50,7 +66,7 @@ const ClientDelete = ({ value, societeId, clientId }) => {
           <form action="/societe" method="POST">
             <div className="modal-body">
               <div className="modal-title">
-                Are you sure you want to delete this Client {value?.Client_name}
+                Are you sure you want to delete {value?.client_name}
               </div>
             </div>
             <div className="modal-footer">

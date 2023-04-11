@@ -95,41 +95,32 @@ const ProductsList = () => {
           </div>
         </div>
         <div className="card-body">
-          <table className="table">
+          <table className="table table-bordered">
             <thead>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Date</th>
-              <th></th>
+              <th className="text-center align-middle">Product name</th>
+              <th className="text-center align-middle">Quantity</th>
+              <th className="text-center align-middle">Date</th>
+              <th className="text-center align-middle"></th>
             </thead>
             {dataList?.map((item, index) => (
               <tr key={index}>
-                <td>
+                <td className="text-center align-middle">
                   <Link to={`${item._id}`} className="text-primary nav-link">
                     {item.product_name}
                   </Link>
                 </td>
-                <td>{item.quantity}</td>
-                <td>{item.date}</td>
-                <td>
-                  <button
-                    type="submit"
-                    class="btn btn-sm btn-light btn-icon m-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#EditProduct"
-                    onClick={(e) => handleGetData(e, item._id)}
-                  >
-                    <Icon path={mdiPencil} size={1} />
-                  </button>
-                  <button
-                    type="submit"
-                    class="btn btn-sm btn-light btn-icon "
-                    data-bs-toggle="modal"
-                    data-bs-target="#DeleteModal"
-                    onClick={(e) => handleGetData(e, item._id)}
-                  >
-                    <Icon path={mdiDeleteEmptyOutline} size={1} />
-                  </button>{" "}
+                <td className="text-center align-middle">{item.quantity}</td>
+                <td className="text-center align-middle">{item.date}</td>
+                <td className="text-center align-middle">
+                <button
+                          type="submit"
+                          className="btn btn-danger btn-sm text-white"
+                          data-bs-toggle="modal"
+                          data-bs-target="#DeleteModal"
+                          onClick={(e) => handleGetData(e, item._id)}
+                        >
+                          <Icon path={mdiDeleteEmptyOutline} size={1} />
+                        </button>
                 </td>
               </tr>
             ))}{" "}

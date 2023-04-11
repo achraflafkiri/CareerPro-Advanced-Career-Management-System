@@ -95,17 +95,16 @@ const EmployeeEdit = () => {
         throw new Error("failed");
       }
     } catch (err) {
-      console.error(err);
-      //   toast.warn(`${err.response.data.message}`, {
-      //     position: "bottom-right",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: false,
-      //     progress: undefined,
-      //     theme: "colored",
-      //   });
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }
@@ -188,9 +187,12 @@ const EmployeeEdit = () => {
             />
           </div>
           <div className="mb-3">
-            <button type="submit" className="btn btn-light text-dark">
+            <Link
+              to={`/societe/${societeId}/employees`}
+              className="btn btn-light text-dark"
+            >
               Close
-            </button>
+            </Link>
             <button type="submit" className="btn btn-primary text-white mx-2">
               SAVE
             </button>

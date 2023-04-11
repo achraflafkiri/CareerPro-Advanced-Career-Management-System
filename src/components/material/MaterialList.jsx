@@ -50,7 +50,7 @@ const MaterialList = () => {
 
   const fetchData = async () => {
     const res = await getAllMaterials(societeId);
-    setDataList(res.data.products);
+    setDataList(res.data.materials);
   };
 
   return (

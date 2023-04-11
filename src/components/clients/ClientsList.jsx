@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getAllClients, getOneClient } from "../../api/functions/clients";
 import DeleteModal from "./ClientDelete";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Icon from "@mdi/react";
 import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
@@ -16,26 +18,33 @@ const ClientsList = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await getAllClients(societeId);
-      // setDataList(res.data);
-      console.log(res);
-      console.log("*** societeId ***", societeId);
+      setDataList(res.data.clients);
     }
     fetchData();
-  }, []);
+  }, [societeId]);
 
   const handleGetData = async (event, clientId) => {
     event.preventDefault();
     try {
       const response = await getOneClient(societeId, clientId);
-      if (response.data) {
-        setDeleteForm(response.data.Client);
-        setClientId(response.data.client._id);
-        console.log("  ClientId **** ", response.data.client);
-      }
+      setDeleteForm(response.data.clients);
+      setClientId(response.data.clients._id);
+      console.log("  *** ", response.data.clients._id);
     } catch (err) {
       console.error(err);
     }
   };
+
+  const fetchData = async () => {
+    const res = await getAllClients(societeId);
+    setDataList(res.data.clients);
+  };
+
+  // Generate sequential IDs starting from 1
+  const tableData = dataList?.map((item, index) => ({
+    id: index + 1,
+    ...item,
+  }));
 
   return (
     <>
@@ -43,11 +52,12 @@ const ClientsList = () => {
         value={deleteForm}
         societeId={societeId}
         clientId={clientId}
+        fetchData={fetchData}
       />
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-lg-12 grid-margin stretch-card">
           <div className="card">
-            <div className="card-header">
+            <div class="card-body">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mb-3">
                   <h3>Liste des clients</h3>
@@ -61,12 +71,13 @@ const ClientsList = () => {
                   >
                     SAVE
                   </button>
-                  <button
+                  <Link
                     type="button"
                     className="btn btn-light bg-white btn-icon me-3 mt-2 mt-xl-0 mx-1"
+                    to={`create`}
                   >
                     <i className="mdi mdi-plus text-muted"></i>
-                  </button>
+                  </Link>
                   <Link
                     to="/societe/"
                     className="btn btn-primary btn-sm float-end text-white mx-1"
@@ -75,47 +86,70 @@ const ClientsList = () => {
                   </Link>
                 </div>
               </div>
-            </div>
-
-            <div class="card-body">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Matricule</th>
-                    <th>Volume</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataList?.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.id}</td>
-                      <td>{item.client_name}</td>
-                      <td>{item.matricule}</td>
-                      <td>{item.volume}</td>
-                      <td>
-                        <Link
-                          to={`${item._id}/edit`}
-                          class="btn btn-sm btn-light btn-icon m-1"
-                        >
-                          <Icon path={mdiPencil} size={1} />
-                        </Link>
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-light btn-icon "
-                          data-bs-toggle="modal"
-                          data-bs-target="#DeleteModal"
-                          onClick={(e) => handleGetData(e, item._id)}
-                        >
-                          <Icon path={mdiDeleteEmptyOutline} size={1} />
-                        </button>
-                      </td>
+              <div className="table-responsive">
+                <table className="table table-striped">
+                  <thead>
+                    <tr>
+                      <th className="text-center align-middle">ID</th>
+                      <th className="text-center align-middle">Nom</th>
+                      <th className="text-center align-middle">Matricule</th>
+                      <th className="text-center align-middle">Adresse</th>
+                      <th className="text-center align-middle">Email</th>
+                      <th className="text-center align-middle">Téléphone</th>
+                      <th className="text-center align-middle">Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {tableData?.map((client) => (
+                      <tr key={client._id}>
+                        <td className="text-center align-middle">
+                          {client.id}
+                        </td>
+                        <td className="text-center align-middle">
+                          {client.nom}
+                        </td>
+                        <td className="text-center align-middle">
+                          {client.matricule}
+                        </td>
+                        <td className="text-center align-middle">
+                          {client.adresse}
+                        </td>
+                        <td className="text-center align-middle">
+                          {client.email}
+                        </td>
+                        <td className="text-center align-middle">
+                          {client.telephone}
+                        </td>
+                        <td className="text-center align-middle">
+                          <Link
+                            to={`create`}
+                            className="btn btn-info btn-sm"
+                            onClick={(event) =>
+                              handleGetData(event, client._id)
+                            }
+                          >
+                            <Icon path={mdiPencil} size={1} color="white" />
+                          </Link>{" "}
+                          <button
+                            className="btn btn-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#DeleteModal"
+                            onClick={(event) => {
+                              handleGetData(event, client._id);
+                            }}
+                          >
+                            <Icon
+                              path={mdiDeleteEmptyOutline}
+                              size={1}
+                              color="white"
+                            />
+                          </button>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
