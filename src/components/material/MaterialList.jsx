@@ -106,19 +106,23 @@ const MaterialList = () => {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Materials name</th>
-                    <th>Work per hour</th>
-                    <th>date</th>
-                    <th></th>
+                    <th className="text-center align-middle">Materials name</th>
+                    <th className="text-center align-middle">Work per hour</th>
+                    <th className="text-center align-middle">date</th>
+                    <th className="text-center align-middle"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {dataList?.map((item, index) => (
                     <tr key={index}>
-                      <td>{item.material_name}</td>
-                      <td>{item.Work_per_hour}</td>
-                      <td>{item.date}</td>
-                      <td>
+                      <td className="text-center align-middle">
+                        {item.material_name}
+                      </td>
+                      <td className="text-center align-middle">
+                        {item.Work_per_hour}
+                      </td>
+                      <td className="text-center align-middle">{item.date}</td>
+                      <td className="text-center align-middle">
                         <button
                           class="btn btn-sm btn-light btn-icon m-1"
                           data-bs-toggle="modal"
@@ -129,7 +133,7 @@ const MaterialList = () => {
                         </button>
                         <button
                           type="submit"
-                          class="btn btn-sm btn-light btn-icon "
+                          class="btn btn-sm btn-light btn-icon"
                           data-bs-toggle="modal"
                           data-bs-target="#DeleteModal"
                           onClick={(e) => handleGetData(e, item._id)}

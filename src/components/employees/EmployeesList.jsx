@@ -117,13 +117,13 @@ const EmployeesList = () => {
                       <td className="text-center align-middle">
                         <Link
                           to={`${item._id}/edit`}
-                          className="btn btn-info btn-sm m-1"
+                          className="btn btn-sm btn-light btn-icon"
                         >
                           <Icon path={mdiPencil} size={1} />
                         </Link>
                         <button
                           type="submit"
-                          className="btn btn-danger btn-sm text-white"
+                          className="btn btn-sm btn-light btn-icon"
                           data-bs-toggle="modal"
                           data-bs-target="#DeleteModal"
                           onClick={(e) => handleGetData(e, item._id)}

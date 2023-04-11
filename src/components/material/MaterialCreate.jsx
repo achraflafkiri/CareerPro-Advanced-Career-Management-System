@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { createNewMaterial } from "../../api/functions/materials";
 import { useStateContext } from "../../context/ContextProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const MaterialCreate = () => {
@@ -113,9 +113,15 @@ const MaterialCreate = () => {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary me-2">
+            <button type="submit" className="btn btn-primary mx-2">
               Submit
             </button>
+            <Link
+              to={`/societe/${societeId}/materials/`}
+              className="btn btn-light text-dark"
+            >
+              Cancel
+            </Link>
           </form>
         </div>
       </div>

@@ -86,7 +86,7 @@ const SocieteEdit = ({ value, societeId, productId, fetchData }) => {
   return (
     <div
       class="modal fade"
-      id="EditProduct"
+      id="EditModal"
       tabindex="-1"
       aria-labelledby="EditModalLabel"
       aria-hidden="true"

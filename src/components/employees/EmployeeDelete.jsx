@@ -16,6 +16,16 @@ const EmployeeDelete = ({ value, societeId, employeeId, fetchData }) => {
       const response = await deleteEmployee(token, societeId, employeeId);
       if (response.status === 200) {
         fetchData();
+        toast.success(`Employee deleted successfully`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
         throw new Error("failed");
       }

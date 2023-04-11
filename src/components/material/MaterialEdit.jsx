@@ -84,14 +84,14 @@ const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
       class="modal fade"
       id="EditModal"
       tabindex="-1"
-      aria-labelledby="EditModalLabel"
+      aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="EditModalLabel">
-              Edit Material
+            <h5 class="modal-title" id="exampleModalLabel">
+              Edit material
             </h5>
             <button
               type="button"
@@ -100,55 +100,59 @@ const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
               aria-label="Close"
             ></button>
           </div>
-          <form
-            className="forms-sample"
-            onSubmit={handleSubmit}
-            action={`/societe/${societeId}/materials/`}
-          >
-            <div className="form-group">
-              <label htmlFor="material_name">Name</label>
-              <select
-                className="form-control"
-                name="material_name"
-                id="material_name"
-                value={material_name}
-                onChange={handleChange}
-              >
-                <option value="">Select a material</option>
-                <option value="Material A">Material A</option>
-                <option value="Material B">Material B</option>
-                <option value="Material C">Material C</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="Work_per_hour">Work per hour</label>
-              <input
-                type="text"
-                className="form-control"
-                name="Work_per_hour"
-                id="Work_per_hour"
-                placeholder="Work_per_hour"
-                value={Work_per_hour}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="date">date</label>
-              <input
-                type="text"
-                className="form-control"
-                name="date"
-                id="date"
-                placeholder="date"
-                value={date}
-                onChange={handleChange}
-              />
-            </div>
+          <div class="modal-body">
+            <form class="forms-sample">
+              <div class="form-group">
+                <label for="product_name">Product name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="product_name"
+                  value={material_name}
+                  id="product_name"
+                  placeholder="product name"
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="form-group">
+                <label for="Work_per_hour">Work_per_hour</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="Work_per_hour"
+                  id="Work_per_hour"
+                  value={Work_per_hour}
+                  placeholder="Work_per_hour"
+                  onChange={handleChange}
+                />
+              </div>
+              <div class="form-group">
+                <label for="date">Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="date"
+                  id="date"
+                  value={date}
+                  placeholder="date"
+                  onChange={handleChange}
+                />
+              </div>
 
-            <button type="submit" className="btn btn-primary me-2">
-              {loading ? "loading..." : "Submit"}
-            </button>
-          </form>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn btn-primary">
+                  {loading ? "Loading ... " : "Save changes"}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

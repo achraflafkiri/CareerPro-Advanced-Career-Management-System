@@ -82,70 +82,62 @@ const SocieteList = () => {
                 </Link>
               </div>
               <div className="table-responsive">
-                {dataList ? (
-                  <table className="table table-striped">
-                    <thead>
-                      <tr>
-                        <th className="text-center">Name</th>
-                        <th className="text-center">Address</th>
-                        <th className="text-center">Phone</th>
-                        <th className="text-center">Email</th>
-                        <th className="text-center">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {dataList?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center align-middle">
-                            <Icon path={mdiEyeArrowRightOutline} size={1} />
-                            <Link
-                              to={`/societe/${item._id}`}
-                              className="text-primary nav-link "
-                            >
-                              {item.company_name}
-                            </Link>
-                          </td>
-                          <td className="text-center align-middle">
-                            {item.address}
-                          </td>
-                          <td className="text-center align-middle">
-                            {item.phone}
-                          </td>
-                          <td className="text-center align-middle">
-                            {item.email}
-                          </td>
-                          <td className="text-center align-middle">
-                            <button
-                              type="submit"
-                              class="btn btn-info btn-sm m-1"
-                              data-bs-toggle="modal"
-                              data-bs-target="#EditModal"
-                              onClick={(e) => handleGetData(e, item._id)}
-                            >
-                              <Icon path={mdiPencil} size={1} />
-                            </button>
+                <table className="table table-striped">
+                  <thead>
+                    <tr>
+                      <th className="text-center">Name</th>
+                      <th className="text-center">Address</th>
+                      <th className="text-center">Phone</th>
+                      <th className="text-center">Email</th>
+                      <th className="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataList?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center align-middle">
+                          <Icon path={mdiEyeArrowRightOutline} size={1} />
+                          <Link
+                            to={`/societe/${item._id}`}
+                            className="text-primary nav-link "
+                          >
+                            {item.company_name}
+                          </Link>
+                        </td>
+                        <td className="text-center align-middle">
+                          {item.address}
+                        </td>
+                        <td className="text-center align-middle">
+                          {item.phone}
+                        </td>
+                        <td className="text-center align-middle">
+                          {item.email}
+                        </td>
+                        <td className="text-center align-middle">
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-light btn-icon m-1"
+                            data-bs-toggle="modal"
+                            data-bs-target="#EditModal"
+                            onClick={(e) => handleGetData(e, item._id)}
+                          >
+                            <Icon path={mdiPencil} size={1} />
+                          </button>
 
-                            <button
-                              type="submit"
-                              class="btn btn-danger btn-sm"
-                              data-bs-toggle="modal"
-                              data-bs-target="#DeleteModal"
-                              onClick={(e) => handleGetData(e, item._id)}
-                            >
-                              <Icon path={mdiDeleteEmptyOutline} size={1} />
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <div className="card-header">
-                    <h3 className="card-title text-center align-middle">
-                      There is no data for now
-                    </h3>
-                  </div>
-                )}
+                          <button
+                            type="submit"
+                            class="btn btn-sm btn-light btn-icon"
+                            data-bs-toggle="modal"
+                            data-bs-target="#DeleteModal"
+                            onClick={(e) => handleGetData(e, item._id)}
+                          >
+                            <Icon path={mdiDeleteEmptyOutline} size={1} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

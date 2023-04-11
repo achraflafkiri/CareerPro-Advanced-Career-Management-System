@@ -3,6 +3,7 @@ import ProductCreate from "./ProductCreate";
 import { Link, useParams } from "react-router-dom";
 import { getAllProducts, getOneProduct } from "../../api/functions/products";
 import { toast } from "react-toastify";
+import { format } from "date-fns";
 
 import EditModal from "./ProductsEdit";
 import DeleteModal from "./ProductDelete";
@@ -95,35 +96,47 @@ const ProductsList = () => {
           </div>
         </div>
         <div className="card-body">
-          <table className="table table-bordered">
+          <table className="table table-striped">
             <thead>
               <th className="text-center align-middle">Product name</th>
               <th className="text-center align-middle">Quantity</th>
               <th className="text-center align-middle">Date</th>
               <th className="text-center align-middle"></th>
             </thead>
-            {dataList?.map((item, index) => (
-              <tr key={index}>
-                <td className="text-center align-middle">
-                  <Link to={`${item._id}`} className="text-primary nav-link">
+            <tbody>
+              {dataList?.map((item) => (
+                <tr key={item._id}>
+                  <td className="text-center align-middle">
                     {item.product_name}
-                  </Link>
-                </td>
-                <td className="text-center align-middle">{item.quantity}</td>
-                <td className="text-center align-middle">{item.date}</td>
-                <td className="text-center align-middle">
-                <button
-                          type="submit"
-                          className="btn btn-danger btn-sm text-white"
-                          data-bs-toggle="modal"
-                          data-bs-target="#DeleteModal"
-                          onClick={(e) => handleGetData(e, item._id)}
-                        >
-                          <Icon path={mdiDeleteEmptyOutline} size={1} />
-                        </button>
-                </td>
-              </tr>
-            ))}{" "}
+                  </td>
+                  <td className="text-center align-middle">{item.quantity}</td>
+                  <td className="text-center align-middle">
+                    {format(new Date(item.date), "dd/MM/yyyy")}
+                  </td>{" "}
+                  <td className="text-center align-middle">
+                    <button
+                      type="submit"
+                      class="btn btn-sm btn-light btn-icon m-1"
+                      data-bs-toggle="modal"
+                      data-bs-target="#EditModal"
+                      onClick={(e) => handleGetData(e, item._id)}
+                    >
+                      <Icon path={mdiPencil} size={1} />
+                    </button>
+
+                    <button
+                      type="submit"
+                      class="btn btn-sm btn-light btn-icon"
+                      data-bs-toggle="modal"
+                      data-bs-target="#DeleteModal"
+                      onClick={(e) => handleGetData(e, item._id)}
+                    >
+                      <Icon path={mdiDeleteEmptyOutline} size={1} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>

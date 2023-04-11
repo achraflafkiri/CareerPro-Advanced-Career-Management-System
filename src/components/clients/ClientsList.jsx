@@ -12,6 +12,7 @@ const ClientsList = () => {
   const [dataList, setDataList] = useState(null);
   const [deleteForm, setDeleteForm] = useState(null);
   const [clientId, setClientId] = useState(null);
+  const [client, setClient] = useState(null);
 
   const { societeId } = useParams();
 
@@ -28,6 +29,7 @@ const ClientsList = () => {
     try {
       const response = await getOneClient(societeId, clientId);
       setDeleteForm(response.data.clients);
+      setClient(response.data.clients);
       setClientId(response.data.clients._id);
       console.log("  *** ", response.data.clients._id);
     } catch (err) {
@@ -61,7 +63,7 @@ const ClientsList = () => {
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mb-3">
                   <h3>Liste des clients</h3>
-                  <p class="mb-md-0">Societe X.</p>
+                  <p class="mb-md-0">{client?.client_name}</p>
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between mx-2">
@@ -91,11 +93,9 @@ const ClientsList = () => {
                   <thead>
                     <tr>
                       <th className="text-center align-middle">ID</th>
-                      <th className="text-center align-middle">Nom</th>
+                      <th className="text-center align-middle">Full name</th>
                       <th className="text-center align-middle">Matricule</th>
-                      <th className="text-center align-middle">Adresse</th>
-                      <th className="text-center align-middle">Email</th>
-                      <th className="text-center align-middle">Téléphone</th>
+                      <th className="text-center align-middle">Volume</th>
                       <th className="text-center align-middle">Action</th>
                     </tr>
                   </thead>
@@ -106,32 +106,26 @@ const ClientsList = () => {
                           {client.id}
                         </td>
                         <td className="text-center align-middle">
-                          {client.nom}
+                          {client.client_name}
                         </td>
                         <td className="text-center align-middle">
                           {client.matricule}
                         </td>
                         <td className="text-center align-middle">
-                          {client.adresse}
-                        </td>
-                        <td className="text-center align-middle">
-                          {client.email}
-                        </td>
-                        <td className="text-center align-middle">
-                          {client.telephone}
+                          {client.volume}
                         </td>
                         <td className="text-center align-middle">
                           <Link
                             to={`create`}
-                            className="btn btn-info btn-sm"
+                            className="btn btn-sm btn-light btn-icon m-1 text-dark"
                             onClick={(event) =>
                               handleGetData(event, client._id)
                             }
                           >
-                            <Icon path={mdiPencil} size={1} color="white" />
+                            <Icon path={mdiPencil} size={1}  />
                           </Link>{" "}
                           <button
-                            className="btn btn-danger btn-sm"
+                            className="btn btn-sm btn-light btn-icon text-dark"
                             data-bs-toggle="modal"
                             data-bs-target="#DeleteModal"
                             onClick={(event) => {
@@ -141,7 +135,7 @@ const ClientsList = () => {
                             <Icon
                               path={mdiDeleteEmptyOutline}
                               size={1}
-                              color="white"
+                              
                             />
                           </button>{" "}
                         </td>
