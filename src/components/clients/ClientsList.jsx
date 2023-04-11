@@ -28,10 +28,13 @@ const ClientsList = () => {
     event.preventDefault();
     try {
       const response = await getOneClient(societeId, clientId);
-      setDeleteForm(response.data.clients);
-      setClient(response.data.clients);
-      setClientId(response.data.clients._id);
-      console.log("  *** ", response.data.clients._id);
+      console.log(" ----- >", clientId);
+      if (response.data) {
+        console.log(response.data.client._id);
+        setClient(response.data.client);
+        setClientId(response.data.client._id);
+        setDeleteForm(response.data.client);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -116,13 +119,10 @@ const ClientsList = () => {
                         </td>
                         <td className="text-center align-middle">
                           <Link
-                            to={`create`}
+                            to={`/societe/${societeId}/clients/${client._id}/edit`}
                             className="btn btn-sm btn-light btn-icon m-1 text-dark"
-                            onClick={(event) =>
-                              handleGetData(event, client._id)
-                            }
                           >
-                            <Icon path={mdiPencil} size={1}  />
+                            <Icon path={mdiPencil} size={1} />
                           </Link>{" "}
                           <button
                             className="btn btn-sm btn-light btn-icon text-dark"
@@ -132,11 +132,7 @@ const ClientsList = () => {
                               handleGetData(event, client._id);
                             }}
                           >
-                            <Icon
-                              path={mdiDeleteEmptyOutline}
-                              size={1}
-                              
-                            />
+                            <Icon path={mdiDeleteEmptyOutline} size={1} />
                           </button>{" "}
                         </td>
                       </tr>

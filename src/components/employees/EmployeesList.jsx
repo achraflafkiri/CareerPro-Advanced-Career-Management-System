@@ -20,7 +20,7 @@ const EmployeesList = () => {
       setDataList(res.data.employees);
     }
     fetchData();
-  }, []);
+  }, [societeId]);
 
   const handleGetData = async (event, employeeId) => {
     event.preventDefault();

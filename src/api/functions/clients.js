@@ -21,7 +21,7 @@ export const createNewClient = (token, formData, societeId) => {
   return api.post(`companies/${societeId}/clients/`, data, config);
 };
 
-export const updateClients = (token, formData, societeId, clientId) => {
+export const updateClient = (token, formData, societeId, clientId) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -43,14 +43,22 @@ export const getAllClients = (societeId) => {
 };
 
 export const getOneClient = (societeId, clientId) => {
-  console.log("ids => ", societeId, clientId);
   return api.get(`companies/${societeId}/clients/${clientId}`);
 };
 
-export const deleteClient = (societeId, clientId) => {
-  return api.delete(`companies/${societeId}/clients/${clientId}`);
+export const deleteClient = (token, societeId, clientId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  console.log("societeId => ", societeId);
+  console.log("clientId => ", clientId);
+  return api.delete(`companies/${societeId}/clients/${clientId}`, config);
 };
 
 export const deleteAllClients = (societeId) => {
+
   return api.delete(`companies/${societeId}/clients/`);
 };

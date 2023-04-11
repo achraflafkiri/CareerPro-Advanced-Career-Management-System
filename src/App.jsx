@@ -99,7 +99,7 @@ const App = () => {
           />
           <Route path="/societe/:societeId/clients" element={<ClientsList />} />
           <Route
-            path="/societe/:societeId/clients/:productId/edit"
+            path="/societe/:societeId/clients/:clientId/edit"
             element={<ClientEdit />}
           />
           <Route
