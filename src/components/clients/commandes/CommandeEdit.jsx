@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createNewCommande } from "../../../api/functions/commandes";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  createNewCommande,
+  getAllCommandes,
+} from "../../../api/functions/commandes";
 import { useStateContext } from "../../../context/ContextProvider";
 
-const CommandeEdit = ({ clientId, commandeId }) => {
+import Icon from "@mdi/react";
+import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+
+const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
   const { societeId } = useParams();
   const { token } = useStateContext();
-
-  useEffect(() => {
-    console.log(commandeId);
-  }, [commandeId]);
 
   const [newCommande, setNewCommande] = useState({
     serie_bc: "",
@@ -41,6 +44,7 @@ const CommandeEdit = ({ clientId, commandeId }) => {
         clientId
       );
       if (response.status === 201) {
+        fetchData();
         console.log(response.data);
         toast.success(`Commande added successfully`, {
           position: "bottom-right",
@@ -70,57 +74,59 @@ const CommandeEdit = ({ clientId, commandeId }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleCreate} className="py-3">
-        <div className="mb-3">
-          <label htmlFor="serie_bc" className="form-label">
-            Série BC
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="serie_bc"
-            name="serie_bc"
-            value={serie_bc}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="designation" className="form-label">
-            Désignation
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="designation"
-            name="designation"
-            value={designation}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="quantity" className="form-label">
-            Quantité
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="quantity"
-            name="quantity"
-            value={quantity}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Create
-        </button>
-        <Link
-          to={`/societe/${societeId}/clients`}
-          className="btn btn-light text-dark ml-2"
-        >
-          Cancel
-        </Link>
-      </form>
+    <div className="row">
+      <div className="col-md-16">
+        <form onSubmit={handleCreate} className="py-3">
+          <div className="mb-3">
+            <label htmlFor="serie_bc" className="form-label">
+              Série BC
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="serie_bc"
+              name="serie_bc"
+              value={serie_bc}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="designation" className="form-label">
+              Désignation
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="designation"
+              name="designation"
+              value={designation}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="quantity" className="form-label">
+              Quantité
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="quantity"
+              name="quantity"
+              value={quantity}
+              onChange={handleChange}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Create
+          </button>
+          <Link
+            to={`/societe/${societeId}/clients`}
+            className="btn btn-light text-dark ml-2"
+          >
+            Cancel
+          </Link>
+        </form>
+      </div>
     </div>
   );
 };

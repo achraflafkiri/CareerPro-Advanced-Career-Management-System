@@ -1,7 +1,7 @@
 import api from "../http-service";
 
-// export const getAllcommande = (societeId) =>
-//   api.get(`companies/${societeId}/commande/`);
+export const getAllCommandes = (societeId, clientId) =>
+  api.get(`companies/${societeId}/clients/${clientId}/commandes/`);
 
 // export const getOneCommande = (societeId, CommandeId) =>
 //   api.get(`companies/${societeId}/commande/${CommandeId}`);
@@ -30,45 +30,33 @@ export const createNewCommande = (token, formData, societeId, clientId) => {
   );
 };
 
-// export const updateCommande = (token, formData, societeId, CommandeId) => {
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   };
+export const deleteCommande = (token, societeId, clientId, commandeId) => {
+  console.log("societeId => ", societeId);
+  console.log("clientId => ", clientId);
+  console.log("commandeId => ", commandeId);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
-//   const { Commande_name, ...rest } = formData;
-//   const data = {
-//     Commande_name: Commande_name,
-//     ...rest,
-//   };
+  return api.delete(
+    `companies/${societeId}/clients/${clientId}/commandes/${commandeId}`,
+    config
+  );
+};
 
-//   return api.put(
-//     `companies/${societeId}/commande/${CommandeId}`,
-//     data,
-//     config
-//   );
-// };
+export const deleteAllcommandes = (token, societeId, clientId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
-// export const deleteCommande = (token, societeId, CommandeId) => {
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   };
-
-//   return api.delete(`companies/${societeId}/commande/${CommandeId}`, config);
-// };
-
-// export const deleteAllcommande = (token, societeId) => {
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   };
-
-//   return api.delete(`companies/${societeId}/commande/`, config);
-// };
+  return api.delete(
+    `companies/${societeId}/clients/${clientId}/commandes/`,
+    config
+  );
+};
