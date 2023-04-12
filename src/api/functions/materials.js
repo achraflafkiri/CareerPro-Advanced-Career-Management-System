@@ -1,10 +1,12 @@
 import api from "../http-service";
 
-export const getAllMaterials = (societeId) =>
-  api.get(`companies/${societeId}/materials/`);
+export const getAllMaterials = (societeId) => {
+  return api.get(`companies/${societeId}/materials/`);
+};
 
-export const getOneMaterial = (societeId, materialId) =>
-  api.get(`companies/${societeId}/materials/${materialId}`);
+export const getOneMaterial = (societeId, materialId) => {
+  return api.get(`companies/${societeId}/materials/${materialId}`);
+};
 
 export const createNewMaterial = (token, formData, societeId) => {
   console.log("token", token);

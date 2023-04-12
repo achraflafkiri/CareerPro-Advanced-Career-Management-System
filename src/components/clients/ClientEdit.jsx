@@ -36,10 +36,20 @@ const ClientForm = () => {
   const [commands, setCommands] = useState(null);
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(!societeId);
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   useEffect(() => {
     setDisabled(!societeId);
-  }, [societeId]);
+    let initialValue = 0;
+
+    if (commands) {
+      for (let i = 0; i < commands.length; i++) {
+        initialValue += Number(commands[i].quantity);
+      }
+      setTotalQuantity(initialValue);
+      console.log(typeof initialValue);
+    }
+  }, [societeId, commands]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -328,7 +338,13 @@ const ClientForm = () => {
                         <section>
                           <h4 class="card-title">Bordered table</h4>
                           <p class="card-description">
-                            Number of commandes is {commands?.length}
+                            {commands && (
+                              <div>
+                                Number of commandes is{" "}
+                                {commands ? commands.length : 0} with total
+                                quantity of {totalQuantity}
+                              </div>
+                            )}
                           </p>
                         </section>
                         <div>

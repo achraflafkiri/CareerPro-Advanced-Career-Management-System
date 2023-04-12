@@ -74,9 +74,9 @@ const SocieteList = () => {
     async function fetchData() {
       try {
         const res = await getAllClients(societeId);
-        console.log(res.data.data.clients);
-        if (res.data.data.clients) {
-          setClients(res.data.data.clients);
+        console.log("res.data.clients ", res.data.clients);
+        if (res.data.clients) {
+          setClients(res.data.clients);
         }
       } catch (err) {
         toast.warn(`${err.response.data.message}`, {
@@ -99,9 +99,9 @@ const SocieteList = () => {
     async function fetchData() {
       try {
         const res = await getAllMaterials(societeId);
-        console.log(res.data.data.materials);
-        if (res.data.data.materials) {
-          setMaterials(res.data.data.materials);
+        console.log(res.data.materials);
+        if (res.data.materials) {
+          setMaterials(res.data.materials);
         }
       } catch (error) {
         console.log(error);
@@ -377,13 +377,20 @@ const SocieteList = () => {
                   <table className="table">
                     <thead>
                       <tr>
-                        <td>nom</td>
-                        <td>desc</td>
+                        <td>Material name</td>
                         <td>travail par heure</td>
-                        <td>date</td>
+                        <td>Date</td>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {materials?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.material_name}</td>
+                          <td>{item.Work_per_hour}</td>
+                          <td>{item.date}</td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                 </div>
               </div>
