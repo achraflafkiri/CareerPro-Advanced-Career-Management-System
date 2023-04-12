@@ -51,6 +51,7 @@ const SocieteEdit = ({ value, societeId, fetchData }) => {
       }
       const response = await updateCompany(societeId, token, newEditVal);
       if (response.status === 200) {
+        fetchData();
         toast.success("societe updated successfully!", {
           position: "bottom-right",
           autoClose: 5000,
@@ -61,8 +62,6 @@ const SocieteEdit = ({ value, societeId, fetchData }) => {
           progress: undefined,
           theme: "colored",
         });
-        fetchData();
-        navigate("/societe");
       } else {
         throw new Error("failed");
       }

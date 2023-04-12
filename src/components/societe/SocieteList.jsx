@@ -55,7 +55,8 @@ const SocieteList = () => {
 
   const fetchData = async () => {
     const res = await getAllCompanies(societeId);
-    setDataList(res.data.companies);
+    setDataList(res.data.data.companies);
+    console.log(res.data.data.companies);
   };
 
   return (

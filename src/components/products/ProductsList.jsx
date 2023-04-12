@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import ProductCreate from "./ProductCreate";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { getAllProducts, getOneProduct } from "../../api/functions/products";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
+import { mdiTextBoxPlusOutline } from "@mdi/js";
 
-import EditModal from "./ProductsEdit";
 import DeleteModal from "./ProductDelete";
 
 import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+import { mdiDeleteEmptyOutline } from "@mdi/js";
 
 const ProductsList = () => {
+  const navigate = useNavigate();
+
   const [dataList, setDataList] = useState(null);
   const [editForm, setEditForm] = useState(null);
   const [deleteForm, setdeleteForm] = useState(null);
@@ -36,6 +38,7 @@ const ProductsList = () => {
         setdeleteForm(response.data.product);
         setProductId(response.data.product._id);
       }
+      navigate(`${productId}`);
     } catch (err) {
       toast.warn(`${err.response.data.message}`, {
         position: "bottom-right",
@@ -58,13 +61,6 @@ const ProductsList = () => {
   return (
     <>
       <ProductCreate fetchData={fetchData} />
-
-      <EditModal
-        value={editForm}
-        societeId={societeId}
-        productId={productId}
-        fetchData={fetchData}
-      />
 
       <DeleteModal
         value={deleteForm}
@@ -116,17 +112,15 @@ const ProductsList = () => {
                   <td className="text-center align-middle">
                     <button
                       type="submit"
-                      class="btn btn-sm btn-light btn-icon m-1"
-                      data-bs-toggle="modal"
-                      data-bs-target="#EditModal"
+                      className="btn btn-sm btn-light btn-icon m-1"
                       onClick={(e) => handleGetData(e, item._id)}
                     >
-                      <Icon path={mdiPencil} size={1} />
+                      <Icon path={mdiTextBoxPlusOutline} size={1} />
                     </button>
 
                     <button
                       type="submit"
-                      class="btn btn-sm btn-light btn-icon"
+                      className="btn btn-sm btn-light btn-icon"
                       data-bs-toggle="modal"
                       data-bs-target="#DeleteModal"
                       onClick={(e) => handleGetData(e, item._id)}

@@ -3,8 +3,8 @@ import api from "../http-service";
 export const getAllCommandes = (societeId, clientId) =>
   api.get(`companies/${societeId}/clients/${clientId}/commandes/`);
 
-// export const getOneCommande = (societeId, CommandeId) =>
-//   api.get(`companies/${societeId}/commande/${CommandeId}`);
+export const getOneCommande = (societeId, CommandeId) =>
+  api.get(`companies/${societeId}/commande/${CommandeId}`);
 
 export const createNewCommande = (token, formData, societeId, clientId) => {
   console.log("societeId => ", societeId);
