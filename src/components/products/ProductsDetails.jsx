@@ -56,7 +56,7 @@ const ProductsDetails = () => {
           <div className="card-header"></div>
           <div className="card-body">
             <h3>Saisir les informations sur le bon de livraison</h3>
-            <LivraisonCreate productId={productId} />
+            <LivraisonCreate />
           </div>
           <div className="card-footer"></div>
         </div>

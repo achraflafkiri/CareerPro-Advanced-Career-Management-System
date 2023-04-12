@@ -1,7 +1,7 @@
 import api from "../http-service";
 
 export const getAllLivraisons = (societeId, productId) => {
-  console.log("societeId, productId => ", productId);
+  console.log("productId => ", productId);
 
   return api.get(`companies/${societeId}/products/${productId}/livraisons/`);
 };
