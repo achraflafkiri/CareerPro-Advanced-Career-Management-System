@@ -46,7 +46,7 @@ const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
       if (response.status === 201) {
         fetchData();
         console.log(response.data);
-        toast.success(`Commande added successfully`, {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

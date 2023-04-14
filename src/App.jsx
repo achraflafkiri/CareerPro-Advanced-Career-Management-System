@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/inc/Navbar";
-import Sidebar from "./components/inc/Sidebar";
-
 import SocieteCreate from "./components/societe/SocieteCreate";
 import SocieteList from "./components/societe/SocieteList";
 import SocieteDetails from "./components/societe/SocieteDetails";
@@ -15,6 +12,7 @@ import ProductsEdit from "./components/products/ProductsEdit";
 import EmployeesList from "./components/employees/EmployeesList";
 import EmployeesCreate from "./components/employees/EmployeesCreate";
 import EmployeeEdit from "./components/employees/EmployeeEdit";
+import EmployeesPresence from "./components/employees/EmployeesPresence";
 
 import MaterialList from "./components/material/MaterialList";
 import MaterialCreate from "./components/material/MaterialCreate";
@@ -25,10 +23,8 @@ import ClientEdit from "./components/clients/ClientEdit";
 
 import NotFound from "./components/NotFound/NotFound";
 
-import Home from "./pages/DashboardAppPage";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
-import EmployeeAbsence from "./components/employees/EmployeeAbsence";
 
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
@@ -88,8 +84,8 @@ const App = () => {
             element={<EmployeeEdit />}
           />
           <Route
-            path="/societe/:societeId/employees/:employeeId/absence-registration"
-            element={<EmployeeAbsence />}
+            path="/societe/:societeId/employees/attendance"
+            element={<EmployeesPresence />}
           />
           <Route
             path="/societe/:societeId/materials"

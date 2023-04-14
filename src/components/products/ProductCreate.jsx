@@ -12,7 +12,7 @@ const ProductCreate = ({ fetchData }) => {
     product_name: "",
     description: "",
     quantity: "",
-    date: "",
+    date: new Date().toLocaleDateString(), // set the current date as a string
   });
 
   const { product_name, description, quantity, date } = formData;
@@ -39,7 +39,7 @@ const ProductCreate = ({ fetchData }) => {
       }
       const response = await createNewProduct(token, formData, societeId);
       if (response.status === 201) {
-        toast.success("product created successfully!", {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -129,7 +129,7 @@ const ProductCreate = ({ fetchData }) => {
               <div className="mb-3">
                 <label htmlFor="description">Description</label>
                 <input
-                  type="description"
+                  type="text"
                   name="description"
                   id="description"
                   className="form-control"

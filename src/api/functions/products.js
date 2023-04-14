@@ -26,17 +26,7 @@ export const createNewProduct = (token, formData, societeId) => {
 };
 
 export const updateProduct = (societeId, productId, token, formData) => {
-  console.log(
-    // "societeId => ",
-    // societeId,
-    "productId => ",
-    productId
-    // "token => ",
-    // token,
-    // "formData => ",
-    // formData
-  );
-
+  
   const config = {
     headers: {
       "Content-Type": "application/json",

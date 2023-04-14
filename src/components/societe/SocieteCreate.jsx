@@ -36,7 +36,7 @@ const SocieteCreate = () => {
       const response = await createNewCompany(token, formData);
       if (response.status === 201) {
         navigate("/societe");
-        toast.success("societe created successfully!", {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

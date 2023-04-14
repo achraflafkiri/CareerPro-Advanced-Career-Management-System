@@ -7,11 +7,11 @@ import { toast } from "react-toastify";
 const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
   const [newEditVal, setNewEditVal] = useState({
     material_name: "",
-    Work_per_hour: "",
+    work_per_hour: "",
     date: "",
   });
 
-  const { material_name, Work_per_hour, date } = newEditVal;
+  const { material_name, work_per_hour, date } = newEditVal;
 
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +27,7 @@ const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
     if (value) {
       setNewEditVal({
         material_name: value.material_name,
-        Work_per_hour: value.Work_per_hour,
+        work_per_hour: value.work_per_hour,
         date: value.date,
       });
     }
@@ -50,7 +50,7 @@ const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
       );
 
       if (response.status === 200) {
-        toast.success("Material updated successfully!", {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -81,75 +81,85 @@ const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
   };
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="EditModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">
               Edit material
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
-            <form class="forms-sample">
-              <div class="form-group">
-                <label for="product_name">Product name</label>
+          <div className="modal-body">
+            <form className="forms-sample">
+              <div className="form-group">
+                <label htmlFor="material_name">Material name</label>
                 <input
                   type="text"
-                  class="form-control"
-                  name="product_name"
+                  className="form-control"
+                  name="material_name"
                   value={material_name}
-                  id="product_name"
-                  placeholder="product name"
+                  id="material_name"
+                  placeholder="Material name"
                   onChange={handleChange}
                 />
               </div>
-              <div class="form-group">
-                <label for="Work_per_hour">Work_per_hour</label>
+              <div className="form-group">
+                <label htmlFor="work_per_hour">Work per hour</label>
                 <input
                   type="text"
-                  class="form-control"
-                  name="Work_per_hour"
-                  id="Work_per_hour"
-                  value={Work_per_hour}
-                  placeholder="Work_per_hour"
+                  className="form-control"
+                  name="work_per_hour"
+                  value={work_per_hour}
+                  id="work_per_hour"
+                  placeholder="Work per hour"
                   onChange={handleChange}
                 />
               </div>
-              <div class="form-group">
-                <label for="date">Date</label>
+              <div className="form-group">
+                <label htmlFor="date">Date</label>
                 <input
                   type="date"
-                  class="form-control"
+                  className="form-control"
                   name="date"
-                  id="date"
                   value={date}
-                  placeholder="date"
+                  id="date"
+                  placeholder="Date"
                   onChange={handleChange}
                 />
               </div>
-
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
-                  type="button"
-                  class="btn btn-secondary"
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                  disabled={
+                    !material_name || !work_per_hour || !date || loading
+                  }
+                >
+                  {loading ? (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  ) : (
+                    "Save"
+                  )}
+                </button>
+                <Link
+                  to={`/societe/${societeId}`}
+                  className="btn btn-light text-dark"
                   data-bs-dismiss="modal"
                 >
                   Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                  {loading ? "Loading ... " : "Save changes"}
-                </button>
+                </Link>
               </div>
             </form>
           </div>

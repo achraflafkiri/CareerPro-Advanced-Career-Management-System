@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createNewCommande } from "../../../api/functions/commandes";
 import { useStateContext } from "../../../context/ContextProvider";
 
 const CommandeCreate = ({ clientId }) => {
+  const navigate = useNavigate();
   const { societeId } = useParams();
   const { token } = useStateContext();
 
@@ -37,8 +38,8 @@ const CommandeCreate = ({ clientId }) => {
         clientId
       );
       if (response.status === 201) {
-        console.log(response.data);
-        toast.success(`Commande added successfully`, {
+        navigate(`/societe/${societeId}/clients`);
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

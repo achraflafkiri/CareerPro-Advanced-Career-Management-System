@@ -37,24 +37,9 @@ const LoginForm = () => {
       } catch (err) {
         console.log(err.response);
         if (err.response) {
-          const status = err.response.status;
-          switch (status) {
-            case 401:
-              setError(err.response.data.message);
-              isLoading(false);
-              break;
-            case 500:
-              setError(err.response.data.message);
-              isLoading(false);
-              break;
-            default:
-              setError(err.response.data.message);
-              isLoading(false);
-              break;
-          }
+          setError(err.response.data.message);
+          isLoading(false);
         }
-      } finally {
-        isLoading(false);
       }
     }, 1000);
   };

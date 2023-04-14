@@ -44,7 +44,6 @@ const EmployeeEdit = () => {
             email: response.data.employee.email,
             role: response.data.employee.role,
           });
-          console.log("employeeId **** ", response.data.employee);
         }
       } catch (err) {
         toast.warn(`${err.response.data.message}`, {
@@ -80,7 +79,7 @@ const EmployeeEdit = () => {
       );
 
       if (response.status === 200) {
-        toast.success("Employee updated successfully!", {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

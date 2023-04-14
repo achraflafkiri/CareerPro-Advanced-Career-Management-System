@@ -119,7 +119,7 @@ const MaterialList = () => {
                         {item.material_name}
                       </td>
                       <td className="text-center align-middle">
-                        {item.Work_per_hour}
+                        {item.work_per_hour}
                       </td>
                       <td className="text-center align-middle">{item.date}</td>
                       <td className="text-center align-middle">

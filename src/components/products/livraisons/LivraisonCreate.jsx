@@ -9,7 +9,6 @@ import { useParams, Link } from "react-router-dom";
 import { useStateContext } from "../../../context/ContextProvider";
 import { mdiDeleteEmptyOutline } from "@mdi/js";
 import Icon from "@mdi/react";
-import compareAsc from "date-fns/esm/fp/compareAsc/index";
 
 const LivraisonCreate = () => {
   const { societeId, productId } = useParams();
@@ -59,7 +58,7 @@ const LivraisonCreate = () => {
       );
       if (response.status === 201) {
         fetchData();
-        toast.success(`Livraison added successfully`, {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -96,7 +95,7 @@ const LivraisonCreate = () => {
         livraisonId
       );
       if (res.data) {
-        toast.success(`Livraison deleted successfully`, {
+        toast.success(`${res.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -176,7 +175,7 @@ const LivraisonCreate = () => {
                 Create
               </button>
               <Link
-                to={`/societe/${societeId}/livraisons`}
+                to={`/societe/${societeId}/products`}
                 className="btn btn-light text-dark ml-2"
               >
                 Cancel

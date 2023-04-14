@@ -10,7 +10,6 @@ import {
   mdiEyeArrowRightOutline,
 } from "@mdi/js";
 import { toast } from "react-toastify";
-import Spinner from "../Spinner/Spinner";
 
 const SocieteList = () => {
   const [dataList, setDataList] = useState(null);
@@ -40,16 +39,7 @@ const SocieteList = () => {
         console.log("response.data.company => ", response.data.company);
       }
     } catch (err) {
-      toast.error(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+     console.log(err);
     }
   };
 

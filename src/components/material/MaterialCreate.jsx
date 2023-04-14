@@ -10,7 +10,7 @@ const MaterialCreate = () => {
 
   const [formData, setFormData] = useState({
     material_name: "",
-    Work_per_hour: "",
+    work_per_hour: "",
     date: new Date().toISOString().slice(0, 10),
   });
 
@@ -26,7 +26,6 @@ const MaterialCreate = () => {
   const { societeId } = useParams();
 
   const handleSubmit = async (event) => {
-    console.log("cliked");
     event.preventDefault();
     try {
       if (!token) {
@@ -35,7 +34,7 @@ const MaterialCreate = () => {
       const response = await createNewMaterial(token, formData, societeId);
       if (response.status === 201) {
         navigate(`/societe/${societeId}/materials`);
-        toast.success("material created successfully!", {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -89,21 +88,21 @@ const MaterialCreate = () => {
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="Work_per_hour">Work_per_hour</label>
+              <label htmlFor="work_per_hour">work_per_hour</label>
               <input
                 type="text"
                 className="form-control"
-                name="Work_per_hour"
-                id="Work_per_hour"
-                placeholder="Work_per_hour"
-                value={formData.Work_per_hour}
+                name="work_per_hour"
+                id="work_per_hour"
+                placeholder="work_per_hour"
+                value={formData.work_per_hour}
                 onChange={handleChange}
               />
             </div>
             <div className="form-group">
               <label htmlFor="date">date</label>
               <input
-                type="text"
+                type="date"
                 className="form-control"
                 name="date"
                 id="date"

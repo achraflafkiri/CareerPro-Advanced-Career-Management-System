@@ -70,7 +70,7 @@ export const deleteEmployee = (token, societeId, employeeId) => {
   return api.delete(`companies/${societeId}/employees/${employeeId}`, config);
 };
 
-export const deleteAllEmployees = (token, societeId, employeeId) => {
+export const deleteAllEmployees = (token, societeId) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -79,4 +79,48 @@ export const deleteAllEmployees = (token, societeId, employeeId) => {
   };
 
   return api.delete(`companies/${societeId}/employees/`, config);
+};
+
+export const removeAttendance = (token, formData, societeId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { employeeId, date } = formData;
+
+  const data = {
+    employeeId,
+    date,
+  };
+
+  return api.post(
+    `companies/${societeId}/employees/attendance/add`,
+    data,
+    config
+  );
+};
+
+export const markAttendance = (token, formData, societeId) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { employeeId, date } = formData;
+
+  const data = {
+    employeeId,
+    date,
+  };
+
+  return api.post(
+    `companies/${societeId}/employees/attendance/remove`,
+    data,
+    config
+  );
 };

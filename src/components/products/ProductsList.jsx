@@ -38,7 +38,6 @@ const ProductsList = () => {
         setdeleteForm(response.data.product);
         setProductId(response.data.product._id);
       }
-      navigate(`${productId}`);
     } catch (err) {
       toast.warn(`${err.response.data.message}`, {
         position: "bottom-right",
@@ -56,6 +55,11 @@ const ProductsList = () => {
   const fetchData = async () => {
     const res = await getAllProducts(societeId);
     setDataList(res.data.products);
+  };
+
+  const navigateToDetails = (e, productId) => {
+    e.preventDefault();
+    navigate(`${productId}`);
   };
 
   return (
@@ -110,13 +114,16 @@ const ProductsList = () => {
                     {format(new Date(item.date), "dd/MM/yyyy")}
                   </td>{" "}
                   <td className="text-center align-middle">
-                    <button
-                      type="submit"
+                    <Link
+                      to={`/`}
                       className="btn btn-sm btn-light btn-icon m-1"
-                      onClick={(e) => handleGetData(e, item._id)}
+                      onClick={(e) => {
+                        handleGetData(e, item._id);
+                        navigateToDetails(e, item._id);
+                      }}
                     >
                       <Icon path={mdiTextBoxPlusOutline} size={1} />
-                    </button>
+                    </Link>
 
                     <button
                       type="submit"

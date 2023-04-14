@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { updateCompany } from "../../api/functions/companies";
 import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 const SocieteEdit = ({ value, societeId, fetchData }) => {
-  const navigate = useNavigate();
-
   const [newEditVal, setNewEditVal] = useState({
     company_name: "",
     description: "",
@@ -17,7 +14,6 @@ const SocieteEdit = ({ value, societeId, fetchData }) => {
 
   const { company_name, description, address, phone, email } = newEditVal;
 
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
@@ -51,8 +47,9 @@ const SocieteEdit = ({ value, societeId, fetchData }) => {
       }
       const response = await updateCompany(societeId, token, newEditVal);
       if (response.status === 200) {
+        console.log(response.data.message);
         fetchData();
-        toast.success("societe updated successfully!", {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -159,7 +156,6 @@ const SocieteEdit = ({ value, societeId, fetchData }) => {
                   onChange={handleChange}
                 />
               </div>
-              {error && <div className="alert alert-danger">{error}</div>}
             </div>
             <div class="modal-footer">
               <button

@@ -42,7 +42,7 @@ const EmployeesForm = () => {
       if (response.status === 201) {
         setSuccess(true); // set success to true on successful creation of company
         navigate(`/societe/${societeId}/employees`);
-        toast.success("employee created successfully!", {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

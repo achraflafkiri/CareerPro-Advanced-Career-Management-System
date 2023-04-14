@@ -101,7 +101,7 @@ const ProductsEdit = () => {
       );
 
       if (response.status === 200) {
-        toast.success("Client updated successfully!", {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -150,7 +150,7 @@ const ProductsEdit = () => {
         LivraisonId
       );
       if (res.data) {
-        toast.success(`Livraison deleted successfully`, {
+        toast.success(`${res.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

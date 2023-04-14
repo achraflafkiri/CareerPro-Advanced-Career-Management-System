@@ -70,7 +70,6 @@ const ClientForm = () => {
             volume: response.data.client.volume,
             matricule: response.data.client.matricule,
           });
-          console.log("client **** ", response.data.client);
         }
       } catch (err) {
         toast.warn(`${err.response.data.message}`, {

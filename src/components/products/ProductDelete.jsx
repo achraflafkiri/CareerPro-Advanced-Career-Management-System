@@ -14,7 +14,7 @@ const ProductDelete = ({ value, societeId, productId, fetchData }) => {
       }
       const response = await deleteProduct(token, societeId, productId);
       if (response.status === 200) {
-        toast.success(`Add new product successfully`, {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

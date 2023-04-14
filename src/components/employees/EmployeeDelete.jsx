@@ -16,7 +16,7 @@ const EmployeeDelete = ({ value, societeId, employeeId, fetchData }) => {
       const response = await deleteEmployee(token, societeId, employeeId);
       if (response.status === 200) {
         fetchData();
-        toast.success(`Employee deleted successfully`, {
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -30,6 +30,7 @@ const EmployeeDelete = ({ value, societeId, employeeId, fetchData }) => {
         throw new Error("failed");
       }
     } catch (err) {
+      fetchData();
       toast.warn(`${err.response.data.message}`, {
         position: "bottom-right",
         autoClose: 5000,

@@ -40,8 +40,8 @@ const ClientCreate = () => {
       if (response.status === 201) {
         setClientAdded(!clientAdded);
         setClientId(response.data.client._id);
-        console.log("clientId => ", clientId);
-        toast.success(`Added client successfully`, {
+
+        toast.success(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

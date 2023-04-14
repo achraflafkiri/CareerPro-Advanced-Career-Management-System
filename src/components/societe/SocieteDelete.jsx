@@ -25,7 +25,6 @@ const SocieteDelete = ({ value, societeId, fetchData }) => {
       }
       const response = await deleteCompany(societeId, token);
       if (response.status === 200) {
-        window.location.reload();
         fetchData();
         toast.success(`${response.data.message}`, {
           position: "bottom-right",

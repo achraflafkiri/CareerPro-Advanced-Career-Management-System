@@ -47,7 +47,7 @@ const EmployeesList = () => {
 
   const fetchData = async () => {
     const res = await getAllEmployees(societeId);
-    setDataList(res.data.products);
+    setDataList(res.data.employees);
   };
 
   return (
