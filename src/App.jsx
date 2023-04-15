@@ -84,7 +84,7 @@ const App = () => {
             element={<EmployeeEdit />}
           />
           <Route
-            path="/societe/:societeId/employees/attendance"
+            path="/societe/:societeId/employees/absences"
             element={<EmployeesPresence />}
           />
           <Route

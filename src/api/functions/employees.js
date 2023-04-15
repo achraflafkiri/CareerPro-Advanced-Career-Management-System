@@ -103,7 +103,7 @@ export const removeAttendance = (token, formData, societeId) => {
   );
 };
 
-export const markAttendance = (token, formData, societeId) => {
+export const markAbsences = (token, formData, societeId, employeeId) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -111,15 +111,14 @@ export const markAttendance = (token, formData, societeId) => {
     },
   };
 
-  const { employeeId, date } = formData;
+  const { date } = formData;
 
   const data = {
-    employeeId,
     date,
   };
 
   return api.post(
-    `companies/${societeId}/employees/attendance/remove`,
+    `companies/${societeId}/employees/${employeeId}/absence/add`,
     data,
     config
   );

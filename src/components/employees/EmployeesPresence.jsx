@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Icon from "@mdi/react";
 import { mdiDownload } from "@mdi/js";
-import { getAllEmployees, markAttendance } from "../../api/functions/employees";
+import { getAllEmployees, markAbsences } from "../../api/functions/employees";
 import { useParams } from "react-router-dom";
 import { mdiAlphaXCircle } from "@mdi/js";
 import { useStateContext } from "../../context/ContextProvider";
 
 const EmployeesPresence = () => {
   const [dataList, setDataList] = useState(null);
+  const [absenceData, setAbsenceData] = useState({});
 
   const { societeId } = useParams();
 
@@ -40,27 +41,24 @@ const EmployeesPresence = () => {
     setSelectedDate(event.target.value);
   };
 
-  const [color, setColor] = useState(new Array(dataList?.length).fill(false));
-
-  const handleColor = (e, index) => {
-    const newColor = [...color];
-    newColor[index] = !newColor[index];
-    setColor(newColor);
-    // console.log(newColor, index);
-  };
-
   const { token } = useStateContext();
   const handleAttendace = async (e, employeeId) => {
+    console.log("absenceData => ", absenceData);
+
     e.preventDefault();
-    console.log(employeeId, selectedDate);
+    // console.log(employeeId, selectedDate);
     const data = {
-      employeeId,
       date: selectedDate,
     };
     try {
-      const response = await markAttendance(token, data, societeId);
+      const response = await markAbsences(token, data, societeId, employeeId);
       if (response.data) {
-        console.log("response.data ", response.data);
+        // console.log("msg ", response.data.message);
+        console.log("is_absence -> ", response.data.absence?.is_absence);
+        setAbsenceData((prevState) => ({
+          ...prevState,
+          [employeeId]: response.data.absence.is_absence ? true : false,
+        }));
       }
     } catch (error) {
       console.error(error);
@@ -70,7 +68,7 @@ const EmployeesPresence = () => {
   return (
     <div className="row">
       <div className="d-flex justify-content-center">
-        <div className="col-md-8 grid-margin stretch-card">
+        <div className="col-md-12 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center">
@@ -115,13 +113,11 @@ const EmployeesPresence = () => {
                           <button
                             type="submit"
                             onClick={(e) => {
-                              handleColor(e, index);
                               handleAttendace(e, item._id);
                             }}
-                            className={`btn btn-sm btn-icon ${
-                              color[index] ? "btn-red" : ""
-                            }`}
-                            style={{ color: `${color[index] ? "red" : ""}` }}
+                            className={`btn btn-sm ${
+                              absenceData[item._id] ? "btn-danger" : "btn-light"
+                            } btn-icon m-1`}
                           >
                             <Icon path={mdiAlphaXCircle} size={1} />
                           </button>
