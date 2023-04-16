@@ -32,6 +32,9 @@ import Dashboard from "./pages/DashboardAppPage";
 import CommandeEdit from "./components/clients/commandes/CommandeEdit";
 import CommandeCreate from "./components/clients/commandes/CommandeCreate";
 
+import Profile from "./components/profile/Profile";
+import EditProfile from "./components/profile/EditProfile";
+
 const App = () => {
   const [isLinkActive, setIsLinkActive] = useState(false);
   const [isID, setID] = useState(false);
@@ -53,6 +56,8 @@ const App = () => {
           }
         >
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/societe" element={<SocieteList />} />
           <Route path="/societe/create" element={<SocieteCreate />} />
           <Route

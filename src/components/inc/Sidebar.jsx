@@ -21,29 +21,23 @@ const Sidebar = ({ isLinkActive }) => {
       id="sidebar"
     >
       <ul className="nav">
-        {/* <li className="nav-item">
-          <Icon path={mdiViewDashboard} size={1} />
+        <li className="nav-item">
           <Link className="nav-link" to="/dashboard">
+            <i className="mdi mdi-home menu-icon"></i>
             <span className="menu-title">Dashboard</span>
           </Link>
-        </li> */}
-        <li class="nav-item">
-          <Link class="nav-link" to="/dashboard">
-            <i class="mdi mdi-home menu-icon"></i>
-            <span class="menu-title">Dashboard</span>
-          </Link>
         </li>
-        <li class="nav-item">
+        <li className="nav-item">
           <a
-            class="nav-link"
+            className="nav-link"
             data-bs-toggle="collapse"
             href="#ui-basic"
             aria-expanded="false"
             aria-controls="ui-basic"
           >
-            <i class="mdi mdi-domain menu-icon"></i>
-            <span class="menu-title">Société</span>
-            <i class="menu-arrow"></i>
+            <i className="mdi mdi-domain menu-icon"></i>
+            <span className="menu-title">Société</span>
+            <i className="menu-arrow"></i>
           </a>
           <div className="collapse" id="ui-basic">
             <ul className="nav flex-column sub-menu">

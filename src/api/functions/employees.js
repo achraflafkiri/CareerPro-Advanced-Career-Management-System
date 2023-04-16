@@ -54,6 +54,10 @@ export const getAllEmployees = (societeId) => {
   return api.get(`companies/${societeId}/employees/`);
 };
 
+export const getAllEmployeesByDate = (societeId, date) => {
+  return api.get(`companies/${societeId}/employees/absences?date=${date}`);
+};
+
 export const getOneEmployee = (societeId, employeeId) => {
   console.log(societeId, employeeId);
   return api.get(`companies/${societeId}/employees/${employeeId}`);
@@ -118,7 +122,7 @@ export const markAbsences = (token, formData, societeId, employeeId) => {
   };
 
   return api.post(
-    `companies/${societeId}/employees/${employeeId}/absence/add`,
+    `companies/${societeId}/employees/${employeeId}/absences/add`,
     data,
     config
   );

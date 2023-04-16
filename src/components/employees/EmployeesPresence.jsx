@@ -1,25 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Icon from "@mdi/react";
 import { mdiDownload } from "@mdi/js";
-import { getAllEmployees, markAbsences } from "../../api/functions/employees";
+import {
+  getAllEmployeesByDate,
+  markAbsences,
+} from "../../api/functions/employees";
 import { useParams } from "react-router-dom";
 import { mdiAlphaXCircle } from "@mdi/js";
 import { useStateContext } from "../../context/ContextProvider";
 
 const EmployeesPresence = () => {
-  const [dataList, setDataList] = useState(null);
-  const [absenceData, setAbsenceData] = useState({});
-
-  const { societeId } = useParams();
-
-  useEffect(() => {
-    async function fetchData() {
-      const res = await getAllEmployees(societeId);
-      setDataList(res.data.employees);
-    }
-    fetchData();
-  }, [societeId]);
-
   // Get today's date
   const today = new Date();
   const todayString = `${
@@ -33,6 +23,9 @@ const EmployeesPresence = () => {
     yesterday.getMonth() + 1
   }/${yesterday.getDate()}/${yesterday.getFullYear()}`;
 
+  const [dataList, setDataList] = useState(null);
+  const [absenceData, setAbsenceData] = useState({});
+
   // Set initial state for selected date and checkbox
   const [selectedDate, setSelectedDate] = useState(todayString);
 
@@ -41,23 +34,42 @@ const EmployeesPresence = () => {
     setSelectedDate(event.target.value);
   };
 
+  const { societeId } = useParams();
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getAllEmployeesByDate(societeId, selectedDate);
+      setDataList(res.data.employees);
+    }
+    fetchData();
+  }, [societeId, selectedDate]);
+
   const { token } = useStateContext();
   const handleAttendace = async (e, employeeId) => {
-    console.log("absenceData => ", absenceData);
+    // console.log("absenceData => ", absenceData);
 
     e.preventDefault();
     // console.log(employeeId, selectedDate);
-    const data = {
+    const dataObj = {
       date: selectedDate,
     };
+
+    // console.log(dataObj);
+
     try {
-      const response = await markAbsences(token, data, societeId, employeeId);
+      const response = await markAbsences(
+        token,
+        dataObj,
+        societeId,
+        employeeId
+      );
+      console.log(token, dataObj, societeId, employeeId);
+      console.log("is_absence -> ", response.data.absence.is_absent);
       if (response.data) {
         // console.log("msg ", response.data.message);
-        console.log("is_absence -> ", response.data.absence?.is_absence);
         setAbsenceData((prevState) => ({
           ...prevState,
-          [employeeId]: response.data.absence.is_absence ? true : false,
+          [employeeId]: response.data.absence.is_absent ? true : false,
         }));
       }
     } catch (error) {
@@ -82,10 +94,11 @@ const EmployeesPresence = () => {
                 </div>
                 <form className="forms-sample">
                   <div className="form-group">
-                    <label htmlFor=""></label>
+                    <label htmlFor="date"></label>
                     <select
                       className="form-control"
-                      id="exampleSelectGender"
+                      id="date"
+                      name="date"
                       value={selectedDate}
                       onChange={(event) => handleChange(event)}
                     >

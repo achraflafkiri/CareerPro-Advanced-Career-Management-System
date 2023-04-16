@@ -39,7 +39,7 @@ const SocieteList = () => {
         console.log("response.data.company => ", response.data.company);
       }
     } catch (err) {
-     console.log(err);
+      console.log(err);
     }
   };
 
@@ -73,7 +73,7 @@ const SocieteList = () => {
                 </Link>
               </div>
               <div className="table-responsive">
-                <table className="table table-striped">
+                <table className="table table-striped table-bordered">
                   <thead>
                     <tr>
                       <th className="text-center">Name</th>

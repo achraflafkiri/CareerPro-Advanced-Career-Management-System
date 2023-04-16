@@ -11,7 +11,7 @@ const StateContext = createContext({
 
 export const ContextProvider = ({ children }) => {
   const [sidebarIconOnly, _setSidebarIconOnly] = useState();
-  const [user, _setUser] = useState({});
+  const [user, _setUser] = useState(JSON.parse(localStorage.getItem("USER")));
   const [token, _setToken] = useState(
     JSON.parse(localStorage.getItem("ACCESS_TOKEN"))
   );
