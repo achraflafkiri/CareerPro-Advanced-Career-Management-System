@@ -111,92 +111,100 @@ const EmployeeEdit = () => {
 
   return (
     <div className="row">
-      <div className="col-md-12">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="employee_fname">
-              First Name <span className="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              name="employee_fname"
-              id="employee_fname"
-              className="form-control"
-              value={employee_fname}
-              onChange={handleChange}
-            />
+      <div className="col-12 grid-margin stretch-card">
+        <div className="card">
+          <div className="card-body">
+            <h4 className="card-title">Edit employee</h4>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="employee_fname">
+                  First Name <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="employee_fname"
+                  id="employee_fname"
+                  className="form-control"
+                  value={employee_fname}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="employee_lname">
+                  Last Name <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="employee_lname"
+                  id="employee_lname"
+                  value={employee_lname}
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="cni">
+                  CNI <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="cni"
+                  id="cni"
+                  value={cni}
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  value={email}
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="phone">Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  value={phone}
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="role">Role</label>
+                <input
+                  type="text"
+                  name="role"
+                  id="role"
+                  value={role}
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <Link
+                  to={`/societe/${societeId}/employees`}
+                  className="btn btn-light text-dark"
+                >
+                  Close
+                </Link>
+                <button
+                  type="submit"
+                  className="btn btn-success text-white mx-2"
+                >
+                  Update employee
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="mb-3">
-            <label htmlFor="employee_lname">
-              Last Name <span className="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              name="employee_lname"
-              id="employee_lname"
-              value={employee_lname}
-              className="form-control"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="cni">
-              CNI <span className="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              name="cni"
-              id="cni"
-              value={cni}
-              className="form-control"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="email">Email</label>
-            <input
-              type="text"
-              name="email"
-              id="email"
-              value={email}
-              className="form-control"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="phone">Phone</label>
-            <input
-              type="text"
-              name="phone"
-              id="phone"
-              value={phone}
-              className="form-control"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="role">Role</label>
-            <input
-              type="text"
-              name="role"
-              id="role"
-              value={role}
-              className="form-control"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-3">
-            <Link
-              to={`/societe/${societeId}/employees`}
-              className="btn btn-light text-dark"
-            >
-              Close
-            </Link>
-            <button type="submit" className="btn btn-primary text-white mx-2">
-              SAVE
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );

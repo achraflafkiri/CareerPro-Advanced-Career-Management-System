@@ -73,18 +73,12 @@ const EmployeesForm = () => {
 
   return (
     <div className="row">
-      <div className="col-md-12">
+      <div className="col-12 grid-margin stretch-card">
         <div className="card">
-          <div className="card-header">
-            {success && (
-              <div className="mt-3 alert alert-success">
-                Employee créée avec succès !
-              </div>
-            )}
-          </div>
           <div className="card-body">
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
+            <h4 className="card-title">Create new employee</h4>
+            <form onSubmit={handleSubmit} className="forms-sample">
+              <div className="form-group">
                 <label htmlFor="employee_fname">
                   First Name <span className="text-danger">*</span>
                 </label>
@@ -96,7 +90,7 @@ const EmployeesForm = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="employee_lname">
                   Last Name <span className="text-danger">*</span>
                 </label>
@@ -108,7 +102,7 @@ const EmployeesForm = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="cni">
                   CNI <span className="text-danger">*</span>
                 </label>
@@ -120,7 +114,7 @@ const EmployeesForm = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
                   type="text"
@@ -130,7 +124,7 @@ const EmployeesForm = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="phone">Phone</label>
                 <input
                   type="text"
@@ -140,7 +134,7 @@ const EmployeesForm = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="role">Role</label>
                 <input
                   type="text"
@@ -150,7 +144,7 @@ const EmployeesForm = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <Link
                   to={`/societe/${societeId}/employees`}
                   className="btn btn-light text-dark"

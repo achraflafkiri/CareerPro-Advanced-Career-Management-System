@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { getAllEmployees, getOneEmployee } from "../../api/functions/employees";
 import DeleteModal from "./EmployeeDelete";
-
 import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+import { mdiPencil, mdiDeleteEmptyOutline, mdiPlus } from "@mdi/js";
 import { toast } from "react-toastify";
 
 const EmployeesList = () => {
+  const navigate = useNavigate();
   const [dataList, setDataList] = useState(null);
   const [deleteForm, setdeleteForm] = useState(null);
   const [employeeId, setEmployeeId] = useState(null);
@@ -62,38 +62,33 @@ const EmployeesList = () => {
       <div className="row">
         <div className="col-md-12">
           <div className="card">
-            <div className="card-header">
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="mb-3">
-                  <h3>Liste des employees</h3>
-                  <p class="mb-md-0"></p>
+            <div class="card-body">
+              <div className="d-flex align-items-center justify-content-between my-3">
+                <div>
+                  <h3 className="card-title">Liste des employees</h3>
+                  <p class="mb-md-0">
+                    Number of employees is {dataList?.length}
+                  </p>
                 </div>
 
-                <div className="d-flex align-items-center justify-content-between mx-2">
+                <div>
                   <button
-                    type="submit"
-                    className="btn btn-success btn-sm float-end text-white mx-1"
+                    onClick={() =>
+                      navigate(`/societe/${societeId}/employees/create`)
+                    }
+                    className="btn btn-light btn-icon btn-fw mx-1"
                   >
-                    SAVE
+                    <Icon path={mdiPlus} size={1} />
                   </button>
-                  <Link
-                    to={`/societe/${societeId}/employees/create`}
-                    className="btn btn-light bg-white btn-icon me-3 mt-2 mt-xl-0 mx-1"
-                  >
-                    <i className="mdi mdi-plus text-muted"></i>
-                  </Link>
-                  <Link
-                    to="/societe/"
-                    className="btn btn-primary btn-sm float-end text-white mx-1"
+                  <button
+                    onClick={() => navigate(`/societe/${societeId}`)}
+                    className="btn btn-inverse-primary btn-fw"
                   >
                     BACK
-                  </Link>
+                  </button>
                 </div>
               </div>
-            </div>
-
-            <div class="card-body">
-              <table className="table">
+              <table className="table .table-striped">
                 <thead>
                   <tr>
                     <th className="text-center align-middle">Full name</th>
@@ -115,12 +110,12 @@ const EmployeesList = () => {
                       <td className="text-center align-middle">{item.email}</td>
                       <td className="text-center align-middle">{item.role}</td>
                       <td className="text-center align-middle">
-                        <Link
-                          to={`${item._id}/edit`}
+                        <button
+                          onClick={() => navigate(`${item._id}/edit`)}
                           className="btn btn-sm btn-light btn-icon"
                         >
                           <Icon path={mdiPencil} size={1} />
-                        </Link>
+                        </button>
                         <button
                           type="submit"
                           className="btn btn-sm btn-light btn-icon"
