@@ -88,7 +88,7 @@ const EmployeesList = () => {
                   </button>
                 </div>
               </div>
-              <table className="table .table-striped">
+              <table className="table table-striped">
                 <thead>
                   <tr>
                     <th className="text-center align-middle">Full name</th>

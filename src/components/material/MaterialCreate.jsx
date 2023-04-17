@@ -74,7 +74,14 @@ const MaterialCreate = () => {
           >
             <div className="form-group">
               <label htmlFor="material_name">Name</label>
-              <select
+              <input
+                type="text"
+                name="material_name"
+                className="form-control"
+                value={formData.material_name}
+                onChange={handleChange}
+              />
+              {/* <select
                 className="form-control"
                 name="material_name"
                 id="material_name"
@@ -85,7 +92,7 @@ const MaterialCreate = () => {
                 <option value="Material A">Material A</option>
                 <option value="Material B">Material B</option>
                 <option value="Material C">Material C</option>
-              </select>
+              </select> */}
             </div>
             <div className="form-group">
               <label htmlFor="work_per_hour">work_per_hour</label>
@@ -113,7 +120,7 @@ const MaterialCreate = () => {
             </div>
 
             <button type="submit" className="btn btn-primary mx-2">
-              Submit
+              Create
             </button>
             <Link
               to={`/societe/${societeId}/materials/`}

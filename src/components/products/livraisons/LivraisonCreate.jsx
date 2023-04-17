@@ -174,12 +174,6 @@ const LivraisonCreate = () => {
               <button type="submit" className="btn btn-primary">
                 Create
               </button>
-              <Link
-                to={`/societe/${societeId}/products`}
-                className="btn btn-light text-dark ml-2"
-              >
-                Cancel
-              </Link>
             </form>
           </div>
         </div>

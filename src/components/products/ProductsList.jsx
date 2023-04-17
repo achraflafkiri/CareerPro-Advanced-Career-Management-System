@@ -120,16 +120,15 @@ const ProductsList = () => {
                         {format(new Date(item.date), "dd/MM/yyyy")}
                       </td>{" "}
                       <td className="text-center align-middle">
-                        <Link
-                          to={`/`}
-                          className="btn btn-sm btn-light btn-icon m-1"
+                        <button
+                          className="btn btn-sm btn-light btn-icon mx-2"
                           onClick={(e) => {
                             handleGetData(e, item._id);
                             navigateToDetails(e, item._id);
                           }}
                         >
                           <Icon path={mdiTextBoxPlusOutline} size={1} />
-                        </Link>
+                        </button>
 
                         <button
                           type="submit"

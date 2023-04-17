@@ -70,12 +70,6 @@ const ClientsList = () => {
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between mx-2">
-                  <button
-                    type="submit"
-                    className="btn btn-success btn-sm float-end text-white mx-1"
-                  >
-                    SAVE
-                  </button>
                   <Link
                     type="button"
                     className="btn btn-light bg-white btn-icon me-3 mt-2 mt-xl-0 mx-1"
@@ -84,8 +78,8 @@ const ClientsList = () => {
                     <i className="mdi mdi-plus text-muted"></i>
                   </Link>
                   <Link
-                    to="/societe/"
-                    className="btn btn-primary btn-sm float-end text-white mx-1"
+                    to={`/societe/${societeId}/`}
+                    className="btn btn-inverse-primary btn-fw"
                   >
                     BACK
                   </Link>

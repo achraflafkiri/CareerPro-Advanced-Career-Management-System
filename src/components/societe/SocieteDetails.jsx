@@ -222,7 +222,7 @@ const SocieteList = () => {
       pageMargins: [40, 60, 40, 60], // add margins to the page
     };
 
-    pdfMake.createPdf(documentDefinition).download("employee-list.pdf");
+    pdfMake.createPdf(documentDefinition).download("product-list.pdf");
   };
 
   // PDF LIST CLIENTS
@@ -275,7 +275,60 @@ const SocieteList = () => {
       pageMargins: [40, 60, 40, 60], // add margins to the page
     };
 
-    pdfMake.createPdf(documentDefinition).download("employee-list.pdf");
+    pdfMake.createPdf(documentDefinition).download("client-list.pdf");
+  };
+
+  // PDF LIST materials
+  const materialsPdf = (e) => {
+    e.preventDefault();
+
+    const documentDefinition = {
+      content: [
+        {
+          text: "List of Materials",
+          style: "header",
+          margin: [0, 0, 0, 20], // add margin at the bottom to separate from the table
+        },
+        {
+          table: {
+            headerRows: 1,
+            widths: ["*", "*", "*", "*"],
+            body: [
+              ["Full name", "Travail par heure", "Date"],
+              ...materials.map((material) => [
+                material.material_name,
+                material.matricule,
+                material.volume,
+                material.commandes.length,
+              ]),
+            ],
+            alignment: "center", // add alignment property to center the table
+            layout: {
+              fillColor: function (i, node) {
+                // add alternating row background color
+                return i % 2 === 0 ? "#F0F0F0" : null;
+              },
+            },
+            style: "tableStyle",
+          },
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: "center",
+          marginBottom: 10, // add margin at the bottom
+        },
+        tableStyle: {
+          fontSize: 11,
+          margin: [0, 10, 0, 10], // add margin to top and bottom to separate from header and footer
+        },
+      },
+      pageMargins: [40, 60, 40, 60], // add margins to the page
+    };
+
+    pdfMake.createPdf(documentDefinition).download("material-list.pdf");
   };
 
   return (
@@ -583,37 +636,50 @@ const SocieteList = () => {
                   <div className="d-flex align-items-center justify-content-between">
                     <div>The number of materials is {materials?.length}</div>
                     <div className="d-flex align-items-center justify-content-center">
-                      <Link
-                        to={`/societe/${societeId}/materials/`}
-                        className="btn btn-light btn-icon"
-                      >
-                        <Icon path={mdiPlusBox} size={1} />
-                      </Link>
-                      <Link to={`/`} className="btn btn-light btn-icon">
-                        <Icon path={mdiDownloadBox} size={1} />
-                      </Link>
+                      <div className="button-container">
+                        <button
+                          onClick={() => {
+                            navigate(`/societe/${societeId}/materials/`);
+                          }}
+                          className="btn btn-inverse-primary btn-fw"
+                        >
+                          <span className="button-icon">
+                            <Icon path={mdiPlusBox} size={1} />
+                          </span>
+                          <span className="button-text">Add materials</span>
+                        </button>
+                        <button
+                          className="btn btn-inverse-dark btn-fw mx-2"
+                          onClick={materialsPdf}
+                        >
+                          <span className="button-icon">
+                            <Icon path={mdiDownloadBox} size={1} />
+                          </span>
+                          <span className="button-text">Download PDF</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="card-body">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <td>Material name</td>
-                        <td>travail par heure</td>
-                        <td>Date</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {materials?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{item.material_name}</td>
-                          <td>{item.Work_per_hour}</td>
-                          <td>{item.date}</td>
+                  <div className="card-body">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <td>Material name</td>
+                          <td>travail par heure</td>
+                          <td>Date</td>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {materials?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item.material_name}</td>
+                            <td>{item.Work_per_hour}</td>
+                            <td>{item.date}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

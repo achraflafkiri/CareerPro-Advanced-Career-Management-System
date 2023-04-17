@@ -81,26 +81,23 @@ const ProductsDetails = () => {
   return (
     <div className="row">
       <div className="col-md-12 grid-margin">
-        <div className="d-flex justify-content-between flex-wrap">
-          <div className="d-flex align-items-end justify-content-between flex-wrap">
-            <div className="me-md-3 me-xl-5">
-              <h2>{product?.product_name} details</h2>
-            </div>
-          </div>
-          <div className="d-flex justify-content-between align-items-end flex-wrap">
-            <Link
-              to={`/societe/${societeId}/products/`}
-              className="btn btn-primary text-white mx-1"
-            >
-              Ajouter product
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div className="col-md-12 grid-margin">
         <div className="card">
-          <div className="card-header"></div>
           <div className="card-body">
+            <div className="d-flex justify-content-between flex-wrap my-3">
+              <div className="d-flex align-items-end justify-content-between flex-wrap">
+                <div className="me-md-3 me-xl-5">
+                  <h2>{product?.product_name} details</h2>
+                </div>
+              </div>
+              <div className="d-flex justify-content-between align-items-end flex-wrap">
+                <Link
+                  to={`/societe/${societeId}/products/`}
+                  className="btn btn-primary text-white mx-1"
+                >
+                  Ajouter product
+                </Link>
+              </div>
+            </div>
             <form className="forms-sample">
               <div class="form-group">
                 <label for="product_name">Product name</label>
@@ -151,11 +148,8 @@ const ProductsDetails = () => {
                 />
               </div>
               <div class="form-group">
-                <button
-                  className="btn btn-primary btn-sm"
-                  onClick={handleUpdate}
-                >
-                  Save
+                <button className="btn btn-success" onClick={handleUpdate}>
+                  Update product
                 </button>
               </div>
             </form>

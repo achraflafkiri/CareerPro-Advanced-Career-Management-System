@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getAllMaterials, getOneMaterial } from "../../api/functions/materials";
 import DeleteModal from "./MaterialDelete";
 import EditModal from "./MaterialEdit";
-
 import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+import { mdiPencil, mdiDeleteEmptyOutline, mdiPlus } from "@mdi/js";
 import { toast } from "react-toastify";
 
 const MaterialList = () => {
+  const navigate = useNavigate();
   const [dataList, setDataList] = useState(null);
   const [editForm, setEditForm] = useState(null);
   const [deleteForm, setdeleteForm] = useState(null);
@@ -22,7 +22,7 @@ const MaterialList = () => {
       setDataList(res.data.materials);
     }
     fetchData();
-  }, []);
+  }, [societeId]);
 
   const handleGetData = async (event, materialId) => {
     event.preventDefault();
@@ -72,38 +72,31 @@ const MaterialList = () => {
       <div className="row">
         <div className="col-md-12">
           <div className="card">
-            <div className="card-header">
+            <div class="card-body">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="mb-3">
                   <h3>Liste des Materials</h3>
                   <p class="mb-md-0">Societe X.</p>
                 </div>
 
-                <div className="d-flex align-items-center justify-content-between mx-2">
+                <div>
                   <button
-                    type="submit"
-                    className="btn btn-success btn-sm float-end text-white mx-1"
+                    onClick={() =>
+                      navigate(`/societe/${societeId}/Materials/create`)
+                    }
+                    className="btn btn-light btn-icon btn-fw mx-1"
                   >
-                    SAVE
+                    <Icon path={mdiPlus} size={1} />
                   </button>
-                  <Link
-                    to={`/societe/${societeId}/Materials/create`}
-                    className="btn btn-light bg-white btn-icon me-3 mt-2 mt-xl-0 mx-1"
-                  >
-                    <i className="mdi mdi-plus text-muted"></i>
-                  </Link>
-                  <Link
-                    to="/societe/"
-                    className="btn btn-primary btn-sm float-end text-white mx-1"
+                  <button
+                    onClick={() => navigate(`/societe/${societeId}`)}
+                    className="btn btn-inverse-primary btn-fw"
                   >
                     BACK
-                  </Link>
+                  </button>
                 </div>
               </div>
-            </div>
-
-            <div class="card-body">
-              <table className="table">
+              <table className="table table-striped">
                 <thead>
                   <tr>
                     <th className="text-center align-middle">Materials name</th>

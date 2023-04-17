@@ -141,7 +141,7 @@ const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
               <div className="modal-footer">
                 <button
                   type="submit"
-                  className="btn btn-primary"
+                  className="btn btn-success"
                   onClick={handleSubmit}
                   disabled={
                     !material_name || !work_per_hour || !date || loading
@@ -150,7 +150,7 @@ const MaterialEdit = ({ value, societeId, materialId, fetchData }) => {
                   {loading ? (
                     <span className="spinner-border spinner-border-sm"></span>
                   ) : (
-                    "Save"
+                    "Update material"
                   )}
                 </button>
                 <Link
