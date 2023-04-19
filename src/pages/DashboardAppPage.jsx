@@ -1,7 +1,22 @@
+import React, { useState, useEffect } from "react";
 import DoughnutChart from "../components/Charts/DoughnutChart";
 import BarChart from "../components/Charts/BarChart";
+import { getAllCompanies } from "../api/functions/companies";
 
 const DashboardAppPage = () => {
+  const [companies, setCompanies] = useState(null);
+
+  // Fetch companies data
+  useEffect(() => {
+    async function fetchData() {
+      const res = await getAllCompanies();
+      if (res.data) {
+        setCompanies(res.data.data.companies);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="content-wrapper">
       <div className="row">
@@ -43,6 +58,18 @@ const DashboardAppPage = () => {
         <div className="col-md-5 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
+              <p className="card-text">
+                <div className="form-group">
+                  <label for="company">company</label>
+                  <select className="form-control" id="compan y">
+                    {companies?.map((company) => (
+                      <option value={company.company_name} key={company._id}>
+                        {company.company_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </p>
               <div id="d-flex justify-content-center align-items-center pt-3">
                 <DoughnutChart />
               </div>

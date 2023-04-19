@@ -140,17 +140,17 @@ const ProductCreate = ({ fetchData }) => {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-inverse-secondary btn-fw"
                   data-bs-dismiss="modal"
                 >
                   Close
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-primary"
+                  className="btn btn-primary btn-fw text-white"
                   onClick={handleSubmit}
                 >
-                  Save
+                  Add product
                 </button>
               </div>
             </form>

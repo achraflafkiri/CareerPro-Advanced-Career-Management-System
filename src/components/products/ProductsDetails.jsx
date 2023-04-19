@@ -92,7 +92,7 @@ const ProductsDetails = () => {
               <div className="d-flex justify-content-between align-items-end flex-wrap">
                 <Link
                   to={`/societe/${societeId}/products/`}
-                  className="btn btn-primary text-white mx-1"
+                  className="btn btn-inverse-primary btn-fw mx-1"
                 >
                   Ajouter product
                 </Link>
@@ -148,7 +148,10 @@ const ProductsDetails = () => {
                 />
               </div>
               <div class="form-group">
-                <button className="btn btn-success" onClick={handleUpdate}>
+                <button
+                  className="btn btn-success text-white"
+                  onClick={handleUpdate}
+                >
                   Update product
                 </button>
               </div>

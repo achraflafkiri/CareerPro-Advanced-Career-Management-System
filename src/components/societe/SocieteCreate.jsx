@@ -69,12 +69,12 @@ const SocieteCreate = () => {
     <div className="row">
       <div className="col-md-16">
         <div className="card">
-          <div className="card-header">
-            <h5>Créer une nouvelle société</h5>
+          <div className="d-flex align-items-center justify-content-between">
+            <div className="card-title">Create new company</div>
           </div>
           <div className="card-body">
-            <form onSubmit={handleSubmit} method="POST" action="/societe">
-              <div className="mb-3">
+            <form onSubmit={handleSubmit} className="forms-sample">
+              <div className="form-group">
                 <label htmlFor="nom">
                   Nom de société <em className="text-danger">*</em>
                 </label>
@@ -87,7 +87,7 @@ const SocieteCreate = () => {
                   className="form-control"
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="description">Description</label>
                 <textarea
                   type="text"
@@ -99,7 +99,7 @@ const SocieteCreate = () => {
                   rows="4"
                 ></textarea>
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="address">
                   Address <em className="text-danger">*</em>
                 </label>
@@ -112,7 +112,7 @@ const SocieteCreate = () => {
                   value={formData.address}
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="phone">
                   Téléphone <em className="text-danger">*</em>
                 </label>
@@ -125,7 +125,7 @@ const SocieteCreate = () => {
                   value={formData.phone}
                 />
               </div>
-              <div className="mb-3">
+              <div className="form-group">
                 <label htmlFor="email">
                   Email <em className="text-danger">*</em>
                 </label>
@@ -139,16 +139,21 @@ const SocieteCreate = () => {
                 />
               </div>
 
-              <div className="row">
-                <div className="col-md-12">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={loading}
-                  >
-                    {loading ? "En cours..." : "Créer"}
-                  </button>
-                </div>
+              <div className="form-group">
+                <button
+                  type="submit"
+                  className="btn btn-primary text-white mx-2"
+                  disabled={loading}
+                >
+                  {loading ? "En cours..." : "Create company"}
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-light"
+                  onClick={() => navigate("/societe")}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>

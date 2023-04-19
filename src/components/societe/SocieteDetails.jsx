@@ -294,12 +294,11 @@ const SocieteList = () => {
             headerRows: 1,
             widths: ["*", "*", "*", "*"],
             body: [
-              ["Full name", "Travail par heure", "Date"],
+              ["Material name", "Travail par heure", "Date"],
               ...materials.map((material) => [
                 material.material_name,
-                material.matricule,
-                material.volume,
-                material.commandes.length,
+                material.work_per_hour,
+                material.date,
               ]),
             ],
             alignment: "center", // add alignment property to center the table
@@ -464,7 +463,7 @@ const SocieteList = () => {
                   </div>
                 </div>
                 <div className="card-body">
-                  <table className="table">
+                  <table className="table table-bordered">
                     <thead>
                       <th>Name</th>
                       <th>Quantity</th>
@@ -531,7 +530,7 @@ const SocieteList = () => {
                   </div>
                 </div>
                 <div className="card-body">
-                  <table className="table table-bordered table-hover">
+                  <table className="table table-bordered">
                     <thead>
                       <tr>
                         <td>First name</td>
@@ -600,7 +599,7 @@ const SocieteList = () => {
                   </div>
                 </div>
                 <div className="card-body">
-                  <table className="table">
+                  <table className="table table-bordered">
                     <thead>
                       <tr>
                         <td>Full name</td>
@@ -660,26 +659,26 @@ const SocieteList = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="card-body">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <td>Material name</td>
-                          <td>travail par heure</td>
-                          <td>Date</td>
+                </div>
+                <div className="card-body">
+                  <table className="table table-bordered">
+                    <thead>
+                      <tr>
+                        <td>Material name</td>
+                        <td>travail par heure</td>
+                        <td>Date</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {materials?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.material_name}</td>
+                          <td>{item.Work_per_hour}</td>
+                          <td>{item.date}</td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {materials?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item.material_name}</td>
-                            <td>{item.Work_per_hour}</td>
-                            <td>{item.date}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

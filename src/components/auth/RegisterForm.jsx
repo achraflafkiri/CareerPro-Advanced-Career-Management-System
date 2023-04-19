@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Signup } from "../../api/functions/auth";
 import { useStateContext } from "../../context/ContextProvider";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
   const { setUser, setToken } = useStateContext();
@@ -54,13 +55,7 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="p-2">
-      {error &&
-        error.map((item, index) => (
-          <div key={index} className="alert alert-danger">
-            {item}
-          </div>
-        ))}
-      <div className="mb-3">
+      <div className="form-group">
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -69,9 +64,10 @@ const RegisterForm = () => {
           className="form-control"
           value={username}
           onChange={handleInputChange}
+          required
         />
       </div>
-      <div className="mb-3">
+      <div className="form-group">
         <label htmlFor="email">Email</label>
         <input
           type="email"
@@ -80,9 +76,10 @@ const RegisterForm = () => {
           className="form-control"
           value={email}
           onChange={handleInputChange}
+          required
         />
       </div>
-      <div className="mb-3">
+      <div className="form-group">
         <label htmlFor="password">Password</label>
         <input
           type="password"
@@ -91,9 +88,10 @@ const RegisterForm = () => {
           className="form-control"
           value={password}
           onChange={handleInputChange}
+          required
         />
       </div>
-      <div className="mb-3">
+      <div className="form-group">
         <label htmlFor="confirmpassword">Confirm Password</label>
         <input
           type="password"
@@ -102,20 +100,30 @@ const RegisterForm = () => {
           className="form-control"
           value={confirmpassword}
           onChange={handleInputChange}
+          required
         />
       </div>
-      <div className="mb-3">
+      <div className="form-group">
         <button
           type="submit"
-          className="btn btn-primary btn-ms"
+          className="btn btn-inverse-primary btn-fw"
           disabled={loading}
         >
           {loading ? "Loading..." : "Register"}
         </button>
       </div>
-      <div className="mb-3">
-        Already have an account? <a href="/login">Login</a>
+      <div className="form-group">
+        Already have an account?{" "}
+        <Link className="btn-link btn-fw" to={"/login"}>
+          login
+        </Link>
       </div>
+      {error &&
+        error.map((item, index) => (
+          <div key={index} className="alert alert-danger">
+            {item}
+          </div>
+        ))}
     </form>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom/dist";
+import { Link, useNavigate } from "react-router-dom/dist";
 import { Login } from "../../api/functions/auth";
 import { useStateContext } from "../../context/ContextProvider";
 
@@ -37,7 +37,9 @@ const LoginForm = () => {
       } catch (err) {
         console.log(err.response);
         if (err.response) {
-          setError(err.response.data.message);
+          setInterval(() => {
+            setError(err.response.data.message);
+          }, 2000);
           isLoading(false);
         }
       }
@@ -45,8 +47,8 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-2">
-      <div className="mb-3">
+    <form onSubmit={handleSubmit} className="forms-sample">
+      <div className="form-group">
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -55,9 +57,10 @@ const LoginForm = () => {
           className="form-control"
           value={username}
           onChange={handleInputChange}
+          required
         />
       </div>
-      <div className="mb-3">
+      <div className="form-group">
         <label htmlFor="password">Password</label>
         <input
           type="text"
@@ -66,19 +69,23 @@ const LoginForm = () => {
           className="form-control"
           value={password}
           onChange={handleInputChange}
+          required
         />
       </div>
-      <div className="mb-3">
+      <div className="form-group">
         <button
           type="submit"
-          className="btn btn-primary btn-ms"
+          className="btn btn-inverse-primary btn-fw"
           disabled={loading}
         >
           {loading ? "Loading..." : "Send"}
         </button>
       </div>
-      <div className="mb-3">
-        I don't have an account <a href="/register">create new account</a>
+      <div className="form-group">
+        I don't have an account{" "}
+        <Link className="btn-link btn-fw" to={"/register"}>
+          create new account
+        </Link>
       </div>
       {error && <div className="alert alert-danger">{error}</div>}
     </form>

@@ -1,46 +1,65 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useStateContext } from "../../context/ContextProvider";
-import { updateUser } from "../../api/functions/profile";
+import { getOneUser } from "../../api/functions/profile";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const EditProject = () => {
-  const { token, user } = useStateContext();
-  // get user id
-  const userId = user._id;
-
-  const [NewData, setNewData] = useState({
+const EditProfile = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
     username: "",
     email: "",
-    location: "",
     bio: "",
-    image: "",
+    location: "",
+    image: null,
   });
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setNewData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  const { user } = useStateContext();
+  const userId = user.id;
 
-  const { username, email, location, bio, image } = NewData;
+  useEffect(() => {
+    const handleGetUser = async () => {
+      const res = await getOneUser(userId);
+      if (res.data) {
+        console.log(" ", res.data.user.image);
+        setFormData({
+          username: res.data.user.username,
+          email: res.data.user.email,
+          location: res.data.user.location,
+          bio: res.data.user.bio,
+          image: res.data.user.image,
+        });
+      }
+    };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+    handleGetUser();
+  }, [userId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { username, email, bio, location, image } = formData;
+
+    const form = new FormData();
+    form.append("username", username);
+    form.append("email", email);
+    form.append("bio", bio);
+    form.append("location", location);
+    form.append("image", image);
 
     try {
-      if (!token) {
-        throw new Error("Token not found");
-      }
+      const res = await axios.put(
+        `http://localhost:3000/api/v1/profile/${userId}`,
+        form,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-      const data = {
-        username,
-        email,
-        location,
-        bio,
-      };
-
-      const response = await updateUser(token, data, userId);
-      if (response.status === 200) {
-        toast.success(`${response.data.message}`, {
+      if (res.status === 200) {
+        navigate("/profile");
+        toast.success(`${res.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -50,8 +69,6 @@ const EditProject = () => {
           progress: undefined,
           theme: "colored",
         });
-      } else {
-        throw new Error("failed");
       }
     } catch (err) {
       toast.warn(`${err.response.data.message}`, {
@@ -67,74 +84,98 @@ const EditProject = () => {
     }
   };
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] });
+  };
+
   return (
     <div className="row">
-      <div className="col-16 grid-margin stretch-card">
+      <div className="col-md-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            <h1 className="card-title">Public profile</h1>
-            <hr />
+            <p className="card-title">Edit profile</p>
             <form onSubmit={handleSubmit} className="forms-sample">
-              <div className="input-group mb-2 mr-sm-2">
-                <div className="input-group-prepend">
-                  <div className="input-group-text">@</div>
-                </div>
+              <div className="form-group">
+                <label htmlFor="username">Username:</label>
                 <input
                   type="text"
-                  className="form-control"
                   name="username"
-                  value={username}
-                  placeholder="Username"
+                  value={formData.username}
                   onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="bio">Bio</label>
-                <textarea
                   className="form-control"
-                  id="bio"
-                  name="bio"
-                  rows="4"
-                  value={bio}
-                  onChange={handleChange}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email:</label>
                 <input
-                  type="text"
-                  className="form-control"
-                  id="email"
+                  type="email"
                   name="email"
-                  value={email}
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="bio">Bio:</label>
+                <textarea
+                  name="bio"
+                  className="form-control"
+                  value={formData.bio}
                   onChange={handleChange}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="location">Location</label>
+                <label htmlFor="location">Location:</label>
                 <input
                   type="text"
-                  className="form-control"
-                  id="location"
                   name="location"
-                  value={location}
+                  value={formData.location}
                   onChange={handleChange}
+                  className="form-control"
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="image">Image</label>
+
+              <div class="form-group">
                 <input
                   type="file"
-                  className="form-control"
-                  id="image"
+                  class="form-control"
+                  disabled=""
                   name="image"
-                  value={image}
-                  onChange={handleChange}
+                  placeholder="Upload Image"
+                  onChange={handleImageChange}
                 />
               </div>
-              <button type="submit" className="btn btn-success btn-fw">
-                Update profile
-              </button>
+              {/* {  formData && formData.image ? (
+                   <img
+                     src={require(`../../assets/images/faces/${
+                       formData?.image || "face27.jpg"
+                     }`)}
+                     alt="user_photo"
+                     className="rounded-circle img-thumbnail"
+                     style={{ width: "100%" }}
+                   />
+                 ) : (
+                   <div></div>
+                 )}
+               </figure> */}
+              <div className="from-group">
+                <button
+                  type="submit"
+                  className="btn btn-inverse-primary btn-fw"
+                >
+                  Submit
+                </button>
+                <button
+                  class="btn btn-light"
+                  onClick={() => navigate("/profile")}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -143,4 +184,4 @@ const EditProject = () => {
   );
 };
 
-export default EditProject;
+export default EditProfile;

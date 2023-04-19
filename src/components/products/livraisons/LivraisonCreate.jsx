@@ -3,6 +3,7 @@ import {
   createNewLivraison,
   getAllLivraisons,
   deleteLivraison,
+  deleteAllLivraisons,
 } from "../../../api/functions/Livraisons";
 import { toast } from "react-toastify";
 import { useParams, Link } from "react-router-dom";
@@ -72,6 +73,7 @@ const LivraisonCreate = () => {
         throw new Error("failed");
       }
     } catch (err) {
+      fetchData();
       toast.error(`${err.response.data.message}`, {
         position: "bottom-right",
         autoClose: 5000,
@@ -88,13 +90,8 @@ const LivraisonCreate = () => {
   const handleDelete = async (e, livraisonId) => {
     e.preventDefault();
     try {
-      const res = await deleteLivraison(
-        token,
-        societeId,
-        productId,
-        livraisonId
-      );
-      if (res.data) {
+      const res = await deleteAllLivraisons(token, societeId, productId);
+      if (res.status === 200) {
         toast.success(`${res.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
@@ -108,6 +105,39 @@ const LivraisonCreate = () => {
         fetchData();
       }
     } catch (err) {
+      fetchData();
+      toast.error(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
+  const handleDeleteAll = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await deleteAllLivraisons(token, societeId, productId);
+      if (res.status === 200) {
+        fetchData();
+        toast.success(`${res.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    } catch (err) {
+      fetchData();
       toast.error(`${err.response.data.message}`, {
         position: "bottom-right",
         autoClose: 5000,
@@ -126,11 +156,6 @@ const LivraisonCreate = () => {
       <div className="col-md-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            <h4 className="card-title">Input size</h4>
-            <p className="card-description">
-              Add classes like <code>.form-control-lg</code> and{" "}
-              <code>.form-control-sm</code>.
-            </p>
             <form onSubmit={handleCreate} className="forms-sample py-3">
               <div className="mb-3">
                 <label htmlFor="serie_bc" className="form-label">
@@ -171,8 +196,11 @@ const LivraisonCreate = () => {
                   onChange={handleChange}
                 />
               </div>
-              <button type="submit" className="btn btn-primary">
-                Create
+              <button
+                type="submit"
+                className="btn btn-primary btn-fw text-white"
+              >
+                Create livraison
               </button>
             </form>
           </div>
@@ -181,6 +209,20 @@ const LivraisonCreate = () => {
       <div className="col-md-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
+            <div className="d-flex align-items-center justify-content-between">
+              <div>
+                <p className="card-title">List of bons</p>
+                <p className="card-description">
+                  Number of bons is {dataList?.length}
+                </p>
+              </div>
+              <button
+                className="btn btn-sm btn-danger btn-icon text-white"
+                onClick={handleDeleteAll}
+              >
+                <Icon path={mdiDeleteEmptyOutline} size={1} />
+              </button>
+            </div>
             <table class="table table-bordered">
               <thead>
                 <tr>
