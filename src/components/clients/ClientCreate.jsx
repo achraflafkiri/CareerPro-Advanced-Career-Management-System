@@ -171,14 +171,17 @@ const ClientCreate = () => {
                       required
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary">
-                    Enregistrer
+                  <button
+                    type="submit"
+                    className="btn btn-inverse-primary btn-fw"
+                  >
+                    Create client
                   </button>
                   <Link
                     to={`/societe/${societeId}/clients`}
-                    className="btn btn-danger ms-3"
+                    className="btn btn-light"
                   >
-                    Annuler
+                    Cancel
                   </Link>
                 </form>
               </div>

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { getAllClients, getOneClient } from "../../api/functions/clients";
 import DeleteModal from "./ClientDelete";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+import { mdiTextBoxPlusOutline, mdiDeleteEmptyOutline } from "@mdi/js";
 
 const ClientsList = () => {
+  const navigate = useNavigate();
   const [dataList, setDataList] = useState(null);
   const [deleteForm, setDeleteForm] = useState(null);
   const [clientId, setClientId] = useState(null);
@@ -70,19 +70,20 @@ const ClientsList = () => {
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between mx-2">
-                  <Link
+                  <button
                     type="button"
                     className="btn btn-light bg-white btn-icon me-3 mt-2 mt-xl-0 mx-1"
-                    to={`create`}
+                    onClick={() => navigate(`create`)}
                   >
                     <i className="mdi mdi-plus text-muted"></i>
-                  </Link>
-                  <Link
-                    to={`/societe/${societeId}/`}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/societe/${societeId}/`)}
                     className="btn btn-inverse-primary btn-fw"
                   >
                     BACK
-                  </Link>
+                  </button>
                 </div>
               </div>
               <div className="table-responsive">
@@ -118,12 +119,16 @@ const ClientsList = () => {
                             : "0"}
                         </td>
                         <td className="text-center align-middle">
-                          <Link
-                            to={`/societe/${societeId}/clients/${client._id}/edit`}
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/societe/${societeId}/clients/${client._id}/edit`
+                              )
+                            }
                             className="btn btn-sm btn-light btn-icon m-1 text-dark"
                           >
-                            <Icon path={mdiPencil} size={1} />
-                          </Link>{" "}
+                            <Icon path={mdiTextBoxPlusOutline} size={1} />
+                          </button>{" "}
                           <button
                             className="btn btn-sm btn-light btn-icon text-dark"
                             data-bs-toggle="modal"

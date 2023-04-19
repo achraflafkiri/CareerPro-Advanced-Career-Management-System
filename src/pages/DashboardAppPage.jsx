@@ -5,6 +5,7 @@ import { getAllCompanies } from "../api/functions/companies";
 
 const DashboardAppPage = () => {
   const [companies, setCompanies] = useState(null);
+  const [company, setCompany] = useState(null);
 
   // Fetch companies data
   useEffect(() => {
@@ -16,6 +17,16 @@ const DashboardAppPage = () => {
     }
     fetchData();
   }, []);
+
+  // const handleChange = () => {
+
+  // }
+
+  const handleSelectCompany = (e) => {
+    e.preventDefault();
+    console.log("Hello");
+    setCompany(company);
+  };
 
   return (
     <div className="content-wrapper">
@@ -61,7 +72,7 @@ const DashboardAppPage = () => {
               <p className="card-text">
                 <div className="form-group">
                   <label for="company">company</label>
-                  <select className="form-control" id="compan y">
+                  <select className="form-control" id="company" name="company">
                     {companies?.map((company) => (
                       <option value={company.company_name} key={company._id}>
                         {company.company_name}

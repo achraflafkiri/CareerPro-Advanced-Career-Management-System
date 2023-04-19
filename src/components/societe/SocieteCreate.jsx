@@ -69,10 +69,8 @@ const SocieteCreate = () => {
     <div className="row">
       <div className="col-md-16">
         <div className="card">
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="card-title">Create new company</div>
-          </div>
           <div className="card-body">
+            <p className="card-title">Create new company</p>
             <form onSubmit={handleSubmit} className="forms-sample">
               <div className="form-group">
                 <label htmlFor="nom">

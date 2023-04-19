@@ -7,14 +7,27 @@ import styled from "styled-components";
 
 const Navbar = ({ handleNavToggle }) => {
   const [isLinkActive, setIsLinkActive] = useState(false);
-  const { sidebarIconOnly, setSidebarIconOnly, user } = useStateContext();
+  const { sidebarIconOnly, setSidebarIconOnly, user, image } =
+    useStateContext();
+
   const [userInfo, setUserInfo] = useState(null);
+  const [userImage, setUserImage] = useState(null);
 
   useEffect(() => {
     const getUser = () => {
       const _userInfo = JSON.parse(localStorage.getItem("USER"));
       setUserInfo(_userInfo);
     };
+
+    getUser();
+  }, []); // pass an empty dependency array to run the effect only once
+
+  useEffect(() => {
+    const getUser = () => {
+      const _userImage = JSON.parse(localStorage.getItem("USERIMAGE"));
+      setUserImage(_userImage);
+    };
+    console.log("*****image**** ", image);
 
     getUser();
   }, []); // pass an empty dependency array to run the effect only once
@@ -66,35 +79,8 @@ const Navbar = ({ handleNavToggle }) => {
         </div>
       </div>
       <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <ul className="navbar-nav mr-lg-4 w-100">
-          <li className="nav-item nav-search d-none d-lg-block w-100">
-            <div className="input-group">
-              <div className="input-group-prepend">
-                <span className="input-group-text" id="search">
-                  <i className="mdi mdi-magnify"></i>
-                </span>
-              </div>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search now"
-                aria-label="search"
-                aria-describedby="search"
-              />
-            </div>
-          </li>
-        </ul>
         <ul className="navbar-nav navbar-nav-right">
           <li className="nav-item dropdown me-1">
-            <Link
-              className="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
-              id="messageDropdown"
-              href="#"
-              data-bs-toggle="dropdown"
-            >
-              <i className="mdi mdi-message-text mx-0"></i>
-              <span className="count"></span>
-            </Link>
             <div
               className="dropdown-menu dropdown-menu-right navbar-dropdown"
               aria-labelledby="messageDropdown"
@@ -138,15 +124,6 @@ const Navbar = ({ handleNavToggle }) => {
             </div>
           </li>
           <li className="nav-item dropdown me-4">
-            <Link
-              className="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown"
-              id="notificationDropdown"
-              href="#"
-              data-bs-toggle="dropdown"
-            >
-              <i className="mdi mdi-bell mx-0"></i>
-              <span className="count"></span>
-            </Link>
             <div
               className="dropdown-menu dropdown-menu-right navbar-dropdown"
               aria-labelledby="notificationDropdown"
@@ -197,12 +174,20 @@ const Navbar = ({ handleNavToggle }) => {
           </li>
           <li className="nav-item nav-profile dropdown">
             <Link
-              className="nav-link dropdown-toggle"
+              className="nav-link dropdown-toggle "
               href="#"
               data-bs-toggle="dropdown"
               id="profileDropdown"
             >
-              {/* <img src="images/faces/face5.jpg" alt="profile"/> */}
+              {/* <figure style={{ width: "30px" }}> */}
+              <img
+                src={require(`../../assets/images/faces/${
+                  userImage || "face27.jpg"
+                }`)}
+                alt="user_photo"
+                className="rounded-circle img-thumbnail"
+              />
+              {/* </figure> */}
               <span className="nav-profile-name">{userInfo?.username}</span>
             </Link>
             <div

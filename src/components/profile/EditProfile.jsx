@@ -15,14 +15,15 @@ const EditProfile = () => {
     image: null,
   });
 
-  const { user } = useStateContext();
+  const { user, setUserImage } = useStateContext();
   const userId = user.id;
 
   useEffect(() => {
     const handleGetUser = async () => {
       const res = await getOneUser(userId);
-      if (res.data) {
-        console.log(" ", res.data.user.image);
+      if (res.status === 200) {
+        setUserImage(res.data.user.image);
+        // console.log(" ", res.data.user.image);
         setFormData({
           username: res.data.user.username,
           email: res.data.user.email,
