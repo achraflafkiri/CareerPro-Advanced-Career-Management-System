@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import Icon from "@mdi/react";
-import { mdiLogout } from "@mdi/js";
+import {
+  mdiLogout,
+  mdiPhoneSettingsOutline,
+  mdiAccountSettingsOutline,
+} from "@mdi/js";
 import styled from "styled-components";
 
 const Navbar = ({ handleNavToggle }) => {
@@ -27,8 +31,6 @@ const Navbar = ({ handleNavToggle }) => {
       const _userImage = JSON.parse(localStorage.getItem("USERIMAGE"));
       setUserImage(_userImage);
     };
-    console.log("*****image**** ", image);
-
     getUser();
   }, []); // pass an empty dependency array to run the effect only once
 
@@ -60,14 +62,12 @@ const Navbar = ({ handleNavToggle }) => {
     <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div className="navbar-brand-wrapper d-flex justify-content-center">
         <div className="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
-          <a className="navbar-brand brand-logo" href="index.html">
-            {/* <img src="../../assets/images/logo.svg" alt="logo" /> */}
+          <Link className="navbar-brand brand-logo" to={"/dashborad"}>
             Ktm ingenierie
-          </a>
-          <a className="navbar-brand brand-logo-mini" href="index.html">
-            {/* <img src="../../assets/images/logo-mini.svg" alt="logo" /> */}
-            KTM
-          </a>
+          </Link>
+          <Link className="navbar-brand brand-logo-mini" to={"/dashborad"}>
+            Ktm ingenierie
+          </Link>
           <button
             className="navbar-toggler navbar-toggler align-self-center"
             type="button"
@@ -80,98 +80,6 @@ const Navbar = ({ handleNavToggle }) => {
       </div>
       <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <ul className="navbar-nav navbar-nav-right">
-          <li className="nav-item dropdown me-1">
-            <div
-              className="dropdown-menu dropdown-menu-right navbar-dropdown"
-              aria-labelledby="messageDropdown"
-            >
-              <p className="mb-0 font-weight-normal float-left dropdown-header">
-                Messages
-              </p>
-              <Link className="dropdown-item">
-                <div className="item-thumbnail">
-                  {/* <img src="images/faces/face4.jpg" alt="image" className="profile-pic"> */}
-                </div>
-                <div className="item-content flex-grow">
-                  <h6 className="ellipsis font-weight-normal">David Grey</h6>
-                  <p className="font-weight-light small-text text-muted mb-0">
-                    The meeting is cancelled
-                  </p>
-                </div>
-              </Link>
-              <Link className="dropdown-item">
-                <div className="item-thumbnail">
-                  {/* <img src="images/faces/face2.jpg" alt="image" className="profile-pic"> */}
-                </div>
-                <div className="item-content flex-grow">
-                  <h6 className="ellipsis font-weight-normal">Tim Cook</h6>
-                  <p className="font-weight-light small-text text-muted mb-0">
-                    New product launch
-                  </p>
-                </div>
-              </Link>
-              <Link className="dropdown-item">
-                <div className="item-thumbnail">
-                  {/* <img src="images/faces/face3.jpg" alt="image" className="profile-pic" /> */}
-                </div>
-                <div className="item-content flex-grow">
-                  <h6 className="ellipsis font-weight-normal"> Johnson</h6>
-                  <p className="font-weight-light small-text text-muted mb-0">
-                    Upcoming board meeting
-                  </p>
-                </div>
-              </Link>
-            </div>
-          </li>
-          <li className="nav-item dropdown me-4">
-            <div
-              className="dropdown-menu dropdown-menu-right navbar-dropdown"
-              aria-labelledby="notificationDropdown"
-            >
-              <p className="mb-0 font-weight-normal float-left dropdown-header">
-                Notifications
-              </p>
-              <Link className="dropdown-item">
-                <div className="item-thumbnail">
-                  <div className="item-icon bg-success">
-                    <i className="mdi mdi-information mx-0"></i>
-                  </div>
-                </div>
-                <div className="item-content">
-                  <h6 className="font-weight-normal">Application Error</h6>
-                  <p className="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </Link>
-              <Link className="dropdown-item">
-                <div className="item-thumbnail">
-                  <div className="item-icon bg-warning">
-                    <i className="mdi mdi-settings mx-0"></i>
-                  </div>
-                </div>
-                <div className="item-content">
-                  <h6 className="font-weight-normal">Settings</h6>
-                  <p className="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </Link>
-              <Link className="dropdown-item">
-                <div className="item-thumbnail">
-                  <div className="item-icon bg-info">
-                    <i className="mdi mdi-account-box mx-0"></i>
-                  </div>
-                </div>
-                <div className="item-content">
-                  <h6 className="font-weight-normal">New user registration</h6>
-                  <p className="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </Link>
-            </div>
-          </li>
           <li className="nav-item nav-profile dropdown">
             <Link
               className="nav-link dropdown-toggle "
@@ -179,7 +87,6 @@ const Navbar = ({ handleNavToggle }) => {
               data-bs-toggle="dropdown"
               id="profileDropdown"
             >
-              {/* <figure style={{ width: "30px" }}> */}
               <img
                 src={require(`../../assets/images/faces/${
                   userImage || "face27.jpg"
@@ -187,7 +94,6 @@ const Navbar = ({ handleNavToggle }) => {
                 alt="user_photo"
                 className="rounded-circle img-thumbnail"
               />
-              {/* </figure> */}
               <span className="nav-profile-name">{userInfo?.username}</span>
             </Link>
             <div
@@ -195,8 +101,8 @@ const Navbar = ({ handleNavToggle }) => {
               aria-labelledby="profileDropdown"
             >
               <Link className="dropdown-item" to={"/profile"}>
-                <i className="mdi mdi-settings text-primary"></i>
-                Settings
+                <StyledIcon path={mdiAccountSettingsOutline} size={1} />
+                Profile
               </Link>
               <button className="dropdown-item" onClick={handleLogout}>
                 {/* <i className="mdi mdi-logout text-primary"></i> */}
