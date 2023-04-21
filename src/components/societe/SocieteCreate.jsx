@@ -3,37 +3,37 @@ import { createNewCompany } from "../../api/functions/companies";
 import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const SocieteCreate = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [loading, setLoading] = useState(false);
+  const { token } = useStateContext();
+
+  const initialValues = {
     company_name: "",
     description: "",
     address: "",
     phone: "",
     email: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
   };
 
-  const { token } = useStateContext();
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const validationSchema = Yup.object().shape({
+    company_name: Yup.string().required("Nom de société est requis"),
+    address: Yup.string().required("Address est requis"),
+    phone: Yup.string().required("Téléphone est requis"),
+    email: Yup.string().email("Email invalide").required("Email est requis"),
+  });
+
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setLoading(true);
 
       if (!token) {
         throw new Error("Token not found");
       }
-      const response = await createNewCompany(token, formData);
+      const response = await createNewCompany(token, values);
       if (response.status === 201) {
         navigate("/societe");
         toast.success(`${response.data.message}`, {
@@ -50,6 +50,7 @@ const SocieteCreate = () => {
         throw new Error("failed");
       }
     } catch (err) {
+      console.log("msg => ", err);
       toast.warn(`${err.response.data.message}`, {
         position: "bottom-right",
         autoClose: 5000,
@@ -62,6 +63,7 @@ const SocieteCreate = () => {
       });
     } finally {
       setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -71,89 +73,116 @@ const SocieteCreate = () => {
         <div className="card">
           <div className="card-body">
             <p className="card-title">Create new company</p>
-            <form onSubmit={handleSubmit} className="forms-sample">
-              <div className="form-group">
-                <label htmlFor="nom">
-                  Nom de société <em className="text-danger">*</em>
-                </label>
-                <input
-                  type="text"
-                  name="company_name"
-                  id="company_name"
-                  value={formData.company_name}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="description">Description</label>
-                <textarea
-                  type="text"
-                  name="description"
-                  id="description"
-                  className="form-control"
-                  onChange={handleChange}
-                  value={formData.description}
-                  rows="4"
-                ></textarea>
-              </div>
-              <div className="form-group">
-                <label htmlFor="address">
-                  Address <em className="text-danger">*</em>
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  id="address"
-                  className="form-control"
-                  onChange={handleChange}
-                  value={formData.address}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="phone">
-                  Téléphone <em className="text-danger">*</em>
-                </label>
-                <input
-                  type="text"
-                  name="phone"
-                  id="phone"
-                  className="form-control"
-                  onChange={handleChange}
-                  value={formData.phone}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">
-                  Email <em className="text-danger">*</em>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="form-control"
-                  onChange={handleChange}
-                  value={formData.email}
-                />
-              </div>
-
-              <div className="form-group">
-                <button
-                  type="submit"
-                  className="btn btn-primary text-white mx-2"
-                  disabled={loading}
-                >
-                  {loading ? "En cours..." : "Create company"}
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-light"
-                  onClick={() => navigate("/societe")}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ isSubmitting }) => (
+                <Form className="forms-sample">
+                  <div className="form-group">
+                    <label htmlFor="nom">
+                      Nom de société <em className="text-danger">*</em>
+                    </label>
+                    <Field
+                      type="text"
+                      name="company_name"
+                      id="company_name"
+                      className="form-control"
+                    />
+                    <ErrorMessage
+                      name="company_name"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="description">Description</label>
+                    <Field
+                      type="text"
+                      name="description"
+                      id="description"
+                      className="form-control"
+                      component="textarea"
+                      rows="4"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="adresse">
+                      Address <em className="text-danger"></em>
+                    </label>
+                    <Field
+                      type="text"
+                      name="address"
+                      id="address"
+                      className="form-control"
+                    />
+                    <ErrorMessage
+                      name="address"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="telephone">
+                      Téléphone <em className="text-danger"></em>
+                    </label>
+                    <Field
+                      type="text"
+                      name="phone"
+                      id="phone"
+                      className="form-control"
+                    />
+                    <ErrorMessage
+                      name="phone"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">
+                      Email <em className="text-danger">*</em>
+                    </label>
+                    <Field
+                      type="email"
+                      name="email"
+                      id="email"
+                      className="form-control"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <div className="mt-4">
+                    <button
+                      type="submit"
+                      className="btn btn-primary mr-2 text-white"
+                      disabled={isSubmitting || loading}
+                    >
+                      {isSubmitting || loading ? (
+                        <div
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                        >
+                          <span className="sr-only"></span>
+                        </div>
+                      ) : (
+                        <span className="text-white">Create company</span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-light"
+                      onClick={() => navigate("/societe")}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>

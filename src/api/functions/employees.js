@@ -122,7 +122,7 @@ export const markAbsences = (token, formData, societeId, employeeId) => {
   };
 
   return api.post(
-    `companies/${societeId}/employees/${employeeId}/absences/add`,
+    `companies/${societeId}/employees/${employeeId}/absences`,
     data,
     config
   );

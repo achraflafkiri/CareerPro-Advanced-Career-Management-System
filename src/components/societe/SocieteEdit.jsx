@@ -160,7 +160,7 @@ const SocieteEdit = ({ value, societeId, fetchData }) => {
             <div class="modal-footer">
               <button
                 type="submit"
-                class="btn btn-primary"
+                class="btn btn-success"
                 onClick={handleSubmit}
                 disabled={loading}
               >
@@ -171,7 +171,7 @@ const SocieteEdit = ({ value, societeId, fetchData }) => {
                     aria-hidden="true"
                   ></span>
                 ) : (
-                  "Save Changes"
+                  <span className="text-white">Update company</span>
                 )}
               </button>
             </div>

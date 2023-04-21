@@ -3,6 +3,7 @@ import Icon from "@mdi/react";
 import { mdiDownload } from "@mdi/js";
 import {
   getAllEmployeesByDate,
+  getAllEmployees,
   markAbsences,
 } from "../../api/functions/employees";
 import { useParams } from "react-router-dom";
@@ -38,11 +39,18 @@ const EmployeesPresence = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await getAllEmployeesByDate(societeId, selectedDate);
+      const res = await getAllEmployees(societeId);
       setDataList(res.data.employees);
+      console.log("****", res.data.employees);
+      const dataObj = {};
+      res.data.employees.forEach((employee) => {
+        dataObj[employee._id] = employee.absences.is_absent;
+      });
+      setAbsenceData(dataObj);
+      console.log("____", absenceData);
     }
     fetchData();
-  }, [societeId, selectedDate]);
+  }, [societeId]);
 
   const { token } = useStateContext();
   const handleAttendace = async (e, employeeId) => {
@@ -83,31 +91,22 @@ const EmployeesPresence = () => {
         <div className="col-md-12 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="icons">
-                  <button
-                    type="submit"
-                    className="btn btn-sm btn-light btn-icon m-1"
+              <form className="forms-sample">
+                <div className="form-group">
+                  <label htmlFor="date"></label>
+                  <select
+                    className="form-control"
+                    id="date"
+                    name="date"
+                    value={selectedDate}
+                    onChange={(event) => handleChange(event)}
                   >
-                    <Icon path={mdiDownload} size={1} />
-                  </button>
+                    <option value={todayString}>{todayString}</option>
+                    <option value={yesterdayString}>{yesterdayString}</option>
+                  </select>
                 </div>
-                <form className="forms-sample">
-                  <div className="form-group">
-                    <label htmlFor="date"></label>
-                    <select
-                      className="form-control"
-                      id="date"
-                      name="date"
-                      value={selectedDate}
-                      onChange={(event) => handleChange(event)}
-                    >
-                      <option value={todayString}>{todayString}</option>
-                      <option value={yesterdayString}>{yesterdayString}</option>
-                    </select>
-                  </div>
-                </form>
-              </div>
+              </form>
+
               <div className="table-responsive">
                 <table className="table table-hover">
                   <thead>

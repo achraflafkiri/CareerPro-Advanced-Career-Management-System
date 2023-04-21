@@ -3,7 +3,13 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { getAllEmployees, getOneEmployee } from "../../api/functions/employees";
 import DeleteModal from "./EmployeeDelete";
 import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline, mdiPlus } from "@mdi/js";
+import {
+  mdiPencil,
+  mdiDeleteEmptyOutline,
+  mdiPlus,
+  mdiNoteCheck,
+  mdiReload,
+} from "@mdi/js";
 import { toast } from "react-toastify";
 
 const EmployeesList = () => {
@@ -50,6 +56,11 @@ const EmployeesList = () => {
     setDataList(res.data.employees);
   };
 
+  const refresh = (e) => {
+    e.preventDefault();
+    fetchData();
+  };
+
   return (
     <>
       <DeleteModal
@@ -72,6 +83,20 @@ const EmployeesList = () => {
                 </div>
 
                 <div>
+                  <button
+                    onClick={refresh}
+                    className="btn btn-light btn-icon btn-fw mx-1"
+                  >
+                    <Icon path={mdiReload} size={1} />{" "}
+                  </button>
+                  <button
+                    onClick={() =>
+                      navigate(`/societe/${societeId}/employees/attendances`)
+                    }
+                    className="btn btn-light btn-icon btn-fw mx-1"
+                  >
+                    <Icon path={mdiNoteCheck} size={1} />
+                  </button>
                   <button
                     onClick={() =>
                       navigate(`/societe/${societeId}/employees/create`)

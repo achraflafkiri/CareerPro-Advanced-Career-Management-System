@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom/dist";
+import { Link } from "react-router-dom/dist";
 import { Login } from "../../api/functions/auth";
 import { useStateContext } from "../../context/ContextProvider";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
   const { setUser, setToken } = useStateContext();
   const [isError, setIsError] = useState("");
 
@@ -80,12 +79,9 @@ const LoginForm = () => {
             </div>
             <div className="form-group">
               I don't have an account{" "}
-              <button
-                className="btn-link bg-light"
-                onClick={() => navigate("/register")}
-              >
+              <Link className="btn-link bg-light" to={"/register"}>
                 create new account
-              </button>
+              </Link>
             </div>
             <ErrorMessage
               name="login"

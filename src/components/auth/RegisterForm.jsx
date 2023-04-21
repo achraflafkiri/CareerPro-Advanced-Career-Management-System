@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Signup } from "../../api/functions/auth";
-import { useNavigate } from "react-router-dom/dist";
+import { Link } from "react-router-dom/dist";
 import { useStateContext } from "../../context/ContextProvider";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
   const { setUser, setToken } = useStateContext();
   const [isError, setIsError] = useState("");
 
@@ -123,12 +122,9 @@ const RegisterForm = () => {
             </div>
             <div className="form-group">
               Already have an account?{" "}
-              <button
-                className="btn-link bg-light"
-                onClick={() => navigate("/login")}
-              >
+              <Link className="btn-link text-primary" to={"/login"}>
                 login
-              </button>
+              </Link>
             </div>
           </Form>
         )}
