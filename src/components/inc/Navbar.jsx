@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import Icon from "@mdi/react";
 import {
@@ -10,6 +10,7 @@ import {
 import styled from "styled-components";
 
 const Navbar = ({ handleNavToggle }) => {
+  const navigate = useNavigate();
   const [isLinkActive, setIsLinkActive] = useState(false);
   const { sidebarIconOnly, setSidebarIconOnly, user, image } =
     useStateContext();
@@ -48,7 +49,8 @@ const Navbar = ({ handleNavToggle }) => {
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem("ACCESS_TOKEN");
-    window.location.reload();
+    localStorage.removeItem("USERIMAGE");
+    navigate("/login");
   };
 
   const StyledIcon = styled(Icon)`

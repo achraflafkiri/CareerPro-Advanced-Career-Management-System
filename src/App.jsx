@@ -23,8 +23,8 @@ import ClientEdit from "./components/clients/ClientEdit";
 
 import NotFound from "./components/NotFound/NotFound";
 
-import Login from "./pages/LoginPage";
-import Register from "./pages/RegisterPage";
+import Login from "./pages/auth/LoginPage";
+import Register from "./pages/auth/RegisterPage";
 
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
