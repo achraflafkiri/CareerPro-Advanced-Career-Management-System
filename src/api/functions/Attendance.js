@@ -1,7 +1,7 @@
 import api from "../http-service";
 
 export const AddNewAttendance = (token, formData, societeId) => {
-  console.log("data will send ", formData);
+  // console.log("data will send ", formData);
 
   const config = {
     headers: {
@@ -26,7 +26,7 @@ export const AddNewAttendance = (token, formData, societeId) => {
 };
 
 export const RemoveAttendance = (token, formData, societeId) => {
-  console.log("data will send ", formData);
+  // console.log("data will send ", formData);
 
   const config = {
     headers: {
@@ -48,3 +48,6 @@ export const RemoveAttendance = (token, formData, societeId) => {
     config
   );
 };
+
+export const getAllAttendance = (societeId, date) =>
+  api.get(`companies/${societeId}/employees/attendance?date=${date}`);
