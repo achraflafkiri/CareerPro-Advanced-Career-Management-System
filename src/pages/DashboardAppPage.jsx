@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DoughnutChart from "../components/Charts/DoughnutChart";
 import BarChart from "../components/Charts/BarChart";
 import { getAllCompanies } from "../api/functions/companies";
+import moment from "moment";
 
 const DashboardAppPage = () => {
   const [companies, setCompanies] = useState(null);
@@ -99,30 +100,35 @@ const DashboardAppPage = () => {
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Status report</th>
-                      <th>Office</th>
-                      <th>Price</th>
-                      <th>Date</th>
-                      <th>Gross amount</th>
+                      <th>Address</th>
+                      <th>Phone</th>
+                      <th>Email</th>
+                      <th>Products</th>
+                      <th>Employees</th>
+                      <th>Materials</th>
+                      <th>Clients</th>
+                      <th>Commandes</th>
+                      <th>Livraisons</th>
+                      <th>Last update</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Jeremy Ortega</td>
-                      <td>Levelled up</td>
-                      <td>Catalinaborough</td>
-                      <td>$790</td>
-                      <td>06 Jan 2018</td>
-                      <td>$2274253</td>
-                    </tr>
-                    <tr>
-                      <td>Alvin Fisher</td>
-                      <td>Ui design completed</td>
-                      <td>East Mayra</td>
-                      <td>$23230</td>
-                      <td>18 Jul 2018</td>
-                      <td>$83127</td>
-                    </tr>
+                    {companies?.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.company_name}</td>
+                        {/* <td>{item.description}</td> */}
+                        <td>{item.address}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.email}</td>
+                        <td>{item.products.length}</td>
+                        <td>{item.employees.length}</td>
+                        <td>{item.materials.length}</td>
+                        <td>{item.clients.length}</td>
+                        <td>{item.commandes.length}</td>
+                        <td>{item.livraisons.length}</td>
+                        <td>{moment(item.updatedAt).fromNow()}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

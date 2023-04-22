@@ -1,0 +1,45 @@
+.btn-pink {
+  background-color: #ffede8;
+  color: #1f4b3f;
+}
+.btn.btn-icon.btn-sm.btn-pink {
+  color: #1f4b3f;
+  background: #ffede8;
+  margin-right: 7px;
+}
+.file {
+  display: flex;
+  position: relative;
+}
+
+.file.is-boxed .file-label {
+  flex-direction: column;
+}
+
+.file-input {
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  outline: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.file-cta {
+  padding: 8px 25px;
+  background-color: #fbf7ed;
+  border: none;
+}
+
+.file-cta .file-label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #1f4b3f;
+}
+
+.azer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}

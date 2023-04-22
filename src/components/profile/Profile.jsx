@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import { getOneUser } from "../../api/functions/profile";
 import Icon from "@mdi/react";
-import { mdiAccountEdit } from "@mdi/js";
-import { useNavigate } from "react-router-dom";
+import { mdiAccountEdit, mdiTrashCanOutline, mdiArrowTopRight } from "@mdi/js";
+import { Link, useNavigate } from "react-router-dom";
+import "./style.css";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -14,9 +17,10 @@ const Profile = () => {
     bio: "",
     image: "",
     isAdmin: "",
+    file: "",
   });
 
-  const { username, email, location, bio, image, isAdmin } = userInfo;
+  const { username, email, location, bio, image, isAdmin, file } = userInfo;
 
   const { user } = useStateContext();
   const userId = user.id;
@@ -39,50 +43,159 @@ const Profile = () => {
     handleGetUser();
   }, [userId]);
 
+  const handleChange = (event) => {
+    setUserInfo({
+      ...userInfo,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const form = new FormData();
+    form.append("username", username);
+    form.append("email", email);
+    form.append("location", location);
+    form.append("bio", bio);
+    form.append("image", image);
+
+    try {
+      const res = await axios.put(
+        `http://localhost:3000/api/v1/profile/${userId}`,
+        form,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      if (res.status === 200) {
+        navigate("/profile");
+        toast.success(`${res.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    } catch (err) {
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
   return (
     <div className="row">
       <div className="col-md-12">
         <div className="card">
-          <div className="card-header bg-light d-flex align-items-center justify-content-between px-3">
-            <h2 className="fw-bold mb-0">Profile</h2>
-            <button
-              className="btn btn-inverse-dark btn-icon"
-              onClick={() => navigate("/profile/edit")}
-            >
-              <Icon path={mdiAccountEdit} size={1} />
-            </button>
+          <div className="card-header">
+            <h2 className="fw-bold mb-0 card-title">Profile</h2>
           </div>
           <div className="card-body">
-            <div className="row">
-              <div className="col-md-4 d-flex justify-content-center align-items-center">
-                <figure style={{ width: "194px" }}>
-                  <img
-                    src={require(`../../assets/images/faces/${
-                      image || "face27.jpg"
-                    }`)}
-                    alt="user_photo"
-                    className="rounded-circle img-thumbnail"
-                    style={{ width: "100%" }}
-                  />
-                </figure>
+            <form className="forms-sample" onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-md-3">
+                  <figure style={{ width: "190px" }}>
+                    <img
+                      src={require(`../../assets/images/faces/${
+                        image || "face27.jpg"
+                      }`)}
+                      alt="user_photo"
+                      className="img-thumbnail"
+                      style={{ width: "100%" }}
+                    />
+                  </figure>
+                </div>
+                <div className="col-md-8 mx-3">
+                  <div className="azer">
+                    <div className="file">
+                      <label className="file-label">
+                        <input
+                          className="file-input"
+                          type="file"
+                          name="upload"
+                        />
+                        <span className="file-cta">
+                          <span className="file-label">Upload Images</span>
+                        </span>
+                      </label>
+                    </div>
+                    <button className="btn btn-icon btn-sm btn-pink">
+                      <Icon path={mdiTrashCanOutline} size={1} />
+                    </button>
+                  </div>
+                  <p className="card-text">
+                    Max file size is 1MB, Minimum dimension: 330x300 And
+                    Suitable files are .jpg & .png
+                  </p>
+                </div>
               </div>
-              <div className="col-md-8 p-3">
-                <p className="card-text fs-5 mb-3">Username: {username}</p>
-                <p className="card-text  fs-5  mb-3">Email: {email}</p>
-                <p className="card-text  fs-5  mb-3">Location: {location}</p>
-                <p className="card-text  fs-5  mb-3">Bio: {bio}</p>
-                <p className="card-text  fs-5  mb-3">
-                  Role or permission level :{" "}
-                  {isAdmin ? (
-                    <span className="text-success">
-                      All permission available
-                    </span>
-                  ) : (
-                    "*"
-                  )}
-                </p>
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input
+                  type="username"
+                  className="form-control"
+                  id="Inputusername"
+                  name="username"
+                  placeholder="username"
+                  value={username}
+                  onChange={handleChange}
+                />
               </div>
-            </div>
+              <div className="form-group">
+                <label htmlFor="email">Email address</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="InputEmail"
+                  name="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="location">Location</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="InputLocation"
+                  name="location"
+                  placeholder="Location"
+                  value={location}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="bio">Bio</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="InputBio"
+                  name="bio"
+                  placeholder="Bio"
+                  value={bio}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <button className="btn btn-success text-white">
+                  SEND <Icon path={mdiArrowTopRight} size={1} />
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import { mdiDownloadBox } from "@mdi/js";
 import { toast } from "react-toastify";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import moment from "moment";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -26,113 +27,43 @@ const SocieteList = () => {
 
   const { societeId } = useParams();
 
-  // Fetch product data
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await getAllProducts(societeId);
-        if (res.data) {
-          // console.log(res.data.products);
-          setProducts(res.data.products);
+        const productRes = await getAllProducts(societeId);
+        const employeeRes = await getAllEmployees(societeId);
+        const companyRes = await getOneCompany(societeId);
+        const clientRes = await getAllClients(societeId);
+        const materialsRes = await getAllMaterials(societeId);
+
+        if (productRes.data) {
+          setProducts(productRes.data.products);
+        }
+
+        if (employeeRes.data) {
+          setEmployees(employeeRes.data.employees);
+        }
+
+        if (companyRes.data) {
+          console.log(companyRes.data);
+          setCompany(companyRes.data.company);
+          setLastUpdated(companyRes.data.company.updatedAt);
+        }
+
+        if (clientRes.data.clients) {
+          setClients(clientRes.data.clients);
+        }
+
+        if (materialsRes.data.materials) {
+          setMaterials(materialsRes.data.materials);
         }
       } catch (error) {
         console.log(error);
       }
     }
+
     fetchData();
   }, [societeId]);
-
-  // Fetch employee data
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await getAllEmployees(societeId);
-        if (res.data) {
-          setEmployees(res.data.employees);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, [societeId]);
-
-  // Get One company by ID
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await getOneCompany(societeId);
-        if (res.data) {
-          console.log(res.data);
-          setCompany(res.data.company);
-          setLastUpdated(res.data.company.updatedAt);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, [societeId]);
-
-  // Get One Client by ID
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await getAllClients(societeId);
-        console.log("res.data.clients ", res.data.clients);
-        if (res.data.clients) {
-          setClients(res.data.clients);
-        }
-      } catch (err) {
-        toast.warn(`${err.response.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
-      }
-    }
-    fetchData();
-  }, [societeId]);
-
-  // Get One Materials by ID
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await getAllMaterials(societeId);
-        console.log(res.data.materials);
-        if (res.data.materials) {
-          setMaterials(res.data.materials);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, [societeId]);
-
-  const formatDate = (date) => {
-    const now = new Date();
-    const diff = now - date;
-    const daysDiff = Math.floor(diff / 86400000); // 1 day = 86400000 ms
-
-    if (daysDiff === 0) {
-      return "Today";
-    } else if (daysDiff === 1) {
-      return "Yesterday";
-    } else if (daysDiff < 365) {
-      return `Last ${daysDiff} days ago`;
-    } else {
-      return date.toLocaleDateString();
-    }
-  };
-
-  // Usage
-  const formattedDate = formatDate(new Date(lastUpdated));
 
   // PDF LIST EMPLOYEES
   const employeesPdf = (e) => {
@@ -344,7 +275,7 @@ const SocieteList = () => {
                   </h2>
                   <p className="card-text">
                     <small className="text-muted">
-                      Last updated {formattedDate}
+                      Last updated {moment(company?.updatedAt).fromNow()}
                     </small>
                   </p>
                 </div>
