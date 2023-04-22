@@ -1,39 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Icon from "@mdi/react";
-import { mdiDownload } from "@mdi/js";
-import {
-  getAllEmployeesByDate,
-  getAllEmployees,
-  markAbsences,
-} from "../../api/functions/employees";
+import { mdiClose, mdiAccountRemove } from "@mdi/js";
 import { useParams } from "react-router-dom";
-import { mdiAlphaXCircle } from "@mdi/js";
+import { getAllEmployees } from "../../api/functions/employees";
+import {
+  AddNewAttendance,
+  RemoveAttendance,
+} from "../../api/functions/Attendance";
 import { useStateContext } from "../../context/ContextProvider";
+import { toast } from "react-toastify";
 
 const EmployeesPresence = () => {
-  // Get today's date
-  const today = new Date();
-  const todayString = `${
-    today.getMonth() + 1
-  }/${today.getDate()}/${today.getFullYear()}`;
-
-  // Get yesterday's date
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayString = `${
-    yesterday.getMonth() + 1
-  }/${yesterday.getDate()}/${yesterday.getFullYear()}`;
-
   const [dataList, setDataList] = useState(null);
-  const [absenceData, setAbsenceData] = useState({});
+  const [date, setDate] = useState(new Date().toLocaleDateString());
 
-  // Set initial state for selected date and checkbox
-  const [selectedDate, setSelectedDate] = useState(todayString);
-
-  // Handle date and checkbox changes
-  const handleChange = (event) => {
-    setSelectedDate(event.target.value);
-  };
+  const [pre, setPre] = useState(false);
+  const [abs, setAbs] = useState(false);
 
   const { societeId } = useParams();
 
@@ -41,47 +23,87 @@ const EmployeesPresence = () => {
     async function fetchData() {
       const res = await getAllEmployees(societeId);
       setDataList(res.data.employees);
-      console.log("****", res.data.employees);
-      const dataObj = {};
-      res.data.employees.forEach((employee) => {
-        dataObj[employee._id] = employee.absences.is_absent;
-      });
-      setAbsenceData(dataObj);
-      console.log("____", absenceData);
     }
     fetchData();
   }, [societeId]);
 
   const { token } = useStateContext();
-  const handleAttendace = async (e, employeeId) => {
-    // console.log("absenceData => ", absenceData);
-
+  const handlePresent = async (e, employeeId) => {
     e.preventDefault();
-    // console.log(employeeId, selectedDate);
-    const dataObj = {
-      date: selectedDate,
+
+    const data = {
+      employeeId,
+      date,
+      isPresent: true,
     };
 
-    // console.log(dataObj);
+    try {
+      const res = await AddNewAttendance(token, data, societeId);
+      setPre((prevState) => ({ ...prevState, [employeeId]: !pre }));
+      setAbs((prevState) => ({ ...prevState, [employeeId]: !abs }));
+      if (res.status === 201) {
+        console.log(res.data);
+        toast.success(`${res.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
+    } catch (err) {
+      toast.error(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
+  const handleAbsence = async (e, employeeId) => {
+    e.preventDefault();
+
+    const data = {
+      employeeId,
+      date,
+    };
 
     try {
-      const response = await markAbsences(
-        token,
-        dataObj,
-        societeId,
-        employeeId
-      );
-      console.log(token, dataObj, societeId, employeeId);
-      console.log("is_absence -> ", response.data.absence.is_absent);
-      if (response.data) {
-        // console.log("msg ", response.data.message);
-        setAbsenceData((prevState) => ({
-          ...prevState,
-          [employeeId]: response.data.absence.is_absent ? true : false,
-        }));
+      const res = await RemoveAttendance(token, data, societeId);
+      setAbs((prevState) => ({ ...prevState, [employeeId]: !abs }));
+      setPre((prevState) => ({ ...prevState, [employeeId]: !pre }));
+      if (res.status === 200) {
+        console.log(res.data);
+        toast.success(`${res.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      toast.error(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
@@ -93,45 +115,51 @@ const EmployeesPresence = () => {
             <div className="card-body">
               <form className="forms-sample">
                 <div className="form-group">
-                  <label htmlFor="date"></label>
-                  <select
+                  <label htmlFor="date">Date</label>
+                  <input
+                    type="text"
                     className="form-control"
-                    id="date"
                     name="date"
-                    value={selectedDate}
-                    onChange={(event) => handleChange(event)}
-                  >
-                    <option value={todayString}>{todayString}</option>
-                    <option value={yesterdayString}>{yesterdayString}</option>
-                  </select>
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    disabled
+                  />
                 </div>
               </form>
 
               <div className="table-responsive">
-                <table className="table table-hover">
+                <table className="table table-striped">
                   <thead>
                     <tr>
-                      <th className="text-center align-middle">Employee</th>
-                      <th className="text-center align-middle">Presence</th>
+                      <th>Employee</th>
+                      <th>Present</th>
+                      <th>Absence</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {dataList?.map((item, index) => (
-                      <tr key={index}>
-                        <td className="text-center align-middle">
+                    {dataList?.map((item) => (
+                      <tr key={item._id}>
+                        <td>
                           {item.employee_fname} {item.employee_lname}
                         </td>
-                        <td className="text-center align-middle">
+                        <td>
                           <button
-                            type="submit"
-                            onClick={(e) => {
-                              handleAttendace(e, item._id);
-                            }}
-                            className={`btn btn-sm ${
-                              absenceData[item._id] ? "btn-danger" : "btn-light"
-                            } btn-icon m-1`}
+                            className={`btn btn-icon me-3 d-none d-md-block ${
+                              pre[item._id] ? "btn-success" : "btn-light"
+                            }`}
+                            onClick={(e) => handlePresent(e, item._id)}
                           >
-                            <Icon path={mdiAlphaXCircle} size={1} />
+                            <Icon path={mdiClose} size={1} />
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            className={`btn btn-icon me-3 d-none d-md-block ${
+                              abs[item._id] ? "btn-danger" : "btn-light"
+                            } `}
+                            onClick={(e) => handleAbsence(e, item._id)}
+                          >
+                            <Icon path={mdiAccountRemove} size={1} />
                           </button>
                         </td>
                       </tr>
