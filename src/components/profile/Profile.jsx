@@ -10,7 +10,7 @@ import DefaultImage from "../../assets/images/faces/default.png";
 import "./style.css";
 
 const Profile = () => {
-  const { userId } = useStateContext();
+  const { userId, setUserImage } = useStateContext();
 
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState("");
@@ -52,6 +52,9 @@ const Profile = () => {
         bio: res.data.user.bio,
         image: res.data.user.image,
       });
+
+      setUserImage(image);
+      console.log("poi", image);
     }
   };
 
@@ -83,7 +86,6 @@ const Profile = () => {
         }
       );
 
-      console.log("img ", image);
       if (res.status === 200) {
         navigate("/profile");
         toast.success(`${res.data.message}`, {

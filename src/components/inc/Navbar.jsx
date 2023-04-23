@@ -11,7 +11,8 @@ import {
 import styled from "styled-components";
 
 const Navbar = ({ handleNavToggle }) => {
-  const { sidebarIconOnly, setSidebarIconOnly, userId } = useStateContext();
+  const { sidebarIconOnly, setSidebarIconOnly, userId, userImage } =
+    useStateContext();
   const [isLinkActive, setIsLinkActive] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
@@ -94,7 +95,7 @@ const Navbar = ({ handleNavToggle }) => {
               id="profileDropdown"
             >
               <img
-                src={image}
+                src={userImage}
                 alt="user_photo"
                 className="rounded-circle img-thumbnail"
               />

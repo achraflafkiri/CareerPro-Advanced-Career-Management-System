@@ -4,10 +4,12 @@ const StateContext = createContext({
   currentuserId: null,
   token: null,
   sidebarIconOnly: null,
+  userImage: null,
 
-  setuserIdID: () => {},
+  setUserID: () => {},
   setToken: () => {},
   setSidebarIconOnly: () => {},
+  setUserImage: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
@@ -17,6 +19,9 @@ export const ContextProvider = ({ children }) => {
   );
   const [userId, _setUserID] = useState(
     JSON.parse(localStorage.getItem("ACCESS_ID"))
+  );
+  const [userImage, _setUserImage] = useState(
+    JSON.parse(localStorage.getItem("ACCESS_IMAGE")) || "default.png"
   );
 
   const setToken = (token) => {
@@ -44,6 +49,15 @@ export const ContextProvider = ({ children }) => {
       : document.body.classList.remove("sidebar-icon-only");
   };
 
+  const setUserImage = (user_Image) => {
+    _setUserImage(user_Image);
+    if (user_Image) {
+      localStorage.setItem("ACCESS_IMAGE", JSON.stringify(user_Image));
+    } else {
+      localStorage.removeItem("ACCESS_IMAGE");
+    }
+  };
+
   return (
     <StateContext.Provider
       value={{
@@ -53,6 +67,8 @@ export const ContextProvider = ({ children }) => {
         setToken,
         sidebarIconOnly,
         setSidebarIconOnly,
+        setUserImage,
+        userImage,
       }}
     >
       {children}
