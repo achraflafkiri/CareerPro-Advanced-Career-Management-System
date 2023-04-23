@@ -22,3 +22,7 @@ export const updateUser = (token, formData, userId) => {
 
   return api.put(`profile/${userId}`, data, config);
 };
+
+// export const deleteImage=(token, formData, userId)=>{
+
+// }

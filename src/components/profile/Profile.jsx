@@ -10,17 +10,17 @@ import axios from "axios";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState("");
+
   const [userInfo, setUserInfo] = useState({
     username: "",
     email: "",
     location: "",
     bio: "",
-    image: "",
-    isAdmin: "",
-    file: "",
+    image: null,
   });
 
-  const { username, email, location, bio, image, isAdmin, file } = userInfo;
+  const { username, email, location, bio, image } = userInfo;
 
   const { user } = useStateContext();
   const userId = user.id;
@@ -34,7 +34,6 @@ const Profile = () => {
           email: res.data.user.email,
           location: res.data.user.location,
           bio: res.data.user.bio,
-          isAdmin: res.data.user.isAdmin,
           image: res.data.user.image,
         });
       }
@@ -96,6 +95,32 @@ const Profile = () => {
     }
   };
 
+  const handleChangeImage = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setImageUrl(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+
+    setUserInfo({
+      ...userInfo,
+      image: file,
+    });
+
+    console.log(image);
+  };
+
+  // const handleRemoveImage = (event) => {
+  //   event.preventDefault();
+  //   setUserInfo({
+  //     ...userInfo,
+  //     image: null,
+  //   });
+  // };
+
   return (
     <div className="row">
       <div className="col-md-12">
@@ -107,32 +132,36 @@ const Profile = () => {
             <form className="forms-sample" onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-md-3">
-                  <figure style={{ width: "190px" }}>
-                    <img
-                      src={require(`../../assets/images/faces/${
-                        image || "face27.jpg"
-                      }`)}
-                      alt="user_photo"
-                      className="img-thumbnail"
-                      style={{ width: "100%" }}
-                    />
-                  </figure>
+                  {image ? (
+                    <figure style={{ width: "190px" }}>
+                      <img
+                        src={imageUrl || image}
+                        alt="user_photo"
+                        className="img-thumbnail"
+                        style={{ width: "100%" }}
+                      />
+                    </figure>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
                 <div className="col-md-8 mx-3">
-                  <div className="azer">
+                  <div className="d-flex align-items-center justify-content-start mb-3">
                     <div className="file">
                       <label className="file-label">
                         <input
-                          className="file-input"
                           type="file"
-                          name="upload"
+                          className="file-input"
+                          name="image"
+                          accept="image/*"
+                          onChange={handleChangeImage}
                         />
                         <span className="file-cta">
                           <span className="file-label">Upload Images</span>
                         </span>
                       </label>
                     </div>
-                    <button className="btn btn-icon btn-sm btn-pink">
+                    <button className="btn btn-icon btn-sm btn-pink mx-2">
                       <Icon path={mdiTrashCanOutline} size={1} />
                     </button>
                   </div>

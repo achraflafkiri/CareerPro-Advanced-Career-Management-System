@@ -50,7 +50,7 @@ const Navbar = ({ handleNavToggle }) => {
     e.preventDefault();
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("USERIMAGE");
-    navigate("/login");
+    window.location.reload();
   };
 
   const StyledIcon = styled(Icon)`
