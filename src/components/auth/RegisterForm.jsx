@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const RegisterForm = () => {
-  const { setUser, setToken } = useStateContext();
+  const { setuserIdID, setToken } = useStateContext();
   const [isError, setIsError] = useState("");
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
@@ -14,7 +14,7 @@ const RegisterForm = () => {
       console.log("****", values);
 
       const response = await Signup(values);
-      setUser(response.data.user);
+      setuserIdID(response.data.user.id);
       setToken(response.data.token);
     } catch (err) {
       setIsError(err.response.data.message);

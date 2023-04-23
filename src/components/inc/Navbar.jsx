@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import Icon from "@mdi/react";
+import { getOneUser } from "../../api/functions/profile";
 import {
   mdiLogout,
   mdiPhoneSettingsOutline,
@@ -10,30 +11,35 @@ import {
 import styled from "styled-components";
 
 const Navbar = ({ handleNavToggle }) => {
-  const navigate = useNavigate();
+  const { sidebarIconOnly, setSidebarIconOnly, userId } = useStateContext();
   const [isLinkActive, setIsLinkActive] = useState(false);
-  const { sidebarIconOnly, setSidebarIconOnly, user, image } =
-    useStateContext();
 
-  const [userInfo, setUserInfo] = useState(null);
-  const [userImage, setUserImage] = useState(null);
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    email: "",
+    location: "",
+    bio: "",
+    image: null,
+  });
+
+  const { username, email, location, bio, image } = userInfo;
 
   useEffect(() => {
-    const getUser = () => {
-      const _userInfo = JSON.parse(localStorage.getItem("USER"));
-      setUserInfo(_userInfo);
+    const getUser = async () => {
+      const res = await getOneUser(userId);
+      if (res.data) {
+        setUserInfo({
+          username: res.data.user.username,
+          email: res.data.user.email,
+          location: res.data.user.location,
+          bio: res.data.user.bio,
+          image: res.data.user.image,
+        });
+      }
     };
 
     getUser();
-  }, []); // pass an empty dependency array to run the effect only once
-
-  useEffect(() => {
-    const getUser = () => {
-      const _userImage = JSON.parse(localStorage.getItem("USERIMAGE"));
-      setUserImage(_userImage);
-    };
-    getUser();
-  }, []); // pass an empty dependency array to run the effect only once
+  }, [userId]);
 
   const handleToggle = () => {
     setIsLinkActive(!isLinkActive);
@@ -42,14 +48,12 @@ const Navbar = ({ handleNavToggle }) => {
 
   const handleShowIcons = () => {
     setSidebarIconOnly(!sidebarIconOnly);
-    console.log(sidebarIconOnly);
-    console.log(user);
   };
 
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem("ACCESS_TOKEN");
-    localStorage.removeItem("USERIMAGE");
+    localStorage.removeItem("ACCESS_ID");
     window.location.reload();
   };
 
@@ -90,13 +94,11 @@ const Navbar = ({ handleNavToggle }) => {
               id="profileDropdown"
             >
               <img
-                src={require(`../../assets/images/faces/${
-                  userImage || "face27.jpg"
-                }`)}
+                src={image}
                 alt="user_photo"
                 className="rounded-circle img-thumbnail"
               />
-              <span className="nav-profile-name">{userInfo?.username}</span>
+              <span className="nav-profile-name">{username}</span>
             </Link>
             <div
               className="dropdown-menu dropdown-menu-right navbar-dropdown"

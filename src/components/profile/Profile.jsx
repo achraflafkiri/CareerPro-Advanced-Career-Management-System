@@ -4,12 +4,14 @@ import { getOneUser } from "../../api/functions/profile";
 import Icon from "@mdi/react";
 import { mdiAccountEdit, mdiTrashCanOutline, mdiArrowTopRight } from "@mdi/js";
 import { Link, useNavigate } from "react-router-dom";
-import "./style.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 import DefaultImage from "../../assets/images/faces/default.png";
+import "./style.css";
 
 const Profile = () => {
+  const { userId } = useStateContext();
+
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState("");
 
@@ -23,21 +25,6 @@ const Profile = () => {
 
   const { username, email, location, bio, image } = userInfo;
 
-  const { user } = useStateContext();
-  const userId = user.id;
-
-  const handleGetUser = async () => {
-    const res = await getOneUser(userId);
-    if (res.data) {
-      setUserInfo({
-        username: res.data.user.username,
-        email: res.data.user.email,
-        location: res.data.user.location,
-        bio: res.data.user.bio,
-        image: res.data.user.image,
-      });
-    }
-  };
   useEffect(() => {
     const handleGetUser = async () => {
       const res = await getOneUser(userId);
@@ -55,6 +42,19 @@ const Profile = () => {
     handleGetUser();
   }, [userId]);
 
+  const handleGetUser = async () => {
+    const res = await getOneUser(userId);
+    if (res.data) {
+      setUserInfo({
+        username: res.data.user.username,
+        email: res.data.user.email,
+        location: res.data.user.location,
+        bio: res.data.user.bio,
+        image: res.data.user.image,
+      });
+    }
+  };
+
   const handleChange = (event) => {
     setUserInfo({
       ...userInfo,
@@ -64,6 +64,8 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log("userId", userId);
 
     const form = new FormData();
     form.append("username", username);
@@ -81,6 +83,7 @@ const Profile = () => {
         }
       );
 
+      console.log("img ", image);
       if (res.status === 200) {
         navigate("/profile");
         toast.success(`${res.data.message}`, {
@@ -123,7 +126,7 @@ const Profile = () => {
       image: file,
     });
 
-    console.log(image);
+    // console.log(image);
   };
 
   const handleRemoveImage = async (event) => {
@@ -131,7 +134,7 @@ const Profile = () => {
 
     setImageUrl(DefaultImage);
 
-    console.log("image", image);
+    // console.log("image", image);
     handleGetUser();
   };
 
