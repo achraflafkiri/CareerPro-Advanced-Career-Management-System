@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
 import { toast } from "react-toastify";
 import axios from "axios";
+import DefaultImage from "../../assets/images/faces/default.png";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -25,6 +26,18 @@ const Profile = () => {
   const { user } = useStateContext();
   const userId = user.id;
 
+  const handleGetUser = async () => {
+    const res = await getOneUser(userId);
+    if (res.data) {
+      setUserInfo({
+        username: res.data.user.username,
+        email: res.data.user.email,
+        location: res.data.user.location,
+        bio: res.data.user.bio,
+        image: res.data.user.image,
+      });
+    }
+  };
   useEffect(() => {
     const handleGetUser = async () => {
       const res = await getOneUser(userId);
@@ -113,13 +126,14 @@ const Profile = () => {
     console.log(image);
   };
 
-  // const handleRemoveImage = (event) => {
-  //   event.preventDefault();
-  //   setUserInfo({
-  //     ...userInfo,
-  //     image: null,
-  //   });
-  // };
+  const handleRemoveImage = async (event) => {
+    event.preventDefault();
+
+    setImageUrl(DefaultImage);
+
+    console.log("image", image);
+    handleGetUser();
+  };
 
   return (
     <div className="row">
@@ -161,7 +175,10 @@ const Profile = () => {
                         </span>
                       </label>
                     </div>
-                    <button className="btn btn-icon btn-sm btn-pink mx-2">
+                    <button
+                      className="btn btn-icon btn-sm btn-pink mx-2"
+                      onClick={handleRemoveImage}
+                    >
                       <Icon path={mdiTrashCanOutline} size={1} />
                     </button>
                   </div>
