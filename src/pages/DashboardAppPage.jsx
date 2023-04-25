@@ -19,14 +19,11 @@ const DashboardAppPage = () => {
     fetchData();
   }, []);
 
-  // const handleChange = () => {
-
-  // }
-
-  const handleSelectCompany = (e) => {
-    e.preventDefault();
-    console.log("Hello");
-    setCompany(company);
+  const handleSelect = (e) => {
+    const selectedCompany = companies.find(
+      (company) => company.company_name === e.target.value
+    );
+    setCompany(selectedCompany);
   };
 
   return (
@@ -55,15 +52,15 @@ const DashboardAppPage = () => {
       </div>
 
       <div className="row">
-        <div className="col-md-7 grid-margin stretch-card">
+        <div className="col-md-7 ">
           <div className="card">
             <div className="card-body">
-              <div
-                id="cash-deposits-chart-legend"
-                className="d-flex justify-content-center align-items-center pt-3"
-              >
-                <BarChart />
-              </div>
+              <p className="card-title">
+                staistics about companies and products
+              </p>
+              <p className="card-text">y: products</p>
+              <p className="card-text">x: companies</p>
+              <BarChart />
             </div>
           </div>
         </div>
@@ -73,7 +70,12 @@ const DashboardAppPage = () => {
               <p className="card-text">
                 <div className="form-group">
                   <label for="company">company</label>
-                  <select className="form-control" id="company" name="company">
+                  <select
+                    className="form-control"
+                    id="company"
+                    name="company"
+                    onChange={handleSelect}
+                  >
                     {companies?.map((company) => (
                       <option value={company.company_name} key={company._id}>
                         {company.company_name}
@@ -83,7 +85,7 @@ const DashboardAppPage = () => {
                 </div>
               </p>
               <div id="d-flex justify-content-center align-items-center pt-3">
-                <DoughnutChart />
+                {company && <DoughnutChart societeId={company._id} />}
               </div>
             </div>
           </div>
@@ -101,14 +103,8 @@ const DashboardAppPage = () => {
                     <tr>
                       <th>Name</th>
                       <th>Address</th>
-                      <th>Phone</th>
+
                       <th>Email</th>
-                      <th>Products</th>
-                      <th>Employees</th>
-                      <th>Materials</th>
-                      <th>Clients</th>
-                      <th>Commandes</th>
-                      <th>Livraisons</th>
                       <th>Last update</th>
                     </tr>
                   </thead>
@@ -116,16 +112,10 @@ const DashboardAppPage = () => {
                     {companies?.map((item, index) => (
                       <tr key={index}>
                         <td>{item.company_name}</td>
-                        {/* <td>{item.description}</td> */}
                         <td>{item.address}</td>
-                        <td>{item.phone}</td>
+
                         <td>{item.email}</td>
-                        <td>{item.products.length}</td>
-                        <td>{item.employees.length}</td>
-                        <td>{item.materials.length}</td>
-                        <td>{item.clients.length}</td>
-                        <td>{item.commandes.length}</td>
-                        <td>{item.livraisons.length}</td>
+
                         <td>{moment(item.updatedAt).fromNow()}</td>
                       </tr>
                     ))}

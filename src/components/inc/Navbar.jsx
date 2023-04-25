@@ -11,8 +11,7 @@ import {
 import styled from "styled-components";
 
 const Navbar = ({ handleNavToggle }) => {
-  const { sidebarIconOnly, setSidebarIconOnly, userId, userImage } =
-    useStateContext();
+  const { sidebarIconOnly, setSidebarIconOnly, userId } = useStateContext();
   const [isLinkActive, setIsLinkActive] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
@@ -23,7 +22,7 @@ const Navbar = ({ handleNavToggle }) => {
     image: null,
   });
 
-  const { username, email, location, bio, image } = userInfo;
+  const { username, image } = userInfo;
 
   useEffect(() => {
     const getUser = async () => {
@@ -31,9 +30,6 @@ const Navbar = ({ handleNavToggle }) => {
       if (res.data) {
         setUserInfo({
           username: res.data.user.username,
-          email: res.data.user.email,
-          location: res.data.user.location,
-          bio: res.data.user.bio,
           image: res.data.user.image,
         });
       }
@@ -44,7 +40,7 @@ const Navbar = ({ handleNavToggle }) => {
 
   const handleToggle = () => {
     setIsLinkActive(!isLinkActive);
-    handleNavToggle(isLinkActive); // isLinkActive is true
+    handleNavToggle(isLinkActive);
   };
 
   const handleShowIcons = () => {
@@ -60,7 +56,7 @@ const Navbar = ({ handleNavToggle }) => {
 
   const StyledIcon = styled(Icon)`
     color: blue;
-    font-size: 10px;
+    font-size: 5px;
     margin-right: 0.5rem;
     vertical-align: middle;
   `;
@@ -69,10 +65,10 @@ const Navbar = ({ handleNavToggle }) => {
     <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div className="navbar-brand-wrapper d-flex justify-content-center">
         <div className="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
-          <Link className="navbar-brand brand-logo" to={"/dashborad"}>
+          <Link className="navbar-brand brand-logo" to={"/dashboard"}>
             Ktm ingenierie
           </Link>
-          <Link className="navbar-brand brand-logo-mini" to={"/dashborad"}>
+          <Link className="navbar-brand brand-logo-mini" to={"/dashboard"}>
             Ktm ingenierie
           </Link>
           <button
@@ -95,7 +91,7 @@ const Navbar = ({ handleNavToggle }) => {
               id="profileDropdown"
             >
               <img
-                src={userImage}
+                src={image}
                 alt="user_photo"
                 className="rounded-circle img-thumbnail"
               />

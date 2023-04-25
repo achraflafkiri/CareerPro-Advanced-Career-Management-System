@@ -24,6 +24,8 @@ export const ContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("ACCESS_IMAGE")) || "default.png"
   );
 
+
+
   const setToken = (token) => {
     _setToken(token);
     if (token) {

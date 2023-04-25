@@ -22474,27 +22474,27 @@ dl li {
   -webkit-transition-property: color;
 }
 
-.sidebar .nav .nav-item .nav-link i {
+.sidebar .nav .nav-item .nav-link svg {
   color: inherit;
 }
 
-.sidebar .nav .nav-item .nav-link i.menu-icon {
+.sidebar .nav .nav-item .nav-link .menu-icon {
   font-size: 1.125rem;
   line-height: 1;
   margin-right: 1.125rem;
   color: inherit;
 }
 
-.rtl .sidebar .nav .nav-item .nav-link i.menu-icon {
+.rtl .sidebar .nav .nav-item .nav-link .menu-icon {
   margin-left: 2rem;
   margin-right: 0;
 }
 
-.sidebar .nav .nav-item .nav-link i.menu-icon:before {
+.sidebar .nav .nav-item .nav-link .menu-icon:before {
   vertical-align: middle;
 }
 
-.sidebar .nav .nav-item .nav-link i.menu-arrow {
+.sidebar .nav .nav-item .nav-link .menu-arrow {
   display: inline-block;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -22503,12 +22503,12 @@ dl li {
   color: #000;
 }
 
-.rtl .sidebar .nav .nav-item .nav-link i.menu-arrow {
+.rtl .sidebar .nav .nav-item .nav-link .menu-arrow {
   margin-left: 0;
   margin-right: auto;
 }
 
-.sidebar .nav .nav-item .nav-link i.menu-arrow:before {
+.sidebar .nav .nav-item .nav-link .menu-arrow:before {
   content: "\F140";
   font-family: "Material Design Icons";
   font-style: normal;
@@ -22525,7 +22525,7 @@ dl li {
 .sidebar .nav .nav-item .nav-link .menu-title {
   color: inherit;
   display: inline-block;
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1;
   vertical-align: middle;
 }
