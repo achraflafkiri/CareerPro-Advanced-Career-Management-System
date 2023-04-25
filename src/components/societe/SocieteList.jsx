@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EditModal from "./SocieteEdit";
 import DeleteModal from "./SocieteDelete";
 import { getAllCompanies, getOneCompany } from "../../api/functions/companies";
@@ -8,10 +8,13 @@ import {
   mdiPencil,
   mdiDeleteEmptyOutline,
   mdiEyeArrowRightOutline,
+  mdiReload,
+  mdiPlus,
 } from "@mdi/js";
 import { toast } from "react-toastify";
 
 const SocieteList = () => {
+  const navigate = useNavigate();
   const [dataList, setDataList] = useState(null);
   const [editForm, setEditForm] = useState(null);
   const [deleteForm, setdeleteForm] = useState(null);
@@ -49,6 +52,11 @@ const SocieteList = () => {
     console.log(res.data.data.companies);
   };
 
+  const refresh = (e) => {
+    e.preventDefault();
+    fetchData();
+  };
+
   return (
     <>
       <EditModal value={editForm} societeId={societeId} fetchData={fetchData} />
@@ -63,14 +71,24 @@ const SocieteList = () => {
         <div className="col-lg-12 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
-              <div className="d-flex align-item-center justify-content-between">
+              <div className="d-flex align-item-center justify-content-between my-3">
                 <h3 className="card-title">Liste des sociétés</h3>
-                <Link
-                  to="/societe/create"
-                  className="btn btn-primary btn-sm float-end text-white card-description"
-                >
-                  Ajouter une societé
-                </Link>
+                <div className="d-flex align-item-center justify-content-between">
+                  <div>
+                    <button
+                      onClick={refresh}
+                      className="btn btn-light btn-icon btn-fw mx-1"
+                    >
+                      <Icon path={mdiReload} size={1} />{" "}
+                    </button>
+                    <button
+                      onClick={() => navigate(`/societe/create`)}
+                      className="btn btn-light btn-icon btn-fw mx-1"
+                    >
+                      <Icon path={mdiPlus} size={1} />
+                    </button>
+                  </div>
+                </div>
               </div>
               <div className="table-responsive">
                 <table className="table table-striped table-bordered">

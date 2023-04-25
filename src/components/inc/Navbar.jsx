@@ -3,11 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import Icon from "@mdi/react";
 import { getOneUser } from "../../api/functions/profile";
-import {
-  mdiLogout,
-  mdiPhoneSettingsOutline,
-  mdiAccountSettingsOutline,
-} from "@mdi/js";
+import { mdiLogout, mdiAccountCircleOutline } from "@mdi/js";
 import styled from "styled-components";
 
 const Navbar = ({ handleNavToggle }) => {
@@ -55,7 +51,7 @@ const Navbar = ({ handleNavToggle }) => {
   };
 
   const StyledIcon = styled(Icon)`
-    color: blue;
+    color: #000;
     font-size: 5px;
     margin-right: 0.5rem;
     vertical-align: middle;
@@ -102,13 +98,11 @@ const Navbar = ({ handleNavToggle }) => {
               aria-labelledby="profileDropdown"
             >
               <Link className="dropdown-item" to={"/profile"}>
-                <StyledIcon path={mdiAccountSettingsOutline} size={1} />
+                <StyledIcon path={mdiAccountCircleOutline} size={1} />
                 Profile
               </Link>
               <button className="dropdown-item" onClick={handleLogout}>
-                {/* <i className="mdi mdi-logout text-primary"></i> */}
-                <StyledIcon path={mdiLogout} size={1} />
-                Logout
+                <StyledIcon path={mdiLogout} size={1} /> Logout
               </button>
             </div>
           </li>
