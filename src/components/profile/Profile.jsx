@@ -79,7 +79,7 @@ const Profile = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:3000/api/v1/profile/${userId}`,
+        `https://test-afxm.onrender.com/api/v1/profile/${userId}`,
         form,
         {
           headers: { "Content-Type": "multipart/form-data" },
