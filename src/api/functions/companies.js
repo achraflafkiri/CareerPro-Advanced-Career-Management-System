@@ -53,3 +53,14 @@ export const deleteCompany = (societeId, token) => {
 
   return api.delete(`companies/${societeId}`, config);
 };
+
+export const deleteAllCompanies = (societeId, token) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return api.delete(`companies`, config);
+};

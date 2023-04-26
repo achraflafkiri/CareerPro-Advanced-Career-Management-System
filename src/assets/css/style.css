@@ -23194,3 +23194,24 @@ dl li {
 }
 
 /*# sourceMappingURL=maps/style.css.map */
+
+/* achraf lafkiri css */
+
+.btn-add {
+  background: #00baf0;
+  /* background: linear-gradient(90deg, rgba(0,144,186,1) 0%, rgba(0,186,240,1) 100%);   */
+  color: #fff;
+}
+
+.btn-delete {
+  background: #ff00b5;
+  /* background: linear-gradient(90deg, rgba(186,0,132,1) 0%, rgba(255,0,181,1) 100%); */
+  color: #fff;  
+}
+
+/* refresh */
+.btn-ref {
+  background: #00e38c;
+  /* background: linear-gradient(90deg, rgba(0,186,115,1) 0%, rgba(0,227,140,1) 100%); */
+  color: #fff;
+}

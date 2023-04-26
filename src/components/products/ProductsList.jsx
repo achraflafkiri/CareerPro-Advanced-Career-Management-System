@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from "react";
 import ProductCreate from "./ProductCreate";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { getAllProducts, getOneProduct } from "../../api/functions/products";
+import {
+  deleteAllProducts,
+  getAllProducts,
+  getOneProduct,
+} from "../../api/functions/products";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import Icon from "@mdi/react";
-import { mdiTextBoxPlusOutline, mdiPlus, mdiDeleteEmptyOutline } from "@mdi/js";
+import {
+  mdiTextBoxPlusOutline,
+  mdiPlus,
+  mdiDeleteEmptyOutline,
+  mdiTrashCanOutline,
+  mdiReload,
+} from "@mdi/js";
 
 import DeleteModal from "./ProductDelete";
+import { useStateContext } from "../../context/ContextProvider";
 
 const ProductsList = () => {
   const navigate = useNavigate();
@@ -60,6 +71,43 @@ const ProductsList = () => {
     navigate(`${productId}`);
   };
 
+  const refresh = (e) => {
+    e.preventDefault();
+    fetchData();
+  };
+
+  const { token } = useStateContext();
+  const handleDeleteAllProducts = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await deleteAllProducts(societeId, token);
+      if (res.status === 200) {
+        toast.success(`${res.data.message}`, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
+        fetchData();
+      }
+    } catch (err) {
+      toast.warn(`${err.response.data.message}`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
   return (
     <>
       <ProductCreate fetchData={fetchData} />
@@ -85,7 +133,19 @@ const ProductsList = () => {
 
                 <div>
                   <button
-                    className="btn btn-light btn-icon btn-fw mx-1"
+                    onClick={handleDeleteAllProducts}
+                    className="btn btn-delete btn-icon btn-fw mx-1"
+                  >
+                    <Icon path={mdiTrashCanOutline} size={1} />
+                  </button>
+                  <button
+                    onClick={refresh}
+                    className="btn btn-ref btn-icon btn-fw mx-1"
+                  >
+                    <Icon path={mdiReload} size={1} />{" "}
+                  </button>
+                  <button
+                    className="btn btn-add btn-icon btn-fw mx-1"
                     data-bs-toggle="modal"
                     data-bs-target="#addProduct"
                   >

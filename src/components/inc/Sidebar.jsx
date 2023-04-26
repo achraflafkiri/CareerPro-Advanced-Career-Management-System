@@ -135,7 +135,7 @@ const Sidebar = ({ isLinkActive }) => {
         {isSocieteId ? (
           <>
             <li className="nav-item">
-              <Link className="nav-link" to={`/societe/${societeId}`}>
+              <Link className="nav-link" to={`/societe/${societeId}/products`}>
                 <svg
                   width="30"
                   height="30"
@@ -151,7 +151,7 @@ const Sidebar = ({ isLinkActive }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={`/societe/${societeId}/products`}>
+              <Link className="nav-link" to={`/societe/${societeId}/employees`}>
                 <svg
                   width="30"
                   height="30"
@@ -212,7 +212,7 @@ const Sidebar = ({ isLinkActive }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={`/societe/${societeId}/products`}>
+              <Link className="nav-link" to={`/societe/${societeId}/materials`}>
                 <svg
                   width="30"
                   height="30"
