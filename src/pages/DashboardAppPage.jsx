@@ -12,8 +12,8 @@ const DashboardAppPage = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await getAllCompanies();
-      if (res.data) {
-        setCompanies(res.data.data.companies);
+      if (res.status === 200) {
+        setCompanies(res.data.companies);
       }
     }
     fetchData();

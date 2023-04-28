@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../context/ContextProvider";
-import { getOneUser } from "../../api/functions/profile";
+import { getOneUser, updateUser } from "../../api/functions/profile";
 import Icon from "@mdi/react";
 import { mdiAccountEdit, mdiTrashCanOutline, mdiArrowTopRight } from "@mdi/js";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import DefaultImage from "../../assets/images/faces/default.png";
 import "./style.css";
 
 const Profile = () => {
-  const { userId, setUserImage } = useStateContext();
+  const { userId, setUserImage, token } = useStateContext();
 
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState("");
@@ -78,13 +78,7 @@ const Profile = () => {
     form.append("image", image);
 
     try {
-      const res = await axios.put(
-        `https://test-afxm.onrender.com/api/v1/profile/${userId}`,
-        form,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const res = await updateUser(token, form, userId);
 
       if (res.status === 200) {
         navigate("/profile");

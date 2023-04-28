@@ -7,22 +7,11 @@ export const updateUser = (token, formData, userId) => {
 
   const config = {
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const { username, email, bio, location } = formData;
-  const data = {
-    username,
-    email,
-    bio,
-    location,
-  };
-
-  return api.put(`profile/${userId}`, data, config);
+    return api.put(`profile/${userId}`, formData, config);
 };
 
-// export const deleteImage=(token, formData, userId)=>{
-
-// }
