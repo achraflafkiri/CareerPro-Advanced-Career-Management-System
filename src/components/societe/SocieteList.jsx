@@ -80,38 +80,6 @@ const SocieteList = () => {
     fetchData();
   };
 
-  const { token } = useStateContext();
-  const handleDeleteAllCompanies = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await deleteAllCompanies(societeId, token);
-      if (res.status === 200) {
-        toast.success(`${res.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
-        fetchData();
-      }
-    } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
-
   return (
     <>
       <EditModal value={editForm} societeId={societeId} fetchData={fetchData} />
@@ -130,12 +98,6 @@ const SocieteList = () => {
                 <h3 className="card-title">Liste des sociétés</h3>
                 <div className="d-flex align-item-center justify-content-between">
                   <div>
-                    <button
-                      onClick={handleDeleteAllCompanies}
-                      className="btn btn-delete btn-icon btn-fw mx-1"
-                    >
-                      <Icon path={mdiTrashCanOutline} size={1} />
-                    </button>
                     <button
                       onClick={refresh}
                       className="btn btn-ref btn-icon btn-fw mx-1"

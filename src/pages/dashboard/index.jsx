@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import DoughnutChart from "../components/Charts/DoughnutChart";
-import BarChart from "../components/Charts/BarChart";
-import { getAllCompanies } from "../api/functions/companies";
+import DoughnutChart from "../../components/Charts/DoughnutChart";
+import BarChart from "../../components/Charts/BarChart";
+import { getAllCompanies } from "../../api/functions/companies";
 import moment from "moment";
+import "./style.css";
 
 const DashboardAppPage = () => {
   const [companies, setCompanies] = useState(null);
@@ -52,39 +53,71 @@ const DashboardAppPage = () => {
       </div>
 
       <div className="row">
-        <div className="col-md-7 ">
+        <div className="col-md-7 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
-              <p className="card-title">
-                staistics about companies and products
+              <div className="chartjs-size-monitor">
+                <div className="chartjs-size-monitor-expand">
+                  <div className=""></div>
+                </div>
+                <div className="chartjs-size-monitor-shrink">
+                  <div className=""></div>
+                </div>
+              </div>
+              <p className="card-title">Cash deposits</p>
+              <p className="mb-4">
+                To start a blog, think of a topic about and first brainstorm
+                party is ways to write details
               </p>
-              <p className="card-text">y: products</p>
-              <p className="card-text">x: companies</p>
-              <BarChart />
+              <div
+                id="cash-deposits-chart-legend"
+                className="d-flex justify-content-center pt-3"
+              >
+                <ul className="dashboard-chart-legend">
+                  <li>
+                    <span style={{ backgroundColor: "#ff4747" }}></span>Returns
+                  </li>
+                  <li>
+                    <span style={{ backgroundColor: "#4d83ff" }}></span>Sales
+                  </li>
+                  <li>
+                    <span style={{ backgroundColor: "#ffc100" }}></span>Loss
+                  </li>
+                </ul>
+              </div>
+              <BarChart />{" "}
             </div>
           </div>
         </div>
         <div className="col-md-5 grid-margin stretch-card">
           <div className="card">
+            <div className="chartjs-size-monitor">
+              <div className="chartjs-size-monitor-expand">
+                <div className=""></div>
+              </div>
+              <div className="chartjs-size-monitor-shrink">
+                <div className=""></div>
+              </div>
+            </div>
             <div className="card-body">
-              <p className="card-text">
-                <div className="form-group">
-                  <label for="company">company</label>
-                  <select
-                    className="form-control"
-                    id="company"
-                    name="company"
-                    onChange={handleSelect}
-                  >
-                    {companies?.map((company) => (
-                      <option value={company.company_name} key={company._id}>
-                        {company.company_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </p>
-              <div id="d-flex justify-content-center align-items-center pt-3">
+              <p className="card-title">Please select a company</p>
+              <h1></h1>
+              <h4></h4>
+              <p className="text-muted"></p>
+              <div id="total-sales-chart-legend">
+                <label for="company"></label>
+                <select
+                  className="form-control"
+                  id="company"
+                  name="company"
+                  onChange={handleSelect}
+                >
+                  {companies?.map((company) => (
+                    <option value={company.company_name} key={company._id}>
+                      {company.company_name}
+                    </option>
+                  ))}
+                </select>
                 {company && <DoughnutChart societeId={company._id} />}
               </div>
             </div>
@@ -92,13 +125,16 @@ const DashboardAppPage = () => {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row my-3">
         <div className="col-md-12 stretch-card">
           <div className="card">
             <div className="card-body">
               <p className="card-title">Recent Purchases</p>
               <div className="table-responsive">
-                <table id="recent-purchases-listing" className="table">
+                <table
+                  id="recent-purchases-listing"
+                  className="table dataTable no-footer"
+                >
                   <thead>
                     <tr>
                       <th>Name</th>

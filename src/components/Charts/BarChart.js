@@ -15,7 +15,7 @@ const BarChart = () => {
     async function fetchData() {
       const res = await getAllCompanies();
       if (res.data) {
-        setCompanies(res.data.data.companies);
+        setCompanies(res.data.companies);
         // setProducts(res.data.data.companies._id);
         console.log(
           " res.data.data.companies._id ",

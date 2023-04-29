@@ -20,11 +20,7 @@ export const ContextProvider = ({ children }) => {
   const [userId, _setUserID] = useState(
     JSON.parse(localStorage.getItem("ACCESS_ID"))
   );
-  const [userImage, _setUserImage] = useState(
-    JSON.parse(localStorage.getItem("ACCESS_IMAGE")) || "default.png"
-  );
-
-
+  const [userImage, _setUserImage] = useState(null);
 
   const setToken = (token) => {
     _setToken(token);
@@ -53,11 +49,6 @@ export const ContextProvider = ({ children }) => {
 
   const setUserImage = (user_Image) => {
     _setUserImage(user_Image);
-    if (user_Image) {
-      localStorage.setItem("ACCESS_IMAGE", JSON.stringify(user_Image));
-    } else {
-      localStorage.removeItem("ACCESS_IMAGE");
-    }
   };
 
   return (

@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import SocieteCreate from "./components/societe/SocieteCreate";
 import SocieteList from "./components/societe/SocieteList";
@@ -28,7 +33,9 @@ import Register from "./pages/auth/RegisterPage";
 
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
-import Dashboard from "./pages/DashboardAppPage";
+
+import Dashboard from "./pages/dashboard/index";
+
 import CommandeEdit from "./components/clients/commandes/CommandeEdit";
 import CommandeCreate from "./components/clients/commandes/CommandeCreate";
 
@@ -55,6 +62,7 @@ const App = () => {
             />
           }
         >
+          <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<EditProfile />} />

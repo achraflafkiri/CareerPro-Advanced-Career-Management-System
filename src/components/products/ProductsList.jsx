@@ -18,6 +18,7 @@ import {
 } from "@mdi/js";
 
 import DeleteModal from "./ProductDelete";
+import DeleteAllModal from "./productDeleteAll";
 import { useStateContext } from "../../context/ContextProvider";
 
 const ProductsList = () => {
@@ -76,43 +77,18 @@ const ProductsList = () => {
     fetchData();
   };
 
-  const { token } = useStateContext();
-  const handleDeleteAllProducts = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await deleteAllProducts(societeId, token);
-      if (res.status === 200) {
-        toast.success(`${res.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
-        fetchData();
-      }
-    } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
-
   return (
     <>
       <ProductCreate fetchData={fetchData} />
 
       <DeleteModal
+        value={deleteForm}
+        societeId={societeId}
+        productId={productId}
+        fetchData={fetchData}
+      />
+
+      <DeleteAllModal
         value={deleteForm}
         societeId={societeId}
         productId={productId}
@@ -133,8 +109,9 @@ const ProductsList = () => {
 
                 <div>
                   <button
-                    onClick={handleDeleteAllProducts}
                     className="btn btn-delete btn-icon btn-fw mx-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteAllProducts"
                   >
                     <Icon path={mdiTrashCanOutline} size={1} />
                   </button>

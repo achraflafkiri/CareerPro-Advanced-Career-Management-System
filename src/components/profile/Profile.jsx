@@ -52,9 +52,6 @@ const Profile = () => {
         bio: res.data.user.bio,
         image: res.data.user.image,
       });
-
-      setUserImage(image);
-      console.log("poi", image);
     }
   };
 
@@ -81,6 +78,7 @@ const Profile = () => {
       const res = await updateUser(token, form, userId);
 
       if (res.status === 200) {
+        setUserImage(image);
         navigate("/profile");
         toast.success(`${res.data.message}`, {
           position: "bottom-right",

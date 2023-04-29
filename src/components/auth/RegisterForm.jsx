@@ -61,7 +61,7 @@ const RegisterForm = () => {
                 type="text"
                 name="username"
                 id="username"
-                className="form-control"
+                className="form-control special_styling"
               />
               <ErrorMessage
                 name="username"
@@ -75,7 +75,7 @@ const RegisterForm = () => {
                 type="email"
                 name="email"
                 id="email"
-                className="form-control"
+                className="form-control special_styling"
               />
               <ErrorMessage
                 name="email"
@@ -89,7 +89,7 @@ const RegisterForm = () => {
                 type="password"
                 name="password"
                 id="password"
-                className="form-control"
+                className="form-control special_styling"
               />
               <ErrorMessage
                 name="password"
@@ -103,7 +103,7 @@ const RegisterForm = () => {
                 type="password"
                 name="confirmPassword"
                 id="confirmPassword"
-                className="form-control"
+                className="form-control special_styling"
               />
               <ErrorMessage
                 name="confirmPassword"

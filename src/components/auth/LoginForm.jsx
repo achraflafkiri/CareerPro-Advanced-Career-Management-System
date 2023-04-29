@@ -54,7 +54,7 @@ const LoginForm = () => {
                 type="text"
                 name="username"
                 id="username"
-                className="form-control"
+                className="form-control special_styling"
               />
               <ErrorMessage name="username" component="div" className="error" />
             </div>
@@ -64,7 +64,7 @@ const LoginForm = () => {
                 type="password"
                 name="password"
                 id="password"
-                className="form-control"
+                className="form-control special_styling"
               />
               <ErrorMessage name="password" component="div" className="error" />
             </div>

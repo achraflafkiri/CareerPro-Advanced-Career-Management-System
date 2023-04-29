@@ -2,8 +2,9 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  height: 100% !important;
-  background-color: #f0f2f5;
+  height: 100vh !important;
+  padding: 20px 10px !important;
+  background-color: #f0f2f5 !important;
 }
 
 .forms-box {
@@ -16,8 +17,13 @@
   box-sizing: border-box;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  background-color: #fff !important;
 }
 
 .error {
   color: red !important;
+}
+
+.special_styling:hover {
+  color: green;
 }
