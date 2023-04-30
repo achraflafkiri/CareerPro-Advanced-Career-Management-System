@@ -5,6 +5,7 @@ import Icon from "@mdi/react";
 import { getOneUser } from "../../api/functions/profile";
 import { mdiLogout, mdiAccountCircleOutline } from "@mdi/js";
 import styled from "styled-components";
+import logo from "../../assets/images/logo.jpg";
 
 const Navbar = ({ handleNavToggle }) => {
   const { sidebarIconOnly, setSidebarIconOnly, userId, userImage } =
@@ -63,10 +64,10 @@ const Navbar = ({ handleNavToggle }) => {
       <div className="navbar-brand-wrapper d-flex justify-content-center">
         <div className="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
           <Link className="navbar-brand brand-logo" to={"/dashboard"}>
-            Ktm ingenierie
+            <img src={logo} alt="logo" />
           </Link>
           <Link className="navbar-brand brand-logo-mini" to={"/dashboard"}>
-            Ktm ingenierie
+            <img src={logo} alt="logo" />
           </Link>
           <button
             className="navbar-toggler navbar-toggler align-self-center"
