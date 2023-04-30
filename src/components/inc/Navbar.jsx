@@ -88,7 +88,9 @@ const Navbar = ({ handleNavToggle }) => {
               id="profileDropdown"
             >
               <img
-                src={userImage || image}
+                src={
+                  image || "https://test-afxm.onrender.com/profile/default.png"
+                }
                 alt="user_photo"
                 className="rounded-circle img-thumbnail"
               />
