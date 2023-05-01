@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React  from "react";
 import { useStateContext } from "../../context/ContextProvider";
-import { deleteAllProducts, deleteProduct } from "../../api/functions/products";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { deleteAllProducts } from "../../api/functions/products";
 
 const ProductDeleteAll = ({ value, societeId, productId, fetchData }) => {
   const { token } = useStateContext();
@@ -11,29 +9,10 @@ const ProductDeleteAll = ({ value, societeId, productId, fetchData }) => {
     try {
       const res = await deleteAllProducts(societeId, token);
       if (res.status === 200) {
-        toast.success(`${res.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
         fetchData();
       }
     } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.error(err.response.data.message);
     }
   };
 

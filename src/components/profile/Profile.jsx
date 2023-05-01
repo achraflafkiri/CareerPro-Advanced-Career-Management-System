@@ -2,17 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import { getOneUser, updateUser } from "../../api/functions/profile";
 import Icon from "@mdi/react";
-import { mdiAccountEdit, mdiTrashCanOutline, mdiArrowTopRight } from "@mdi/js";
-import { Link, useNavigate } from "react-router-dom";
+import { mdiTrashCanOutline, mdiArrowTopRight } from "@mdi/js";
 import { toast } from "react-toastify";
-import axios from "axios";
 import DefaultImage from "../../assets/images/faces/default.png";
 import "./style.css";
 
 const Profile = () => {
   const { userId, setUserImage, token } = useStateContext();
 
-  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState("");
 
   const [userInfo, setUserInfo] = useState({
@@ -79,8 +76,8 @@ const Profile = () => {
 
       if (res.status === 200) {
         setUserImage(image);
-        navigate("/profile");
-        toast.success(`${res.data.message}`, {
+        window.location.reload(true);
+        toast.info(`${res.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

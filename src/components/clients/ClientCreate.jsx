@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { createNewClient } from "../../api/functions/clients";
 import { useStateContext } from "../../context/ContextProvider";
 import { toast } from "react-toastify";
 import CommandeCreate from "./commandes/CommandeCreate";
-import classNames from "classnames";
 
 const ClientCreate = () => {
-  const navigate = useNavigate();
   const { token } = useStateContext();
   const { societeId } = useParams();
 

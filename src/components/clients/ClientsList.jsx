@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getAllClients, getOneClient } from "../../api/functions/clients";
 import DeleteModal from "./ClientDelete";
 import "react-toastify/dist/ReactToastify.css";
 
 import Icon from "@mdi/react";
-import { mdiTextBoxPlusOutline, mdiDeleteEmptyOutline } from "@mdi/js";
+import {
+  mdiTextBoxPlusOutline,
+  mdiDeleteEmptyOutline,
+  mdiPlus,
+  mdiReload,
+} from "@mdi/js";
 
 const ClientsList = () => {
   const navigate = useNavigate();
@@ -28,7 +33,6 @@ const ClientsList = () => {
     event.preventDefault();
     try {
       const response = await getOneClient(societeId, clientId);
-      console.log(" ----- >", clientId);
       if (response.data) {
         console.log(response.data.client._id);
         setClient(response.data.client);
@@ -36,7 +40,7 @@ const ClientsList = () => {
         setDeleteForm(response.data.client);
       }
     } catch (err) {
-      console.error(err);
+      console.error(err.response.data.message);
     }
   };
 
@@ -50,6 +54,11 @@ const ClientsList = () => {
     id: index + 1,
     ...item,
   }));
+
+  const refresh = (e) => {
+    e.preventDefault();
+    fetchData();
+  };
 
   return (
     <>
@@ -71,11 +80,17 @@ const ClientsList = () => {
 
                 <div className="d-flex align-items-center justify-content-between mx-2">
                   <button
+                    onClick={refresh}
+                    className="btn btn-ref btn-icon btn-fw mx-1"
+                  >
+                    <Icon path={mdiReload} size={1} />{" "}
+                  </button>{" "}
+                  <button
                     type="button"
-                    className="btn btn-light bg-white btn-icon me-3 mt-2 mt-xl-0 mx-1"
+                    className="btn btn-add btn-icon btn-fw mx-1"
                     onClick={() => navigate(`create`)}
                   >
-                    <i className="mdi mdi-plus text-muted"></i>
+                    <Icon path={mdiPlus} size={1} />{" "}
                   </button>
                   <button
                     type="button"

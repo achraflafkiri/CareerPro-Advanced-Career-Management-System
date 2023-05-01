@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import Icon from "@mdi/react";
 import { getOneUser } from "../../api/functions/profile";
 import { mdiLogout, mdiAccountCircleOutline } from "@mdi/js";
 import styled from "styled-components";
-import logo from "../../assets/images/logo.jpg";
 
 const Navbar = ({ handleNavToggle }) => {
-  const { sidebarIconOnly, setSidebarIconOnly, userId, userImage } =
-    useStateContext();
+  const { sidebarIconOnly, setSidebarIconOnly, userId } = useStateContext();
   const [isLinkActive, setIsLinkActive] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
@@ -64,10 +62,14 @@ const Navbar = ({ handleNavToggle }) => {
       <div className="navbar-brand-wrapper d-flex justify-content-center">
         <div className="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
           <Link className="navbar-brand brand-logo" to={"/dashboard"}>
-            <img src={logo} alt="logo" />
+            <figure style={{ width: "100px" }}>
+              {/* <img src={logo} alt="logo" style={{ width: "100%" }} /> */}
+            </figure>
           </Link>
           <Link className="navbar-brand brand-logo-mini" to={"/dashboard"}>
-            <img src={logo} alt="logo" />
+            <figure style={{ width: "100px" }}>
+              {/* <img src={logo} alt="logo" style={{ width: "100%" }} /> */}
+            </figure>
           </Link>
           <button
             className="navbar-toggler navbar-toggler align-self-center"
@@ -89,9 +91,7 @@ const Navbar = ({ handleNavToggle }) => {
               id="profileDropdown"
             >
               <img
-                src={
-                  image || "https://test-afxm.onrender.com/profile/default.png"
-                }
+                src={image || "http://localhost:8080/profile/default.png"}
                 alt="user_photo"
                 className="rounded-circle img-thumbnail"
               />

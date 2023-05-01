@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import { deleteMaterial } from "../../api/functions/materials";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const MaterialDelete = ({ value, societeId, materialId, fetchData }) => {
   const { token } = useStateContext();
@@ -19,16 +17,7 @@ const MaterialDelete = ({ value, societeId, materialId, fetchData }) => {
         throw new Error("failed");
       }
     } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.log(err.response.data.message);
     }
   };
 

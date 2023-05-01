@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import EditModal from "./SocieteEdit";
 import DeleteModal from "./SocieteDelete";
-import {
-  deleteAllCompanies,
-  getAllCompanies,
-  getOneCompany,
-} from "../../api/functions/companies";
+import { getAllCompanies, getOneCompany } from "../../api/functions/companies";
 import Icon from "@mdi/react";
 import {
   mdiPencil,
@@ -14,10 +10,7 @@ import {
   mdiEyeArrowRightOutline,
   mdiReload,
   mdiPlus,
-  mdiTrashCanOutline,
 } from "@mdi/js";
-import { toast } from "react-toastify";
-import { useStateContext } from "../../context/ContextProvider";
 
 const SocieteList = () => {
   const navigate = useNavigate();
@@ -26,7 +19,6 @@ const SocieteList = () => {
   const [deleteForm, setdeleteForm] = useState(null);
   const [societeId, setSocieteId] = useState(null);
 
-  // Fetch company data
   useEffect(() => {
     async function fetchData() {
       const res = await getAllCompanies();
@@ -45,10 +37,9 @@ const SocieteList = () => {
       if (response.data) {
         setEditForm(response.data.company);
         setdeleteForm(response.data.company);
-        console.log("response.data.company => ", response.data.company);
       }
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.message);
     }
   };
 
@@ -57,21 +48,12 @@ const SocieteList = () => {
       const res = await getAllCompanies(societeId);
       if (res.status === 200) {
         setDataList(res.data.companies);
-        console.log(res.data.companies);
+        console.log("res.data.companies", res.data.companies);
       } else {
         setDataList([]);
       }
-    } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+    } catch (error) {
+      console.log(error);
     }
   };
 

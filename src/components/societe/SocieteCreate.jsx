@@ -20,9 +20,9 @@ const SocieteCreate = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    company_name: Yup.string().required("Nom de société est requis"),
-    address: Yup.string().required("Address est requis"),
-    phone: Yup.string().required("Téléphone est requis"),
+    company_name: Yup.string().required("Name is required"),
+    address: Yup.string().required("Address is required"),
+    phone: Yup.string().required("Phone is required"),
     email: Yup.string().email("Email invalide").required("Email est requis"),
   });
 
@@ -36,7 +36,7 @@ const SocieteCreate = () => {
       const response = await createNewCompany(token, values);
       if (response.status === 201) {
         navigate("/societe");
-        toast.success(`${response.data.message}`, {
+        toast.info(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -49,18 +49,8 @@ const SocieteCreate = () => {
       } else {
         throw new Error("failed");
       }
-    } catch (err) {
-      console.log("msg => ", err);
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
       setSubmitting(false);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getOneClient, updateClient } from "../../api/functions/clients";
 import {
   deleteCommande,
@@ -9,16 +9,12 @@ import { toast } from "react-toastify";
 import { useStateContext } from "../../context/ContextProvider";
 import CommandeEdit from "./commandes/CommandeEdit";
 
-import {
-  createNewCommande,
-  getAllCommandes,
-} from "../../api/functions/commandes";
+import { getAllCommandes } from "../../api/functions/commandes";
 
 import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
+import { mdiDeleteEmptyOutline } from "@mdi/js";
 
 const ClientForm = () => {
-  const navigate = useNavigate();
   const { societeId, clientId } = useParams();
   const [newEditVal, setNewEditVal] = useState({
     client_name: "",
@@ -29,12 +25,10 @@ const ClientForm = () => {
   async function fetchData() {
     const res = await getAllCommandes(societeId, clientId);
     setCommands(res.data.commandes);
-    // console.log(res.data);
   }
 
   const { client_name, matricule, volume } = newEditVal;
   const [commands, setCommands] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(!societeId);
   const [totalQuantity, setTotalQuantity] = useState(0);
 
@@ -72,16 +66,7 @@ const ClientForm = () => {
           });
         }
       } catch (err) {
-        toast.warn(`${err.response.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
+        console.error(err.response.data.message);
       }
     };
 
@@ -92,8 +77,6 @@ const ClientForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(true);
-
       if (!token) {
         throw new Error("Token not found");
       }
@@ -130,8 +113,6 @@ const ClientForm = () => {
         progress: undefined,
         theme: "colored",
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -139,7 +120,6 @@ const ClientForm = () => {
     async function fetchData() {
       const res = await getAllCommandes(societeId, clientId);
       setCommands(res.data.commandes);
-      // console.log(res.data);
     }
     fetchData();
   }, [societeId, clientId]);
@@ -149,29 +129,10 @@ const ClientForm = () => {
     try {
       const res = await deleteCommande(token, societeId, clientId, commandeId);
       if (res.data) {
-        toast.success(`Commande deleted successfully`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
         fetchData();
       }
     } catch (err) {
-      toast.error(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.error(err.response.data.message);
     }
   };
 
@@ -180,29 +141,10 @@ const ClientForm = () => {
     try {
       const res = await deleteAllcommandes(token, societeId, clientId);
       if (res.data) {
-        toast.success(`All commandes are deleted successfully`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
         fetchData();
       }
     } catch (err) {
-      toast.error(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.error(err.response.data.message);
     }
   };
 

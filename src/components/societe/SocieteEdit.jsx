@@ -62,8 +62,8 @@ const SocieteEdit = ({ value, societeId, fetchData }) => {
       } else {
         throw new Error("failed");
       }
-    } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
+    } catch (error) {
+      toast.warn(`${error.response.data.message}`, {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,

@@ -4,13 +4,12 @@ import { getAllMaterials, getOneMaterial } from "../../api/functions/materials";
 import DeleteModal from "./MaterialDelete";
 import EditModal from "./MaterialEdit";
 import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline, mdiPlus } from "@mdi/js";
+import { mdiPencil, mdiDeleteEmptyOutline, mdiPlus, mdiReload } from "@mdi/js";
 import { toast } from "react-toastify";
 
 const MaterialList = () => {
   const navigate = useNavigate();
   const [dataList, setDataList] = useState(null);
-  const [editForm, setEditForm] = useState(null);
   const [deleteForm, setdeleteForm] = useState(null);
   const [materialId, setmaterialId] = useState(null);
 
@@ -30,7 +29,6 @@ const MaterialList = () => {
       const response = await getOneMaterial(societeId, materialId);
 
       if (response.data) {
-        setEditForm(response.data.material);
         setdeleteForm(response.data.material);
         setmaterialId(response.data.material._id);
       }
@@ -51,6 +49,11 @@ const MaterialList = () => {
   const fetchData = async () => {
     const res = await getAllMaterials(societeId);
     setDataList(res.data.materials);
+  };
+
+  const refresh = (e) => {
+    e.preventDefault();
+    fetchData();
   };
 
   return (
@@ -81,10 +84,16 @@ const MaterialList = () => {
 
                 <div>
                   <button
+                    onClick={refresh}
+                    className="btn btn-ref btn-icon btn-fw mx-1"
+                  >
+                    <Icon path={mdiReload} size={1} />{" "}
+                  </button>
+                  <button
                     onClick={() =>
                       navigate(`/societe/${societeId}/Materials/create`)
                     }
-                    className="btn btn-light btn-icon btn-fw mx-1"
+                    className="btn btn-add btn-icon btn-fw mx-1"
                   >
                     <Icon path={mdiPlus} size={1} />
                   </button>

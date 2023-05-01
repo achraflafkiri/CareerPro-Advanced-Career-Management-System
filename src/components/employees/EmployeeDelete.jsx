@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import { deleteEmployee } from "../../api/functions/employees";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const EmployeeDelete = ({ value, societeId, employeeId, fetchData }) => {
   console.log(employeeId);
@@ -16,31 +14,12 @@ const EmployeeDelete = ({ value, societeId, employeeId, fetchData }) => {
       const response = await deleteEmployee(token, societeId, employeeId);
       if (response.status === 200) {
         fetchData();
-        toast.success(`${response.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
       } else {
         throw new Error("failed");
       }
     } catch (err) {
       fetchData();
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.error(err.response.data.message);
     }
   };
 

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCreate from "./ProductCreate";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import {
-  deleteAllProducts,
-  getAllProducts,
-  getOneProduct,
-} from "../../api/functions/products";
+import { useParams, useNavigate } from "react-router-dom";
+import { getAllProducts, getOneProduct } from "../../api/functions/products";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import Icon from "@mdi/react";
@@ -19,13 +15,11 @@ import {
 
 import DeleteModal from "./ProductDelete";
 import DeleteAllModal from "./productDeleteAll";
-import { useStateContext } from "../../context/ContextProvider";
 
 const ProductsList = () => {
   const navigate = useNavigate();
 
   const [dataList, setDataList] = useState(null);
-  const [editForm, setEditForm] = useState(null);
   const [deleteForm, setdeleteForm] = useState(null);
   const [productId, setProductId] = useState(null);
 
@@ -44,7 +38,6 @@ const ProductsList = () => {
     try {
       const response = await getOneProduct(societeId, productId);
       if (response.data) {
-        setEditForm(response.data.product);
         setdeleteForm(response.data.product);
         setProductId(response.data.product._id);
       }
@@ -75,6 +68,7 @@ const ProductsList = () => {
   const refresh = (e) => {
     e.preventDefault();
     fetchData();
+    console.log("dataList", dataList);
   };
 
   return (
@@ -137,7 +131,7 @@ const ProductsList = () => {
                 </div>
               </div>
 
-              <table className="table table-striped">
+              <table className="table table-bordered table-striped">
                 <thead>
                   <th className="text-center align-middle">Product name</th>
                   <th className="text-center align-middle">Quantity</th>

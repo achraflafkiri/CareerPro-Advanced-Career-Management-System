@@ -78,30 +78,19 @@ const MaterialCreate = () => {
                 type="text"
                 name="material_name"
                 className="form-control"
+                placeholder="Enter name of material"
                 value={formData.material_name}
                 onChange={handleChange}
               />
-              {/* <select
-                className="form-control"
-                name="material_name"
-                id="material_name"
-                value={formData.material_name}
-                onChange={handleChange}
-              >
-                <option value="">Select a material</option>
-                <option value="Material A">Material A</option>
-                <option value="Material B">Material B</option>
-                <option value="Material C">Material C</option>
-              </select> */}
             </div>
             <div className="form-group">
               <label htmlFor="work_per_hour">work_per_hour</label>
               <input
-                type="text"
+                type="time"
                 className="form-control"
                 name="work_per_hour"
                 id="work_per_hour"
-                placeholder="work_per_hour"
+                placeholder="work per hour"
                 value={formData.work_per_hour}
                 onChange={handleChange}
               />

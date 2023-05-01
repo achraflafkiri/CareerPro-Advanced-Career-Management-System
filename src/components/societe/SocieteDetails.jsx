@@ -9,7 +9,6 @@ import { getAllMaterials } from "../../api/functions/materials";
 import Icon from "@mdi/react";
 import { mdiPlusBox } from "@mdi/js";
 import { mdiDownloadBox } from "@mdi/js";
-import { toast } from "react-toastify";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import moment from "moment";
@@ -22,7 +21,6 @@ const SocieteList = () => {
   const [company, setCompany] = useState(null);
   const [clients, setClients] = useState(null);
   const [materials, setMaterials] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState(null);
   const navigate = useNavigate();
 
   const { societeId } = useParams();
@@ -47,7 +45,6 @@ const SocieteList = () => {
         if (companyRes.data) {
           console.log(companyRes.data);
           setCompany(companyRes.data.company);
-          setLastUpdated(companyRes.data.company.updatedAt);
         }
 
         if (clientRes.data.clients) {

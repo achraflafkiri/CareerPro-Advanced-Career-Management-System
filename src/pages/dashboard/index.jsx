@@ -64,27 +64,8 @@ const DashboardAppPage = () => {
                   <div className=""></div>
                 </div>
               </div>
-              <p className="card-title">Cash deposits</p>
-              <p className="mb-4">
-                To start a blog, think of a topic about and first brainstorm
-                party is ways to write details
-              </p>
-              <div
-                id="cash-deposits-chart-legend"
-                className="d-flex justify-content-center pt-3"
-              >
-                <ul className="dashboard-chart-legend">
-                  <li>
-                    <span style={{ backgroundColor: "#ff4747" }}></span>Returns
-                  </li>
-                  <li>
-                    <span style={{ backgroundColor: "#4d83ff" }}></span>Sales
-                  </li>
-                  <li>
-                    <span style={{ backgroundColor: "#ffc100" }}></span>Loss
-                  </li>
-                </ul>
-              </div>
+              <p className="card-title"></p>
+              <p className="mb-4"></p>
               <BarChart />{" "}
             </div>
           </div>

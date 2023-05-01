@@ -8,7 +8,7 @@ import {
 import { toast } from "react-toastify";
 import { useParams, Link } from "react-router-dom";
 import { useStateContext } from "../../../context/ContextProvider";
-import { mdiDeleteEmptyOutline } from "@mdi/js";
+import { mdiDeleteEmptyOutline, mdiReload } from "@mdi/js";
 import Icon from "@mdi/react";
 
 const LivraisonCreate = () => {
@@ -27,15 +27,15 @@ const LivraisonCreate = () => {
     async function fetchData() {
       const res = await getAllLivraisons(societeId, productId);
       setDataList(res.data.livraisons);
-      console.log(res.data);
     }
     fetchData();
   }, [societeId, productId]);
 
-  async function fetchData() {
+  const fetchData = async () => {
     const res = await getAllLivraisons(societeId, productId);
     setDataList(res.data.livraisons);
-  }
+    console.log("res.data.livraisons", res.data.livraisons);
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -90,10 +90,15 @@ const LivraisonCreate = () => {
   const handleDelete = async (e, livraisonId) => {
     e.preventDefault();
     try {
-      const res = await deleteAllLivraisons(token, societeId, productId);
+      const res = await deleteLivraison(
+        token,
+        societeId,
+        productId,
+        livraisonId
+      );
       if (res.status === 200) {
-        toast.success(`${res.data.message}`, {
-          position: "bottom-right",
+        fetchData();
+        toast.info(`${res.data.message}`, {
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -102,7 +107,6 @@ const LivraisonCreate = () => {
           progress: undefined,
           theme: "colored",
         });
-        fetchData();
       }
     } catch (err) {
       fetchData();
@@ -124,8 +128,8 @@ const LivraisonCreate = () => {
     try {
       const res = await deleteAllLivraisons(token, societeId, productId);
       if (res.status === 200) {
-        fetchData();
-        toast.success(`${res.data.message}`, {
+        setDataList([]);
+        toast.info(`${res.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -149,6 +153,11 @@ const LivraisonCreate = () => {
         theme: "colored",
       });
     }
+  };
+
+  const refresh = (e) => {
+    e.preventDefault();
+    fetchData();
   };
 
   return (
@@ -216,12 +225,20 @@ const LivraisonCreate = () => {
                   Number of bons is {dataList?.length}
                 </p>
               </div>
-              <button
-                className="btn btn-sm btn-danger btn-icon text-white"
-                onClick={handleDeleteAll}
-              >
-                <Icon path={mdiDeleteEmptyOutline} size={1} />
-              </button>
+              <div className="btns row">
+                <button
+                  className="btn btn-sm btn-danger btn-icon text-white"
+                  onClick={handleDeleteAll}
+                >
+                  <Icon path={mdiDeleteEmptyOutline} size={1} />
+                </button>
+                <button
+                  onClick={refresh}
+                  className="btn btn-ref btn-icon btn-fw mx-1"
+                >
+                  <Icon path={mdiReload} size={1} />{" "}
+                </button>
+              </div>
             </div>
             <table class="table table-bordered">
               <thead>

@@ -23215,3 +23215,9 @@ dl li {
   /* background: linear-gradient(90deg, rgba(0,186,115,1) 0%, rgba(0,227,140,1) 100%); */
   color: #fff;
 }
+
+.btn-details {
+ background: #ff7441;
+/* background: linear-gradient(90deg, rgba(255,68,0,1) 35%, rgba(255,116,65,1) 100%); */
+  color: #fff;
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getAllEmployees, getOneEmployee } from "../../api/functions/employees";
 import DeleteModal from "./EmployeeDelete";
 import Icon from "@mdi/react";
@@ -10,7 +10,6 @@ import {
   mdiNoteCheck,
   mdiReload,
 } from "@mdi/js";
-import { toast } from "react-toastify";
 
 const EmployeesList = () => {
   const navigate = useNavigate();
@@ -38,16 +37,7 @@ const EmployeesList = () => {
         setEmployeeId(response.data.employee._id);
       }
     } catch (err) {
-      toast.error(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.log(err.response.data.message);
     }
   };
 
@@ -85,7 +75,7 @@ const EmployeesList = () => {
                 <div>
                   <button
                     onClick={refresh}
-                    className="btn btn-light btn-icon btn-fw mx-1"
+                    className="btn btn-ref btn-icon btn-fw mx-1"
                   >
                     <Icon path={mdiReload} size={1} />{" "}
                   </button>
@@ -93,7 +83,7 @@ const EmployeesList = () => {
                     onClick={() =>
                       navigate(`/societe/${societeId}/employees/attendances`)
                     }
-                    className="btn btn-light btn-icon btn-fw mx-1"
+                    className="btn btn-details btn-icon btn-fw mx-1"
                   >
                     <Icon path={mdiNoteCheck} size={1} />
                   </button>
@@ -101,7 +91,7 @@ const EmployeesList = () => {
                     onClick={() =>
                       navigate(`/societe/${societeId}/employees/create`)
                     }
-                    className="btn btn-light btn-icon btn-fw mx-1"
+                    className="btn btn-add btn-icon btn-fw mx-1"
                   >
                     <Icon path={mdiPlus} size={1} />
                   </button>

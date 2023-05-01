@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import { deleteClient } from "../../api/functions/clients";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ClientDelete = ({ value, societeId, clientId, fetchData }) => {
@@ -15,30 +14,11 @@ const ClientDelete = ({ value, societeId, clientId, fetchData }) => {
       const response = await deleteClient(token, societeId, clientId);
       if (response.status === 200) {
         fetchData();
-        toast.success(`${response.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
       } else {
         throw new Error("failed");
       }
     } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.log(err.response.data.message);
     }
   };
 
