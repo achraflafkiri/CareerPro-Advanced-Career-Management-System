@@ -44,6 +44,7 @@ const BarChart = () => {
       },
     ],
   };
+
   var options = {
     maintainAspectRatio: false,
     scales: {

@@ -53,7 +53,7 @@ const DashboardAppPage = () => {
       </div>
 
       <div className="row">
-        <div className="col-md-7 grid-margin stretch-card">
+        <div className="col-md-16 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
               <div className="chartjs-size-monitor">
@@ -66,11 +66,11 @@ const DashboardAppPage = () => {
               </div>
               <p className="card-title"></p>
               <p className="mb-4"></p>
-              <BarChart />{" "}
+              <BarChart />
             </div>
           </div>
         </div>
-        <div className="col-md-5 grid-margin stretch-card">
+        {/* <div className="col-md-5 grid-margin stretch-card">
           <div className="card">
             <div className="chartjs-size-monitor">
               <div className="chartjs-size-monitor-expand">
@@ -100,6 +100,30 @@ const DashboardAppPage = () => {
                   ))}
                 </select>
                 {company && <DoughnutChart societeId={company._id} />}
+              </div>
+            </div>
+          </div>
+        </div> */}
+      </div>
+
+      <div className="row">
+        <div className="col-md-16 grid-margin stretch-card">
+          <div className="card">
+            <div className="chartjs-size-monitor">
+              <div className="chartjs-size-monitor-expand">
+                <div className=""></div>
+              </div>
+              <div className="chartjs-size-monitor-shrink">
+                <div className=""></div>
+              </div>
+            </div>
+            <div className="card-body">
+              <p className="card-title">Please select a company</p>
+              <h1></h1>
+              <h4></h4>
+              <p className="text-muted"></p>
+              <div id="total-sales-chart-legend">
+                
               </div>
             </div>
           </div>
