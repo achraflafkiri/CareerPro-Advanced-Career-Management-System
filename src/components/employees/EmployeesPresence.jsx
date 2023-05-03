@@ -28,8 +28,6 @@ const EmployeesPresence = () => {
     const attendanceRes = await getAllAttendance(societeId, date);
     setDataList(employeesRes.data.employees);
     setAttendances(attendanceRes.data.attendances);
-    // console.log("attendanceRes", attendanceRes);
-    // console.log("employeesRes", employeesRes);
   }
 
   const handleAttendanceChange = async (employeeId, isPresent) => {
@@ -56,9 +54,9 @@ const EmployeesPresence = () => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // });
+  useEffect(() => {
+    fetchData();
+  });
 
   // PDF LIST EMPLOYEES
   const employeesPdf = (e) => {
