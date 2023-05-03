@@ -7,7 +7,12 @@ import {
   RemoveAttendance,
 } from "../../api/functions/Attendance";
 import { useStateContext } from "../../context/ContextProvider";
-import { toast } from "react-toastify";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import { mdiDownloadBox } from "@mdi/js";
+import Icon from "@mdi/react";
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const EmployeesPresence = () => {
   const [dataList, setDataList] = useState(null);
@@ -23,6 +28,8 @@ const EmployeesPresence = () => {
     const attendanceRes = await getAllAttendance(societeId, date);
     setDataList(employeesRes.data.employees);
     setAttendances(attendanceRes.data.attendances);
+    // console.log("attendanceRes", attendanceRes);
+    // console.log("employeesRes", employeesRes);
   }
 
   const handleAttendanceChange = async (employeeId, isPresent) => {
@@ -42,42 +49,49 @@ const EmployeesPresence = () => {
       if (res.status === 201 || res.status === 200) {
         fetchData();
         console.warn(res.data.message);
-        // toast.success(`${res.data.message}`, {
-        //   position: "bottom-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: false,
-        //   progress: undefined,
-        //   theme: "colored",
-        // });
       }
     } catch (err) {
       fetchData();
-      console.error(err.response.data.message);
-      // toast.error(`${err.response.data.message}`, {
-      //   position: "bottom-right",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: false,
-      //   progress: undefined,
-      //   theme: "colored",
-      // });
+      console.warn(err.response.data.message);
     }
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      const employeesRes = await getAllEmployees(societeId);
-      const attendanceRes = await getAllAttendance(societeId, date);
-      setDataList(employeesRes.data.employees);
-      setAttendances(attendanceRes.data.attendances);
-    }
-    fetchData();
-  }, [societeId, date]);
+  // useEffect(() => {
+  //   fetchData();
+  // });
+
+  // PDF LIST EMPLOYEES
+  const employeesPdf = (e) => {
+    e.preventDefault();
+    const documentDefinition = {
+      content: [
+        {
+          text: "List of Employees",
+          style: "header",
+        },
+        {
+          table: {
+            headerRows: 1,
+            widths: ["*", "*", "*", "*"],
+            body: [
+              ["First name", "Last name", "Present", "Absence"],
+              // please here add the your code
+            ],
+          },
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: "center",
+          margin: [0, 0, 0, 10],
+        },
+      },
+    };
+
+    pdfMake.createPdf(documentDefinition).download("employee-list.pdf");
+  };
 
   return (
     <div className="row">
@@ -98,7 +112,15 @@ const EmployeesPresence = () => {
                   />
                 </div>
               </form>
-
+              <button
+                className="btn btn-inverse-dark btn-fw mx-2"
+                onClick={employeesPdf}
+              >
+                <span className="button-icon">
+                  <Icon path={mdiDownloadBox} size={1} />
+                </span>
+                <span className="button-text">Download PDF</span>
+              </button>
               <div className="table-responsive">
                 <table className="table table-striped">
                   <thead>
