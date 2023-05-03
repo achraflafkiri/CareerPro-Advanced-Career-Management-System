@@ -30,7 +30,6 @@ const ProductsEdit = () => {
 
   const { client_name, matricule, volume } = newEditVal;
   const [livraisons, setlivraisons] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(!societeId);
   const [totalQuantity, setTotalQuantity] = useState(0);
 
@@ -88,8 +87,6 @@ const ProductsEdit = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(true);
-
       if (!token) {
         throw new Error("Token not found");
       }
@@ -126,8 +123,6 @@ const ProductsEdit = () => {
         progress: undefined,
         theme: "colored",
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -149,17 +144,7 @@ const ProductsEdit = () => {
         clientId,
         LivraisonId
       );
-      if (res.data) {
-        toast.success(`${res.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
+      if (res.status === 204) {
         fetchData();
       }
     } catch (err) {
@@ -180,17 +165,7 @@ const ProductsEdit = () => {
     e.preventDefault();
     try {
       const res = await deleteAllLivraisons(token, societeId, clientId);
-      if (res.data) {
-        toast.success(`All livraisons are deleted successfully`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
+      if (res.status === 204) {
         fetchData();
       }
     } catch (err) {

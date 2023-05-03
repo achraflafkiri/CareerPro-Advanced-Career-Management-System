@@ -11,7 +11,7 @@ const ProductDelete = ({ value, societeId, productId, fetchData }) => {
         throw new Error("Token not found");
       }
       const response = await deleteProduct(token, societeId, productId);
-      if (response.status === 200) {
+      if (response.status === 204) {
         fetchData();
       } else {
         throw new Error("failed");

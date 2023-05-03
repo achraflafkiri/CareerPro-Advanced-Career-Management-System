@@ -86,7 +86,9 @@ const ProductsDetails = () => {
             <div className="d-flex justify-content-between flex-wrap my-3">
               <div className="d-flex align-items-end justify-content-between flex-wrap">
                 <div className="me-md-3 me-xl-5">
-                  <h2>{product?.product_name} details</h2>
+                  <h2 className="card-title">
+                    {product?.product_name} details
+                  </h2>
                 </div>
               </div>
               <div className="d-flex justify-content-between align-items-end flex-wrap">
@@ -94,7 +96,7 @@ const ProductsDetails = () => {
                   to={`/societe/${societeId}/products/`}
                   className="btn btn-inverse-primary btn-fw mx-1"
                 >
-                  Ajouter product
+                  Back
                 </Link>
               </div>
             </div>
@@ -164,7 +166,9 @@ const ProductsDetails = () => {
         <div className="card">
           <div className="card-header"></div>
           <div className="card-body">
-            <h3>Saisir les informations sur le bon de livraison</h3>
+            <h3 className="card-title">
+              Saisir les informations sur le bon de livraison
+            </h3>
             <LivraisonCreate />
           </div>
           <div className="card-footer"></div>

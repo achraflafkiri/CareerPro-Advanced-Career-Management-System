@@ -6,7 +6,7 @@ import {
   deleteAllLivraisons,
 } from "../../../api/functions/Livraisons";
 import { toast } from "react-toastify";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useStateContext } from "../../../context/ContextProvider";
 import { mdiDeleteEmptyOutline, mdiReload } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -14,6 +14,7 @@ import Icon from "@mdi/react";
 const LivraisonCreate = () => {
   const { societeId, productId } = useParams();
   const { token } = useStateContext();
+  const [loading, setLoading] = useState(false);
   const [dataList, setDataList] = useState(null);
   const [newLivraison, setNewLivraison] = useState({
     serie_bc: "",
@@ -33,8 +34,10 @@ const LivraisonCreate = () => {
 
   const fetchData = async () => {
     const res = await getAllLivraisons(societeId, productId);
-    setDataList(res.data.livraisons);
-    console.log("res.data.livraisons", res.data.livraisons);
+    if (res.data) {
+      setDataList(res.data.livraisons);
+      console.log(res.data.livraisons);
+    }
   };
 
   const handleChange = (event) => {
@@ -48,6 +51,7 @@ const LivraisonCreate = () => {
   const handleCreate = async (event) => {
     event.preventDefault();
     try {
+      setLoading(true);
       if (!token) {
         throw new Error("Token not found");
       }
@@ -59,7 +63,7 @@ const LivraisonCreate = () => {
       );
       if (response.status === 201) {
         fetchData();
-        toast.success(`${response.data.message}`, {
+        toast.info(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -84,6 +88,8 @@ const LivraisonCreate = () => {
         progress: undefined,
         theme: "colored",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,20 +102,11 @@ const LivraisonCreate = () => {
         productId,
         livraisonId
       );
-      if (res.status === 200) {
+
+      if (res.status === 204) {
         fetchData();
-        toast.info(`${res.data.message}`, {
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
       }
     } catch (err) {
-      fetchData();
       toast.error(`${err.response.data.message}`, {
         position: "bottom-right",
         autoClose: 5000,
@@ -125,23 +122,15 @@ const LivraisonCreate = () => {
 
   const handleDeleteAll = async (e) => {
     e.preventDefault();
+    console.log("click");
+
     try {
       const res = await deleteAllLivraisons(token, societeId, productId);
-      if (res.status === 200) {
-        setDataList([]);
-        toast.info(`${res.data.message}`, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
+
+      if (res.status === 204) {
+        fetchData();
       }
     } catch (err) {
-      fetchData();
       toast.error(`${err.response.data.message}`, {
         position: "bottom-right",
         autoClose: 5000,

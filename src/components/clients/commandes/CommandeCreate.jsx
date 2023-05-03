@@ -39,7 +39,7 @@ const CommandeCreate = ({ clientId }) => {
       );
       if (response.status === 201) {
         navigate(`/societe/${societeId}/clients`);
-        toast.success(`${response.data.message}`, {
+        toast.info(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -53,16 +53,7 @@ const CommandeCreate = ({ clientId }) => {
         throw new Error("failed");
       }
     } catch (err) {
-      toast.error(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.log(err.response.data.message);
     }
   };
 
@@ -108,8 +99,8 @@ const CommandeCreate = ({ clientId }) => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Create
+        <button type="submit" className="btn btn-success text-white">
+          Create commande
         </button>
         <Link
           to={`/societe/${societeId}/clients`}

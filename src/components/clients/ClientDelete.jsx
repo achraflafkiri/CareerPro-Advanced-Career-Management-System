@@ -12,7 +12,7 @@ const ClientDelete = ({ value, societeId, clientId, fetchData }) => {
         throw new Error("Token not found");
       }
       const response = await deleteClient(token, societeId, clientId);
-      if (response.status === 200) {
+      if (response.status === 204) {
         fetchData();
       } else {
         throw new Error("failed");

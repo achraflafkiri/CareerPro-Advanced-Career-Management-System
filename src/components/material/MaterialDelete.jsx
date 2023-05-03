@@ -11,7 +11,7 @@ const MaterialDelete = ({ value, societeId, materialId, fetchData }) => {
         throw new Error("Token not found");
       }
       const response = await deleteMaterial(token, societeId, materialId);
-      if (response.status === 200) {
+      if (response.status === 204) {
         fetchData();
       } else {
         throw new Error("failed");

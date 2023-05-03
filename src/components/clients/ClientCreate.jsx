@@ -39,7 +39,7 @@ const ClientCreate = () => {
         setClientAdded(!clientAdded);
         setClientId(response.data.client._id);
 
-        toast.success(`${response.data.message}`, {
+        toast.info(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -125,7 +125,7 @@ const ClientCreate = () => {
                 role="tabpanel"
                 aria-labelledby="home-tab"
               >
-                <h3 className="mt-3 mb-3">Ajouter un client</h3>
+                <h3 className="mt-3 mb-3 card-title">Create new client</h3>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label htmlFor="client_name" className="form-label">
@@ -173,7 +173,7 @@ const ClientCreate = () => {
                     type="submit"
                     className="btn btn-inverse-primary btn-fw"
                   >
-                    Create client
+                    Create new client
                   </button>
                   <Link
                     to={`/societe/${societeId}/clients`}

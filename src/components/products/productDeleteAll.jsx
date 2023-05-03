@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import { deleteAllProducts } from "../../api/functions/products";
 
@@ -8,10 +8,11 @@ const ProductDeleteAll = ({ value, societeId, productId, fetchData }) => {
     e.preventDefault();
     try {
       const res = await deleteAllProducts(societeId, token);
-      if (res.status === 200) {
+      if (res.status === 204) {
         fetchData();
       }
     } catch (err) {
+      fetchData();
       console.error(err.response.data.message);
     }
   };

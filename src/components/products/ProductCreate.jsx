@@ -39,7 +39,7 @@ const ProductCreate = ({ fetchData }) => {
       }
       const response = await createNewProduct(token, formData, societeId);
       if (response.status === 201) {
-        toast.success(`${response.data.message}`, {
+        toast.info(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

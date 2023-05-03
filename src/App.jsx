@@ -26,8 +26,6 @@ import ClientCreate from "./components/clients/ClientCreate";
 import ClientsList from "./components/clients/ClientsList";
 import ClientEdit from "./components/clients/ClientEdit";
 
-import NotFound from "./components/NotFound/NotFound";
-
 import Login from "./pages/auth/LoginPage";
 import Register from "./pages/auth/RegisterPage";
 
@@ -37,7 +35,6 @@ import GuestLayout from "./layouts/GuestLayout";
 import Dashboard from "./pages/dashboard/index";
 
 import CommandeEdit from "./components/clients/commandes/CommandeEdit";
-import CommandeCreate from "./components/clients/commandes/CommandeCreate";
 
 import Profile from "./components/profile/Profile";
 import EditProfile from "./components/profile/EditProfile";

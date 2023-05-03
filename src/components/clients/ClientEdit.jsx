@@ -128,7 +128,7 @@ const ClientForm = () => {
     e.preventDefault();
     try {
       const res = await deleteCommande(token, societeId, clientId, commandeId);
-      if (res.data) {
+      if (res.status === 204) {
         fetchData();
       }
     } catch (err) {
@@ -140,7 +140,7 @@ const ClientForm = () => {
     e.preventDefault();
     try {
       const res = await deleteAllcommandes(token, societeId, clientId);
-      if (res.data) {
+      if (res.status === 204) {
         fetchData();
       }
     } catch (err) {
@@ -207,7 +207,7 @@ const ClientForm = () => {
                 role="tabpanel"
                 aria-labelledby="home-tab"
               >
-                <h3 className="mt-3 mb-3">Edit client</h3>
+                <h3 className="mt-3 mb-3 card-title">Edit client</h3>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label htmlFor="client_name" className="form-label">
@@ -251,14 +251,17 @@ const ClientForm = () => {
                       required
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary">
-                    Enregistrer
+                  <button
+                    type="submit"
+                    className="btn btn-inverse-success btn-fw"
+                  >
+                    Update client
                   </button>
                   <Link
                     to={`/societe/${societeId}/clients`}
-                    className="btn btn-danger ms-3"
+                    className="btn btn-inverse-light btn-fw text-dark"
                   >
-                    Annuler
+                    Cancel
                   </Link>
                 </form>
               </div>
@@ -290,7 +293,7 @@ const ClientForm = () => {
                         </section>
                         <div>
                           <button
-                            className="btn btn-sm btn-light btn-icon text-dark"
+                            className="btn btn-sm btn-delete btn-icon"
                             onClick={handleAllDelete}
                           >
                             <Icon path={mdiDeleteEmptyOutline} size={1} />

@@ -23,7 +23,7 @@ const SocieteDelete = ({ value, societeId, fetchData }) => {
         throw new Error("Token not found");
       }
       const response = await deleteCompany(societeId, token);
-      if (response.status === 200) {
+      if (response.status === 204) {
         fetchData();
       } else {
         throw new Error("failed");

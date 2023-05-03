@@ -12,7 +12,7 @@ const EmployeeDelete = ({ value, societeId, employeeId, fetchData }) => {
         throw new Error("Token not found");
       }
       const response = await deleteEmployee(token, societeId, employeeId);
-      if (response.status === 200) {
+      if (response.status === 204) {
         fetchData();
       } else {
         throw new Error("failed");

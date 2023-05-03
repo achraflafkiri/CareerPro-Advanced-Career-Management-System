@@ -17,10 +17,7 @@ const BarChart = () => {
       if (res.data) {
         setCompanies(res.data.companies);
         // setProducts(res.data.data.companies._id);
-        console.log(
-          " res.data.data.companies._id ",
-          res.data.data.companies._id
-        );
+        console.log(" companies ", res.data.companies);
       }
     }
     fetchData();

@@ -2,14 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  createNewCommande,
-  getAllCommandes,
-} from "../../../api/functions/commandes";
+import { createNewCommande } from "../../../api/functions/commandes";
 import { useStateContext } from "../../../context/ContextProvider";
-
-import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline } from "@mdi/js";
 
 const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
   const { societeId } = useParams();
@@ -46,7 +40,7 @@ const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
       if (response.status === 201) {
         fetchData();
         console.log(response.data);
-        toast.success(`${response.data.message}`, {
+        toast.info(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -116,8 +110,8 @@ const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
               onChange={handleChange}
             />
           </div>
-          <button type="submit" className="btn btn-primary">
-            Create
+          <button type="submit" className="btn btn-inverse-primary btn-fw">
+            Create commande
           </button>
           <Link
             to={`/societe/${societeId}/clients`}
