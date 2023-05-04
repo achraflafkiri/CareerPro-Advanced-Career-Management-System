@@ -52,6 +52,33 @@ const DashboardAppPage = () => {
         </div>
       </div>
 
+      <div className="page-header">
+        <h3 className="page-title">
+          {/* <span className="page-title-icon bg-gradient-primary text-white me-2"></span> */}
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 700 700"
+            className="page-title-icon bg-gradient-primary text-white me-2"
+            aria-current="page"
+          >
+            <path
+              fill="#fff"
+              d="m280 525h-52.5c-28.875 0-52.5-23.625-52.5-52.5v-192.5h-37.625c-15.051 0-28-9.1016-33.074-23.449-4.8984-14.176-0.52344-29.398 11.199-38.852l223.65-178.85c6.3008-5.0742 15.398-5.0742 21.699 0l59.148 47.25v-16.102c0-19.25 15.75-35 35-35h35c19.25 0 35 15.75 35 35v100.1l59.5 47.602c11.727 9.4492 16.102 24.676 11.199 38.852-5.0742 14.176-18.023 23.449-33.074 23.449h-37.625v192.5c0 28.875-23.625 52.5-52.5 52.5h-52.5v-17.5-87.5c0-28.875-23.625-52.5-52.5-52.5h-35c-28.875 0-52.5 23.625-52.5 52.5v105zm87.5-122.5h-35c-9.625 0-17.5 7.875-17.5 17.5v105h70v-105c0-9.625-7.875-17.5-17.5-17.5z"
+            />
+          </svg>
+          Dashboard
+        </h3>
+        <nav aria-label="breadcrumb">
+          <ul className="breadcrumb">
+            <li>
+              <span></span>Overview{" "}
+              {/* <i className="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i> */}
+            </li>
+          </ul>
+        </nav>
+      </div>
+
       <div className="row">
         <div className="col-md-16 grid-margin stretch-card">
           <div className="card">
@@ -122,9 +149,7 @@ const DashboardAppPage = () => {
               <h1></h1>
               <h4></h4>
               <p className="text-muted"></p>
-              <div id="total-sales-chart-legend">
-                
-              </div>
+              <div id="total-sales-chart-legend"></div>
             </div>
           </div>
         </div>
