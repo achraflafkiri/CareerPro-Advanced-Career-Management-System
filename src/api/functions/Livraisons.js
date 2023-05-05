@@ -60,3 +60,5 @@ export const deleteAllLivraisons = (token, societeId, productId) => {
     config
   );
 };
+
+export const getAllGlobalLivraisons = () => api.get(`livraisons`);
