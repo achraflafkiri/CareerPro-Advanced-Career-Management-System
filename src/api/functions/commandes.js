@@ -60,3 +60,7 @@ export const deleteAllcommandes = (token, societeId, clientId) => {
     config
   );
 };
+
+export const getAllGlobalCommandes = () => {
+  return api.get(`commandes`);
+};

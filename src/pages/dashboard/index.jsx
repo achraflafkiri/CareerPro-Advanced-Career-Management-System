@@ -7,6 +7,7 @@ import "./style.css";
 import Icon from "@mdi/react";
 import { mdiDiamondStone, mdiChartArc } from "@mdi/js";
 import { getAllGlobalLivraisons } from "../../api/functions/Livraisons";
+import { getAllGlobalCommandes } from "../../api/functions/commandes";
 import {
   createNewTask,
   getAllTasks,
@@ -18,6 +19,7 @@ const DashboardAppPage = () => {
   const [companies, setCompanies] = useState(null);
   const [company, setCompany] = useState(null);
   const [livraisons, setLivraison] = useState(null);
+  const [commandes, setCommandes] = useState(null);
   const [todos, setTodos] = useState([]);
   const { token } = useStateContext();
 
@@ -32,11 +34,15 @@ const DashboardAppPage = () => {
     async function fetchData() {
       const resCompanies = await getAllCompanies();
       const resLivraisons = await getAllGlobalLivraisons();
+      const resCommandes = await getAllGlobalCommandes();
       if (resCompanies.status === 200) {
         setCompanies(resCompanies.data.companies);
       }
       if (resLivraisons.status === 200) {
         setLivraison(resLivraisons.data.livraisons.length);
+      }
+      if (resCommandes.status === 200) {
+        setCommandes(resCommandes.data.commandes.length);
       }
     }
     fetchData();
@@ -108,15 +114,49 @@ const DashboardAppPage = () => {
 
       <div className="row">
         <div
-          className="col-md-6 stretch-card grid-margin"
+          className="col-md-4 stretch-card grid-margin"
           style={{ overflow: "hidden" }}
         >
           <div className="card bg-gradient-success card-img-holder text-white">
             <div className="card-body">
+              <svg
+                version="1.1"
+                id="Layer_1"
+                className="card-img-absolute"
+                x="0px"
+                y="0px"
+                viewBox="0 0 153 187"
+              >
+                <g>
+                  <title>3</title>
+                  <desc>Created with Sketch.</desc>
+                  <g
+                    id="Mask-_x2B_-Mask-Mask"
+                    transform="translate(14.000000, 0.000000)"
+                  >
+                    <g id="Mask"></g>
+                    <g id="Mask_1_">
+                      <path
+                        class="st0"
+                        d="M138,141.2c-3.6,0.5-7.3,0.8-11,0.8c-29.6,0-55.4-16.5-68.6-40.9c-6-11-9.4-23.7-9.4-37.1
+				c0-26.5,13.2-49.9,33.4-64H138v129.5"
+                        fill="#ffffff4f"
+                      />
+                    </g>
+                    <g id="Mask_2_">
+                      <path
+                        class="st0"
+                        d="M138,141.2V187H-15c0.2-43.3,31.9-79.1,73.4-85.9c4.6-0.8,9.3-1.1,14.1-1.1c26.1,0,49.5,11.4,65.5,29.5"
+                        fill="#ffffff4f"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </svg>
               <h4 className="font-weight-normal mb-3">
                 Orders vs Delivery <Icon path={mdiChartArc} size={1} />
               </h4>
-              <h6 className="card-text">Increased by 60%</h6>
+
               <div id="total-sales-chart-legend">
                 <select
                   className="form-control"
@@ -136,7 +176,7 @@ const DashboardAppPage = () => {
           </div>
         </div>
         <div
-          className="col-md-6 stretch-card grid-margin"
+          className="col-md-4 stretch-card grid-margin"
           style={{ overflow: "hidden" }}
         >
           <div className="card bg-gradient-info card-img-holder text-white">
@@ -162,24 +202,72 @@ const DashboardAppPage = () => {
                         class="st0"
                         d="M138,141.2c-3.6,0.5-7.3,0.8-11,0.8c-29.6,0-55.4-16.5-68.6-40.9c-6-11-9.4-23.7-9.4-37.1
 				c0-26.5,13.2-49.9,33.4-64H138v129.5"
-                        fill="#ffffff47"
+                        fill="#ffffff4f"
                       />
                     </g>
                     <g id="Mask_2_">
                       <path
                         class="st0"
                         d="M138,141.2V187H-15c0.2-43.3,31.9-79.1,73.4-85.9c4.6-0.8,9.3-1.1,14.1-1.1c26.1,0,49.5,11.4,65.5,29.5"
-                        fill="#ffffff75"
+                        fill="#ffffff4f"
                       />
                     </g>
                   </g>
                 </g>
               </svg>
               <h4 className="font-weight-normal mb-3">
-                Weekly Orders <Icon path={mdiDiamondStone} size={1} />
+                Total Orders currently available{" "}
+                <Icon path={mdiDiamondStone} size={1} />
               </h4>
               <h2 className="mb-5">{livraisons}</h2>
-              <h6 className="card-text">Decreased by 10% </h6>
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-md-4 stretch-card grid-margin"
+          style={{ overflow: "hidden" }}
+        >
+          <div className="card bg-gradient-danger card-img-holder text-white">
+            <div className="card-body">
+              <svg
+                version="1.1"
+                id="Layer_1"
+                className="card-img-absolute"
+                x="0px"
+                y="0px"
+                viewBox="0 0 153 187"
+              >
+                <g>
+                  <title>3</title>
+                  <desc>Created with Sketch.</desc>
+                  <g
+                    id="Mask-_x2B_-Mask-Mask"
+                    transform="translate(14.000000, 0.000000)"
+                  >
+                    <g id="Mask"></g>
+                    <g id="Mask_1_">
+                      <path
+                        class="st0"
+                        d="M138,141.2c-3.6,0.5-7.3,0.8-11,0.8c-29.6,0-55.4-16.5-68.6-40.9c-6-11-9.4-23.7-9.4-37.1
+				c0-26.5,13.2-49.9,33.4-64H138v129.5"
+                        fill="#ffffff4f"
+                      />
+                    </g>
+                    <g id="Mask_2_">
+                      <path
+                        class="st0"
+                        d="M138,141.2V187H-15c0.2-43.3,31.9-79.1,73.4-85.9c4.6-0.8,9.3-1.1,14.1-1.1c26.1,0,49.5,11.4,65.5,29.5"
+                        fill="#ffffff4f"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </svg>
+              <h4 className="font-weight-normal mb-3">
+                Total Commandes currently available{" "}
+                <Icon path={mdiDiamondStone} size={1} />
+              </h4>
+              <h2 className="mb-5">{commandes}</h2>
             </div>
           </div>
         </div>
