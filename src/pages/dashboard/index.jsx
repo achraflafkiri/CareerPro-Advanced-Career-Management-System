@@ -5,34 +5,42 @@ import { getAllCompanies } from "../../api/functions/companies";
 import moment from "moment";
 import "./style.css";
 import Icon from "@mdi/react";
-import { mdiZodiacScorpio, mdiDiamondStone, mdiChartArc } from "@mdi/js";
+import { mdiDiamondStone, mdiChartArc } from "@mdi/js";
 import { getAllGlobalLivraisons } from "../../api/functions/Livraisons";
+import {
+  createNewTask,
+  getAllTasks,
+  deleteTask,
+} from "../../api/functions/Task";
+import { useStateContext } from "../../context/ContextProvider";
 
 const DashboardAppPage = () => {
   const [companies, setCompanies] = useState(null);
   const [company, setCompany] = useState(null);
   const [livraisons, setLivraison] = useState(null);
+  const [todos, setTodos] = useState([]);
+  const { token } = useStateContext();
 
-  // Fetch companies data
-  useEffect(() => {
-    async function fetchData() {
-      const res = await getAllCompanies();
-      if (res.status === 200) {
-        setCompanies(res.data.companies);
-      }
+  const fetchTodos = async () => {
+    const resTasks = await getAllTasks();
+    if (resTasks.status === 200) {
+      setTodos(resTasks.data.tasks);
     }
-    fetchData();
-  }, []);
+  };
 
   useEffect(() => {
     async function fetchData() {
-      const res = await getAllGlobalLivraisons();
-      if (res.status === 200) {
-        console.log(res.data);
-        setLivraison(res.data.livraisons.length);
+      const resCompanies = await getAllCompanies();
+      const resLivraisons = await getAllGlobalLivraisons();
+      if (resCompanies.status === 200) {
+        setCompanies(resCompanies.data.companies);
+      }
+      if (resLivraisons.status === 200) {
+        setLivraison(resLivraisons.data.livraisons.length);
       }
     }
     fetchData();
+    fetchTodos();
   }, []);
 
   const handleSelect = (e) => {
@@ -42,36 +50,35 @@ const DashboardAppPage = () => {
     setCompany(selectedCompany);
   };
 
-  // Set the default company if the user has not selected any company
   useEffect(() => {
     if (companies && !company) {
       setCompany(companies[0]);
     }
   }, [companies, company]);
 
-  // TODO LIST AREA
-  const [items, setItems] = useState([]);
-
-  const addItem = () => {
-    // Get the input element
-    const input = document.querySelector(".todo-list-input");
-
-    // Add the new item to the list
-    setItems([input.value, ...items]);
-
-    // Clear the input field
-    input.value = "";
+  const handleAddTasks = async () => {
+    const input = document.querySelector(".todo-list-input").value;
+    try {
+      const res = await createNewTask(token, input);
+      if (res.status === 201) {
+        fetchTodos();
+      }
+    } catch (err) {
+      console.error(err.response.data.message);
+    }
   };
 
-  const removeItem = (index) => {
-    // Create a copy of the current items array
-    const newItems = [...items];
-
-    // Remove the item at the specified index
-    newItems.splice(index, 1);
-
-    // Update the state with the new items array
-    setItems(newItems);
+  const handleRemoveTask = async (taskId) => {
+    const newTasks = [...todos];
+    newTasks.splice(taskId, 1);
+    try {
+      const res = await deleteTask(taskId, token);
+      if (res.status === 204) {
+        fetchTodos();
+      }
+    } catch (err) {
+      console.error(err.response.data.message);
+    }
   };
 
   return (
@@ -93,7 +100,7 @@ const DashboardAppPage = () => {
               </div>
             </div>
             <div className="d-flex justify-content-between align-items-end flex-wrap">
-              {/* btns place */}
+              {/* Please the number of visitors should appear here */}
             </div>
           </div>
         </div>
@@ -211,7 +218,6 @@ const DashboardAppPage = () => {
                   <thead>
                     <tr>
                       <th>Name</th>
-
                       <th>Email</th>
                       <th>Last update</th>
                     </tr>
@@ -220,9 +226,7 @@ const DashboardAppPage = () => {
                     {companies?.map((item, index) => (
                       <tr key={index}>
                         <td>{item.company_name}</td>
-
                         <td>{item.email}</td>
-
                         <td>{moment(item.updatedAt).fromNow()}</td>
                       </tr>
                     ))}
@@ -232,6 +236,7 @@ const DashboardAppPage = () => {
             </div>
           </div>
         </div>
+
         <div className="col-md-6 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
@@ -245,14 +250,14 @@ const DashboardAppPage = () => {
                 <button
                   className="add btn btn-gradient-primary font-weight-bold todo-list-add-btn"
                   id="add-task"
-                  onClick={addItem}
+                  onClick={handleAddTasks}
                 >
                   Add
                 </button>
               </div>
               <div className="list-wrapper">
                 <ul className="d-flex flex-column-reverse todo-list todo-list-custom">
-                  {items.map((item, index) => (
+                  {todos?.map((task, index) => (
                     <li key={index}>
                       <div className="form-check">
                         <label className="form-check-label">
@@ -260,11 +265,11 @@ const DashboardAppPage = () => {
                             type="checkbox"
                             className="form-check-input checkbox"
                           />{" "}
-                          {item}
+                          {task.todo}
                         </label>
                       </div>
                       <button
-                        onClick={removeItem}
+                        onClick={() => handleRemoveTask(task._id)}
                         className="remove btn btn-light btn-icon"
                       >
                         <svg
@@ -273,11 +278,10 @@ const DashboardAppPage = () => {
                           className="remove"
                           version="1.1"
                           viewBox="0 0 700 700"
+                          fillRule="evenodd"
                         >
-                          <g fill-rule="evenodd">
-                            <path d="m350 64.168c-119.2 0-215.83 96.629-215.83 215.83 0 119.2 96.629 215.83 215.83 215.83 119.2 0 215.83-96.633 215.83-215.83 0-119.2-96.633-215.83-215.83-215.83zm-250.83 215.83c0-138.53 112.3-250.83 250.83-250.83s250.83 112.3 250.83 250.83-112.3 250.83-250.83 250.83-250.83-112.3-250.83-250.83z" />
-                            <path d="m279.29 209.29c6.8359-6.8359 17.918-6.8359 24.75 0l45.957 45.957 45.961-45.957c6.8359-6.8359 17.914-6.8359 24.75 0 6.8359 6.832 6.8359 17.914 0 24.746l-45.961 45.961 45.957 45.957c6.8359 6.8359 6.8359 17.914 0 24.75-6.832 6.8359-17.91 6.8359-24.746 0l-45.961-45.961-45.957 45.961c-6.832 6.8359-17.914 6.8359-24.746 0-6.8359-6.8359-6.8359-17.914 0-24.75l45.957-45.957-45.961-45.961c-6.832-6.832-6.832-17.914 0-24.746z" />
-                          </g>
+                          <path d="m350 64.168c-119.2 0-215.83 96.629-215.83 215.83 0 119.2 96.629 215.83 215.83 215.83 119.2 0 215.83-96.633 215.83-215.83 0-119.2-96.633-215.83-215.83-215.83zm-250.83 215.83c0-138.53 112.3-250.83 250.83-250.83s250.83 112.3 250.83 250.83-112.3 250.83-250.83 250.83-250.83-112.3-250.83-250.83z" />
+                          <path d="m279.29 209.29c6.8359-6.8359 17.918-6.8359 24.75 0l45.957 45.957 45.961-45.957c6.8359-6.8359 17.914-6.8359 24.75 0 6.8359 6.832 6.8359 17.914 0 24.746l-45.961 45.961 45.957 45.957c6.8359 6.8359 6.8359 17.914 0 24.75-6.832 6.8359-17.91 6.8359-24.746 0l-45.961-45.961-45.957 45.961c-6.832 6.8359-17.914 6.8359-24.746 0-6.8359-6.8359-6.8359-17.914 0-24.75l45.957-45.957-45.961-45.961c-6.832-6.832-6.832-17.914 0-24.746z" />
                         </svg>
                       </button>
                     </li>
