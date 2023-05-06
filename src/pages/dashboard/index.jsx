@@ -294,7 +294,7 @@ const DashboardAppPage = () => {
       </div>
 
       <div className="row my-3">
-        <div className="col-md-6  grid-margin stretch-card">
+        <div className="col-md-7  grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
               <p className="card-title">Companies</p>
@@ -325,7 +325,7 @@ const DashboardAppPage = () => {
           </div>
         </div>
 
-        <div className="col-md-6 grid-margin stretch-card">
+        <div className="col-md-5 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
               <h4 className="card-title text-white">Todo</h4>
@@ -347,15 +347,7 @@ const DashboardAppPage = () => {
                 <ul className="d-flex flex-column-reverse todo-list todo-list-custom">
                   {todos?.map((task, index) => (
                     <li key={index}>
-                      <div className="form-check">
-                        <label className="form-check-label">
-                          <input
-                            type="checkbox"
-                            className="form-check-input checkbox"
-                          />{" "}
-                          {task.todo}
-                        </label>
-                      </div>
+                      <p className="m-2 text-info">{task.todo}</p>
                       <button
                         onClick={() => handleRemoveTask(task._id)}
                         className="remove btn btn-light btn-icon"
