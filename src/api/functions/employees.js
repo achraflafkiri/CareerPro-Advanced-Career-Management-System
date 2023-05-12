@@ -10,14 +10,15 @@ export const createNewEmployee = (token, formData, societeId) => {
     },
   };
 
-  const { employee_fname, employee_lname, cni, phone, email, role } = formData;
+  const { employee_fname, employee_lname, cni, phone, email, salary } =
+    formData;
   const data = {
-    employee_fname: employee_fname,
-    employee_lname: employee_lname,
-    cni: cni,
-    phone: phone,
-    email: email,
-    role: role,
+    employee_fname,
+    employee_lname,
+    cni,
+    phone,
+    email,
+    salary,
   };
 
   console.log("data you wanna send  => ", data);
@@ -33,14 +34,15 @@ export const updateEmployee = (token, formData, societeId, employeeId) => {
     },
   };
 
-  const { employee_fname, employee_lname, cni, phone, email, role } = formData;
+  const { employee_fname, employee_lname, cni, phone, email, salary } =
+    formData;
   const data = {
-    employee_fname: employee_fname,
-    employee_lname: employee_lname,
-    cni: cni,
-    phone: phone,
-    email: email,
-    role: role,
+    employee_fname,
+    employee_lname,
+    cni,
+    phone,
+    email,
+    salary,
   };
 
   return api.put(
@@ -50,18 +52,14 @@ export const updateEmployee = (token, formData, societeId, employeeId) => {
   );
 };
 
-export const getAllEmployees = (societeId) => {
-  return api.get(`companies/${societeId}/employees/`);
-};
+export const getAllEmployees = (societeId) =>
+  api.get(`companies/${societeId}/employees/`);
 
-export const getAllEmployeesByDate = (societeId, date) => {
-  return api.get(`companies/${societeId}/employees/absences?date=${date}`);
-};
+export const getAllEmployeesByDate = (societeId, date) =>
+  api.get(`companies/${societeId}/employees/absences?date=${date}`);
 
-export const getOneEmployee = (societeId, employeeId) => {
-  console.log(societeId, employeeId);
-  return api.get(`companies/${societeId}/employees/${employeeId}`);
-};
+export const getOneEmployee = (societeId, employeeId) =>
+  api.get(`companies/${societeId}/employees/${employeeId}`);
 
 export const deleteEmployee = (token, societeId, employeeId) => {
   const config = {

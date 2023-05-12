@@ -18,7 +18,7 @@ const EmployeesForm = () => {
       cni: "",
       phone: "",
       email: "",
-      role: "",
+      salary: "",
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
@@ -167,15 +167,15 @@ const EmployeesForm = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="role">Role</label>
+                <label htmlFor="salary">Salary</label>
                 <input
                   type="text"
-                  name="role"
-                  id="role"
+                  name="salary"
+                  id="salary"
                   className="form-control"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.role}
+                  value={formik.values.salary}
                 />
               </div>
               <button

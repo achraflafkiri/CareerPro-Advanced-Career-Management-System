@@ -34,7 +34,7 @@ const MaterialCreate = () => {
       const response = await createNewMaterial(token, formData, societeId);
       if (response.status === 201) {
         navigate(`/societe/${societeId}/materials`);
-        toast.success(`${response.data.message}`, {
+        toast.info(`${response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -86,7 +86,7 @@ const MaterialCreate = () => {
             <div className="form-group">
               <label htmlFor="work_per_hour">work_per_hour</label>
               <input
-                type="time"
+                type="text"
                 className="form-control"
                 name="work_per_hour"
                 id="work_per_hour"

@@ -5,7 +5,7 @@ import DeleteModal from "./EmployeeDelete";
 import Icon from "@mdi/react";
 import {
   mdiPencil,
-  mdiDeleteEmptyOutline,
+  mdiTrashCanOutline,
   mdiPlus,
   mdiNoteCheck,
   mdiReload,
@@ -75,7 +75,7 @@ const EmployeesList = () => {
                 <div>
                   <button
                     onClick={refresh}
-                    className="btn btn-ref btn-icon btn-fw mx-1"
+                    className="btn btn-ref btn-icon mx-1"
                   >
                     <Icon path={mdiReload} size={1} />{" "}
                   </button>
@@ -83,7 +83,7 @@ const EmployeesList = () => {
                     onClick={() =>
                       navigate(`/societe/${societeId}/employees/attendances`)
                     }
-                    className="btn btn-details btn-icon btn-fw mx-1"
+                    className="btn btn-details btn-icon mx-1"
                   >
                     <Icon path={mdiNoteCheck} size={1} />
                   </button>
@@ -91,7 +91,7 @@ const EmployeesList = () => {
                     onClick={() =>
                       navigate(`/societe/${societeId}/employees/create`)
                     }
-                    className="btn btn-add btn-icon btn-fw mx-1"
+                    className="btn btn-add btn-icon mx-1"
                   >
                     <Icon path={mdiPlus} size={1} />
                   </button>
@@ -110,7 +110,7 @@ const EmployeesList = () => {
                     <th className="text-center align-middle">Phone</th>
                     <th className="text-center align-middle">CNI</th>
                     <th className="text-center align-middle">E-mail</th>
-                    <th className="text-center align-middle">Role</th>
+                    <th className="text-center align-middle">salary</th>
                     <th className="text-center align-middle"></th>
                   </tr>
                 </thead>
@@ -120,25 +120,27 @@ const EmployeesList = () => {
                       <td className="text-center align-middle">
                         {item.employee_fname} {item.employee_lname}
                       </td>
-                      <td className="text-center align-middle">{item.cni}</td>
                       <td className="text-center align-middle">{item.phone}</td>
+                      <td className="text-center align-middle">{item.cni}</td>
                       <td className="text-center align-middle">{item.email}</td>
-                      <td className="text-center align-middle">{item.role}</td>
+                      <td className="text-center align-middle">
+                        {item.salary}
+                      </td>
                       <td className="text-center align-middle">
                         <button
                           onClick={() => navigate(`${item._id}/edit`)}
-                          className="btn btn-sm btn-light btn-icon"
+                          className="btn btn-inverse-success btn-icon"
                         >
                           <Icon path={mdiPencil} size={1} />
                         </button>
                         <button
                           type="submit"
-                          className="btn btn-sm btn-light btn-icon"
+                          className="btn btn-inverse-danger btn-icon mx-1"
                           data-bs-toggle="modal"
                           data-bs-target="#DeleteModal"
                           onClick={(e) => handleGetData(e, item._id)}
                         >
-                          <Icon path={mdiDeleteEmptyOutline} size={1} />
+                          <Icon path={mdiTrashCanOutline} size={1} />
                         </button>
                       </td>
                     </tr>

@@ -2,7 +2,7 @@ import React from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import { deleteAllProducts } from "../../api/functions/products";
 
-const ProductDeleteAll = ({ value, societeId, productId, fetchData }) => {
+const ProductDeleteAll = ({ value, societeId, fetchData }) => {
   const { token } = useStateContext();
   const handleDeleteAllProducts = async (e) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const ProductDeleteAll = ({ value, societeId, productId, fetchData }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="DeleteModalLabel">
-              Delete Product {value?.product_name}
+              Delete All Products
             </h5>
             <button
               type="button"
@@ -41,7 +41,7 @@ const ProductDeleteAll = ({ value, societeId, productId, fetchData }) => {
           <form action="/societe" method="POST">
             <div className="modal-body">
               <div className="modal-title">
-                Are you sure you want to delete this product
+                Are you sure you want to delete all products !!!
               </div>
             </div>
             <div className="modal-footer">

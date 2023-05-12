@@ -4,7 +4,7 @@ import { getAllMaterials, getOneMaterial } from "../../api/functions/materials";
 import DeleteModal from "./MaterialDelete";
 import EditModal from "./MaterialEdit";
 import Icon from "@mdi/react";
-import { mdiPencil, mdiDeleteEmptyOutline, mdiPlus, mdiReload } from "@mdi/js";
+import { mdiPencil, mdiTrashCanOutline, mdiPlus, mdiReload } from "@mdi/js";
 import { toast } from "react-toastify";
 
 const MaterialList = () => {
@@ -82,24 +82,21 @@ const MaterialList = () => {
                   <p class="mb-md-0">Societe X.</p>
                 </div>
 
-                <div>
-                  <button
-                    onClick={refresh}
-                    className="btn btn-ref btn-icon btn-fw mx-1"
-                  >
+                <div className="d-flex align-items-center">
+                  <button onClick={refresh} className="btn btn-ref btn-icon">
                     <Icon path={mdiReload} size={1} />{" "}
                   </button>
                   <button
                     onClick={() =>
                       navigate(`/societe/${societeId}/Materials/create`)
                     }
-                    className="btn btn-add btn-icon btn-fw mx-1"
+                    className="btn btn-add btn-icon mx-1"
                   >
                     <Icon path={mdiPlus} size={1} />
                   </button>
                   <button
                     onClick={() => navigate(`/societe/${societeId}`)}
-                    className="btn btn-inverse-primary btn-fw"
+                    className="btn btn-inverse-primary btn-fw mx-1"
                   >
                     BACK
                   </button>
@@ -110,7 +107,7 @@ const MaterialList = () => {
                   <tr>
                     <th className="text-center align-middle">Materials name</th>
                     <th className="text-center align-middle">Work per hour</th>
-                    <th className="text-center align-middle">date</th>
+                    <th className="text-center align-middle">Date</th>
                     <th className="text-center align-middle"></th>
                   </tr>
                 </thead>
@@ -126,7 +123,7 @@ const MaterialList = () => {
                       <td className="text-center align-middle">{item.date}</td>
                       <td className="text-center align-middle">
                         <button
-                          class="btn btn-sm btn-light btn-icon m-1"
+                          class="btn btn-inverse-success btn-icon m-1"
                           data-bs-toggle="modal"
                           data-bs-target="#EditModal"
                           onClick={(e) => handleGetData(e, item._id)}
@@ -135,12 +132,12 @@ const MaterialList = () => {
                         </button>
                         <button
                           type="submit"
-                          class="btn btn-sm btn-light btn-icon"
+                          class="btn btn-inverse-danger btn-icon"
                           data-bs-toggle="modal"
                           data-bs-target="#DeleteModal"
                           onClick={(e) => handleGetData(e, item._id)}
                         >
-                          <Icon path={mdiDeleteEmptyOutline} size={1} />
+                          <Icon path={mdiTrashCanOutline} size={1} />
                         </button>
                       </td>
                     </tr>

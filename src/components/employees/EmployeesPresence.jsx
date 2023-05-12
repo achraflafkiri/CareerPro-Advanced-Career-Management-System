@@ -61,11 +61,26 @@ const EmployeesPresence = () => {
   // PDF LIST EMPLOYEES
   const employeesPdf = (e) => {
     e.preventDefault();
+
     const documentDefinition = {
       content: [
+        // {
+        //   image: "https://fakeimg.pl/250x100/ff0000/",
+        //   width: 100,
+        //   height: 100,
+        //   alignment: "center",
+        //   margin: [0, 50, 0, 0],
+        // },
         {
           text: "List of Employees",
           style: "header",
+          alignment: "center",
+          margin: [0, 20, 0, 20],
+        },
+        {
+          text: `Date: ${date}`,
+          style: "info",
+          margin: [50, 0, 0, 10],
         },
         {
           table: {
@@ -73,111 +88,105 @@ const EmployeesPresence = () => {
             widths: ["*", "*", "*", "*"],
             body: [
               ["First name", "Last name", "Present", "Absence"],
-              // please here add the your code
+              ...dataList?.map((item) => {
+                const attendance = attendances?.find(
+                  (att) => att.employeeId === item._id
+                );
+                const isPresent = attendance?.isPresent || false;
+                return [
+                  item.employee_fname,
+                  item.employee_lname,
+                  isPresent ? "x" : "",
+                  !isPresent ? "x" : "",
+                ];
+              }),
             ],
+          },
+          layout: {
+            hLineWidth: (i, node) => {
+              if (i === 0 || i === node.table.body.length) {
+                return 0;
+              }
+              return i === node.table.headerRows ? 2 : 1;
+            },
+            vLineWidth: () => 0,
+            hLineColor: () => "#ddd",
+            paddingLeft: () => 10,
+            paddingRight: () => 10,
+            paddingTop: () => 5,
+            paddingBottom: () => 5,
           },
         },
       ],
       styles: {
         header: {
-          fontSize: 18,
+          fontSize: 22,
           bold: true,
-          alignment: "center",
-          margin: [0, 0, 0, 10],
+        },
+        info: {
+          fontSize: 14,
+          italics: true,
+          color: "#777",
         },
       },
     };
-
-    pdfMake.createPdf(documentDefinition).download("employee-list.pdf");
+    pdfMake.createPdf(documentDefinition).download(`employees_${date}.pdf`);
   };
 
   return (
-    <div className="row">
-      <div className="d-flex justify-content-center">
-        <div className="col-md-12 grid-margin stretch-card">
-          <div className="card">
-            <div className="card-body">
-              <form className="forms-sample">
-                <div className="form-group">
-                  <label htmlFor="date">Date</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    disabled
-                  />
-                </div>
-              </form>
-              <button
-                className="btn btn-inverse-dark btn-fw mx-2"
-                onClick={employeesPdf}
-              >
-                <span className="button-icon">
-                  <Icon path={mdiDownloadBox} size={1} />
-                </span>
-                <span className="button-text">Download PDF</span>
-              </button>
-              <div className="table-responsive">
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Employee</th>
-                      <th>Present</th>
-                      <th>Absence</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataList?.map((item) => {
-                      const attendance = attendances?.find(
-                        (att) => att.employeeId === item._id
-                      );
-                      const isPresent = attendance?.isPresent || false;
-                      return (
-                        <tr key={item._id}>
-                          <td>
-                            {item.employee_fname} {item.employee_lname}
-                          </td>
-                          <td>
-                            <div className="form-check">
-                              <label className="form-check-label">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  checked={isPresent}
-                                  onChange={() =>
-                                    handleAttendanceChange(item._id, true)
-                                  }
-                                />
-                                <i className="input-helper"></i>
-                              </label>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="form-check">
-                              <label className="form-check-label">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  checked={!isPresent}
-                                  onChange={() =>
-                                    handleAttendanceChange(item._id, false)
-                                  }
-                                />
-                                <i className="input-helper"></i>
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+    <div className="card">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h1 className="m-0">Employees Presence</h1>
+          <button className="btn btn-primary" onClick={employeesPdf}>
+            <Icon path={mdiDownloadBox} size={1} className="me-2" />
+            Export to PDF
+          </button>
         </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>First name</th>
+              <th>Last name</th>
+              <th>Present</th>
+              <th>Absence</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dataList?.map((item) => {
+              const attendance = attendances?.find(
+                (att) => att.employeeId === item._id
+              );
+              const isPresent = attendance?.isPresent || false;
+              return (
+                <tr key={item._id}>
+                  <td>{item.employee_fname}</td>
+                  <td>{item.employee_lname}</td>
+                  <td>
+                    <input
+                      type="radio"
+                      name={`attendance${item._id}`}
+                      checked={isPresent}
+                      onChange={(e) =>
+                        handleAttendanceChange(item._id, e.target.checked)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="radio"
+                      name={`attendance${item._id}`}
+                      checked={!isPresent}
+                      onChange={(e) =>
+                        handleAttendanceChange(item._id, !e.target.checked)
+                      }
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );

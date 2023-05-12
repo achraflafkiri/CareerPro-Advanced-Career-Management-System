@@ -14,10 +14,10 @@ const EmployeeEdit = () => {
     cni: "",
     phone: "",
     email: "",
-    role: "",
+    salary: "",
   });
 
-  const { employee_fname, employee_lname, cni, phone, email, role } =
+  const { employee_fname, employee_lname, cni, phone, email, salary } =
     newEditVal;
 
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ const EmployeeEdit = () => {
             cni: response.data.employee.cni,
             phone: response.data.employee.phone,
             email: response.data.employee.email,
-            role: response.data.employee.role,
+            salary: response.data.employee.salary,
           });
         }
       } catch (err) {
@@ -178,12 +178,12 @@ const EmployeeEdit = () => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="role">Role</label>
+                <label htmlFor="salary">salary</label>
                 <input
                   type="text"
-                  name="role"
-                  id="role"
-                  value={role}
+                  name="salary"
+                  id="salary"
+                  value={salary}
                   className="form-control"
                   onChange={handleChange}
                 />

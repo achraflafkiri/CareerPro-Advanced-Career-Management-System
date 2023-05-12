@@ -3,9 +3,8 @@ import api from "../http-service";
 export const getAllProducts = (societeId) =>
   api.get(`companies/${societeId}/products`);
 
-export const getOneProduct = (societeId, productId) => {
-  return api.get(`companies/${societeId}/products/${productId}`);
-};
+export const getOneProduct = (societeId, productId) =>
+  api.get(`companies/${societeId}/products/${productId}`);
 
 export const createNewProduct = (token, formData, societeId) => {
   const config = {
@@ -15,18 +14,21 @@ export const createNewProduct = (token, formData, societeId) => {
     },
   };
 
-  const { product_name, description, quantity } = formData;
+  const { product_name, description, quantity, date } = formData;
+
+  console.log("typeof quantity => ", typeof quantity);
+
   const data = {
-    product_name: product_name,
-    description: description,
-    quantity: quantity,
+    product_name,
+    description,
+    quantity: Number(quantity),
+    date,
   };
 
   return api.post(`companies/${societeId}/products`, data, config);
 };
 
 export const updateProduct = (societeId, productId, token, formData) => {
-  
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -38,7 +40,7 @@ export const updateProduct = (societeId, productId, token, formData) => {
   const data = {
     product_name,
     description,
-    quantity,
+    quantity: Number(quantity),
     date,
   };
 
@@ -56,7 +58,7 @@ export const deleteProduct = (token, societeId, productId) => {
   return api.delete(`companies/${societeId}/products/${productId}`, config);
 };
 
-export const deleteAllProducts = (token, societeId) => {
+export const deleteAllProducts = (societeId, token) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -64,5 +66,5 @@ export const deleteAllProducts = (token, societeId) => {
     },
   };
 
-  return api.delete(`companies/${societeId}/products/`, config);
+  return api.delete(`companies/${societeId}/products`, config);
 };

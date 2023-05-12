@@ -8,7 +8,6 @@ import Icon from "@mdi/react";
 import {
   mdiTextBoxPlusOutline,
   mdiPlus,
-  mdiDeleteEmptyOutline,
   mdiTrashCanOutline,
   mdiReload,
 } from "@mdi/js";
@@ -103,7 +102,7 @@ const ProductsList = () => {
 
                 <div>
                   <button
-                    className="btn btn-delete btn-icon btn-fw mx-1"
+                    className="btn btn-delete btn-icon mx-1"
                     data-bs-toggle="modal"
                     data-bs-target="#deleteAllProducts"
                   >
@@ -111,12 +110,12 @@ const ProductsList = () => {
                   </button>
                   <button
                     onClick={refresh}
-                    className="btn btn-ref btn-icon btn-fw mx-1"
+                    className="btn btn-ref btn-icon mx-1"
                   >
                     <Icon path={mdiReload} size={1} />{" "}
                   </button>
                   <button
-                    className="btn btn-add btn-icon btn-fw mx-1"
+                    className="btn btn-add btn-icon mx-1" 
                     data-bs-toggle="modal"
                     data-bs-target="#addProduct"
                   >
@@ -152,7 +151,7 @@ const ProductsList = () => {
                       </td>{" "}
                       <td className="text-center align-middle">
                         <button
-                          className="btn btn-sm btn-light btn-icon mx-2"
+                          className="btn btn-inverse-success btn-icon mx-2"
                           onClick={(e) => {
                             handleGetData(e, item._id);
                             navigateToDetails(e, item._id);
@@ -163,12 +162,12 @@ const ProductsList = () => {
 
                         <button
                           type="submit"
-                          className="btn btn-sm btn-light btn-icon"
+                          className="btn btn-inverse-danger btn-icon"
                           data-bs-toggle="modal"
                           data-bs-target="#DeleteModal"
                           onClick={(e) => handleGetData(e, item._id)}
                         >
-                          <Icon path={mdiDeleteEmptyOutline} size={1} />
+                          <Icon path={mdiTrashCanOutline} size={1} />
                         </button>
                       </td>
                     </tr>

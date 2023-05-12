@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Icon from "@mdi/react";
 import {
   mdiTextBoxPlusOutline,
-  mdiDeleteEmptyOutline,
+  mdiTrashCanOutline,
   mdiPlus,
   mdiReload,
 } from "@mdi/js";
@@ -81,13 +81,13 @@ const ClientsList = () => {
                 <div className="d-flex align-items-center justify-content-between mx-2">
                   <button
                     onClick={refresh}
-                    className="btn btn-ref btn-icon btn-fw mx-1"
+                    className="btn btn-ref btn-icon mx-1"
                   >
                     <Icon path={mdiReload} size={1} />{" "}
                   </button>{" "}
                   <button
                     type="button"
-                    className="btn btn-add btn-icon btn-fw mx-1"
+                    className="btn btn-add btn-icon mx-1"
                     onClick={() => navigate(`create`)}
                   >
                     <Icon path={mdiPlus} size={1} />{" "}
@@ -140,19 +140,19 @@ const ClientsList = () => {
                                 `/societe/${societeId}/clients/${client._id}/edit`
                               )
                             }
-                            className="btn btn-sm btn-light btn-icon m-1 text-dark"
+                            className="btn btn-inverse-success btn-icon"
                           >
                             <Icon path={mdiTextBoxPlusOutline} size={1} />
                           </button>{" "}
                           <button
-                            className="btn btn-sm btn-light btn-icon text-dark"
+                            className="btn btn-inverse-danger btn-icon"
                             data-bs-toggle="modal"
                             data-bs-target="#DeleteModal"
                             onClick={(event) => {
                               handleGetData(event, client._id);
                             }}
                           >
-                            <Icon path={mdiDeleteEmptyOutline} size={1} />
+                            <Icon path={mdiTrashCanOutline} size={1} />
                           </button>{" "}
                         </td>
                       </tr>

@@ -140,7 +140,7 @@ const ProductsDetails = () => {
               <div class="form-group">
                 <label for="date">Date</label>
                 <input
-                  type="text"
+                  type="date"
                   className="form-control"
                   value={date}
                   onChange={handleChange}

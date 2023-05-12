@@ -25,7 +25,6 @@ const ProductsEdit = () => {
   async function fetchData() {
     const res = await getAllLivraisons(societeId, clientId);
     setlivraisons(res.data.livraisons);
-    // console.log(res.data);
   }
 
   const { client_name, matricule, volume } = newEditVal;

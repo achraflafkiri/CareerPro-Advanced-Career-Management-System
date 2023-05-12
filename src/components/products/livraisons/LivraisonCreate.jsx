@@ -8,7 +8,7 @@ import {
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useStateContext } from "../../../context/ContextProvider";
-import { mdiDeleteEmptyOutline, mdiReload } from "@mdi/js";
+import { mdiTrashCanOutline, mdiReload } from "@mdi/js";
 import Icon from "@mdi/react";
 
 const LivraisonCreate = () => {
@@ -214,17 +214,14 @@ const LivraisonCreate = () => {
                   Number of bons is {dataList?.length}
                 </p>
               </div>
-              <div className="btns row">
+              <div className="btns d-flex align-items-center">
                 <button
                   className="btn btn-sm btn-danger btn-icon text-white"
                   onClick={handleDeleteAll}
                 >
-                  <Icon path={mdiDeleteEmptyOutline} size={1} />
+                  <Icon path={mdiTrashCanOutline} size={1} />
                 </button>
-                <button
-                  onClick={refresh}
-                  className="btn btn-ref btn-icon btn-fw mx-1"
-                >
+                <button onClick={refresh} className="btn btn-ref btn-icon mx-1">
                   <Icon path={mdiReload} size={1} />{" "}
                 </button>
               </div>
@@ -252,12 +249,12 @@ const LivraisonCreate = () => {
                     </td>
                     <td className="text-center align-middle">
                       <button
-                        className="btn btn-sm btn-light btn-icon text-dark"
+                        className="btn btn-inverse-danger btn-icon"
                         onClick={(event) => {
                           handleDelete(event, item._id);
                         }}
                       >
-                        <Icon path={mdiDeleteEmptyOutline} size={1} />
+                        <Icon path={mdiTrashCanOutline} size={1} />
                       </button>{" "}
                     </td>
                   </tr>

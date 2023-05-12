@@ -1,45 +1,65 @@
-import React, { useState } from "react";
+import React from "react";
+import { useFormik } from "formik";
 import { useStateContext } from "../../context/ContextProvider";
 import { createNewProduct } from "../../api/functions/products";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useNavigate } from "react-router-dom";
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.product_name) {
+    errors.product_name = "Name is required";
+  }
+
+  if (!values.date) {
+    errors.date = "date is required";
+  }
+
+  if (isNaN(Number(values.quantity))) {
+    errors.quantity = "Must be a number";
+  }
+
+  return errors;
+};
 
 const ProductCreate = ({ fetchData }) => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    product_name: "",
-    description: "",
-    quantity: "",
-    date: new Date().toLocaleDateString(), // set the current date as a string
-  });
-
-  const { product_name, description, quantity, date } = formData;
-
-  const handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-
   const { token } = useStateContext();
-  //  get the id of societe
   const { societeId } = useParams();
-  console.log("societeId => ", societeId);
 
-  const handleSubmit = async (event) => {
-    console.log("cliked");
-    event.preventDefault();
-    try {
-      if (!token) {
-        throw new Error("Token not found");
-      }
-      const response = await createNewProduct(token, formData, societeId);
-      if (response.status === 201) {
-        toast.info(`${response.data.message}`, {
+  const formik = useFormik({
+    initialValues: {
+      product_name: "",
+      description: "",
+      quantity: "",
+      date: new Date().toISOString().substr(0, 10),
+    },
+    validate,
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        if (!token) {
+          throw new Error("Token not found");
+        }
+        const response = await createNewProduct(token, values, societeId);
+        if (response.status === 201) {
+          toast.info(`${response.data.message}`, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            theme: "colored",
+          });
+          navigate(`/societe/${societeId}/products`);
+          fetchData();
+        } else {
+          throw new Error("failed");
+        }
+      } catch (err) {
+        toast.warn(`${err.response.data.message}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -49,24 +69,10 @@ const ProductCreate = ({ fetchData }) => {
           progress: undefined,
           theme: "colored",
         });
-        navigate(`/societe/${societeId}/products`);
-        fetchData();
-      } else {
-        throw new Error("failed");
       }
-    } catch (err) {
-      toast.warn(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
+      setSubmitting(false);
+    },
+  });
 
   return (
     <div
@@ -90,69 +96,76 @@ const ProductCreate = ({ fetchData }) => {
             ></button>
           </div>
           <div className="modal-body">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={formik.handleSubmit}>
               <div className="mb-3">
-                <label htmlFor="product_name">Name of product</label>
+                <label htmlFor="product_name">
+                  Name of product <span className="text-danger">*</span>{" "}
+                </label>
                 <input
                   type="text"
                   name="product_name"
                   id="product_name"
                   className="form-control"
-                  value={product_name}
-                  onChange={handleChange}
+                  value={formik.values.product_name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
+                {formik.touched.product_name && formik.errors.product_name ? (
+                  <div className="text-danger">
+                    {formik.errors.product_name}
+                  </div>
+                ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="quantity">
-                  How many product ( <em>number</em> )
-                </label>
+                <label for="description">Description</label>
+                <textarea
+                  name="description"
+                  id="description"
+                  className="form-control"
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                ></textarea>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="quantity">quantity</label>
                 <input
                   type="text"
                   name="quantity"
                   id="quantity"
                   className="form-control"
-                  value={quantity}
-                  onChange={handleChange}
+                  value={formik.values.quantity}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
+                {formik.touched.quantity && formik.errors.quantity ? (
+                  <div className="text-danger">{formik.errors.quantity}</div>
+                ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="date">Date</label>
+                <label htmlFor="date">
+                  Date <span className="text-danger">*</span>{" "}
+                </label>
                 <input
                   type="date"
                   name="date"
                   id="date"
                   className="form-control"
-                  value={date}
-                  onChange={handleChange}
+                  value={formik.values.date}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
+                {formik.touched.date && formik.errors.date ? (
+                  <div className="text-danger">{formik.errors.date}</div>
+                ) : null}
               </div>
-              <div className="mb-3">
-                <label htmlFor="description">Description</label>
-                <input
-                  type="text"
-                  name="description"
-                  id="description"
-                  className="form-control"
-                  value={description}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-inverse-secondary btn-fw"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-fw text-white"
-                  onClick={handleSubmit}
-                >
-                  Add product
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={formik.isSubmitting}
+              >
+                {formik.isSubmitting ? "Submitting..." : "Add"}
+              </button>
             </form>
           </div>
         </div>

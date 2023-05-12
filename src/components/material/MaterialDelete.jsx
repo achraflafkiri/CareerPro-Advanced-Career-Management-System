@@ -33,7 +33,7 @@ const MaterialDelete = ({ value, societeId, materialId, fetchData }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="DeleteModalLabel">
-              Delete Product {value?.product_name}
+              Delete Material
             </h5>
             <button
               type="button"
@@ -45,7 +45,8 @@ const MaterialDelete = ({ value, societeId, materialId, fetchData }) => {
           <form action="/societe" method="POST">
             <div className="modal-body">
               <div className="modal-title">
-                Are you sure you want to delete this product
+                Are you sure you want to delete{" "}
+                <strong>{value?.material_name}</strong>
               </div>
             </div>
             <div className="modal-footer">

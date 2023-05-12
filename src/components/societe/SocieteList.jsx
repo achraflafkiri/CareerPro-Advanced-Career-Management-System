@@ -6,7 +6,7 @@ import { getAllCompanies, getOneCompany } from "../../api/functions/companies";
 import Icon from "@mdi/react";
 import {
   mdiPencil,
-  mdiDeleteEmptyOutline,
+  mdiTrashCanOutline,
   mdiEyeArrowRightOutline,
   mdiReload,
   mdiPlus,
@@ -79,20 +79,18 @@ const SocieteList = () => {
               <div className="d-flex align-item-center justify-content-between my-3">
                 <h3 className="card-title">Liste des sociétés</h3>
                 <div className="d-flex align-item-center justify-content-between">
-                  <div>
-                    <button
-                      onClick={refresh}
-                      className="btn btn-ref btn-icon btn-fw mx-1"
-                    >
-                      <Icon path={mdiReload} size={1} />{" "}
-                    </button>
-                    <button
-                      onClick={() => navigate(`/societe/create`)}
-                      className="btn btn-add btn-icon btn-fw mx-1"
-                    >
-                      <Icon path={mdiPlus} size={1} />
-                    </button>
-                  </div>
+                  <button
+                    onClick={refresh}
+                    className="btn btn-ref btn-icon mx-1"
+                  >
+                    <Icon path={mdiReload} size={1} />{" "}
+                  </button>
+                  <button
+                    onClick={() => navigate(`/societe/create`)}
+                    className="btn btn-add btn-icon mx-1"
+                  >
+                    <Icon path={mdiPlus} size={1} />
+                  </button>
                 </div>
               </div>
               <div className="table-responsive">
@@ -130,7 +128,7 @@ const SocieteList = () => {
                         <td className="text-center align-middle">
                           <button
                             type="submit"
-                            class="btn btn-sm btn-light btn-icon m-1"
+                            className="btn btn-inverse-success btn-icon m-1"
                             data-bs-toggle="modal"
                             data-bs-target="#EditModal"
                             onClick={(e) => handleGetData(e, item._id)}
@@ -140,12 +138,12 @@ const SocieteList = () => {
 
                           <button
                             type="submit"
-                            class="btn btn-sm btn-light btn-icon"
+                            className="btn btn-inverse-danger btn-icon"
                             data-bs-toggle="modal"
                             data-bs-target="#DeleteModal"
                             onClick={(e) => handleGetData(e, item._id)}
                           >
-                            <Icon path={mdiDeleteEmptyOutline} size={1} />
+                            <Icon path={mdiTrashCanOutline} size={1} />
                           </button>
                         </td>
                       </tr>
