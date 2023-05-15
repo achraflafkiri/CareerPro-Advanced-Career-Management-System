@@ -4,10 +4,12 @@ import { getOneProduct, updateProduct } from "../../api/functions/products";
 import LivraisonCreate from "./livraisons/LivraisonCreate";
 import { toast } from "react-toastify";
 import { useStateContext } from "../../context/ContextProvider";
+import { getAllCommandesByCompany } from "../../api/functions/commandes";
 
 const ProductsDetails = () => {
   const { token } = useStateContext();
   const [product, setProduct] = useState(null);
+  const [commandes, setCommandes] = useState(null);
   const [formData, setFormData] = useState({
     product_name: "",
     description: "",
@@ -77,6 +79,22 @@ const ProductsDetails = () => {
       });
     }
   };
+
+  useEffect(() => {
+    const getCommandes = async () => {
+      try {
+        const res = await getAllCommandesByCompany(societeId);
+        if (res.status === 200) {
+          setCommandes(res.data.commandes);
+          console.log("res.data.commandes => ", res.data.commandes);
+        }
+      } catch (err) {
+        console.error(err.response.data.message);
+      }
+    };
+
+    getCommandes();
+  }, [societeId]);
 
   return (
     <div className="row">
@@ -162,18 +180,22 @@ const ProductsDetails = () => {
           <div className="card-footer"></div>
         </div>
       </div>
-      <div className="col-md-12 grid-margin">
-        <div className="card">
-          <div className="card-header"></div>
-          <div className="card-body">
-            <h3 className="card-title">
-              Saisir les informations sur le bon de livraison
-            </h3>
-            <LivraisonCreate />
+      {commandes && commandes.length > 0 ? (
+        <div className="col-md-12 grid-margin">
+          <div className="card">
+            <div className="card-header"></div>
+            <div className="card-body">
+              <h3 className="card-title">
+                Saisir les informations sur le bon de livraison
+              </h3>
+              <LivraisonCreate />
+            </div>
+            <div className="card-footer"></div>
           </div>
-          <div className="card-footer"></div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -1,5 +1,8 @@
 import api from "../http-service";
 
+export const getAllCommandesByCompany = (societeId) =>
+  api.get(`companies/${societeId}/commandes`);
+
 export const getAllCommandes = (societeId, clientId) =>
   api.get(`companies/${societeId}/clients/${clientId}/commandes/`);
 

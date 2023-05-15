@@ -10,11 +10,15 @@ import { useParams } from "react-router-dom";
 import { useStateContext } from "../../../context/ContextProvider";
 import { mdiTrashCanOutline, mdiReload } from "@mdi/js";
 import Icon from "@mdi/react";
+import { getAllCommandesByCompany } from "../../../api/functions/commandes";
 
 const LivraisonCreate = () => {
   const { societeId, productId } = useParams();
+
   const { token } = useStateContext();
+  const [selectedCommande, setSelectedCommande] = useState("");
   const [loading, setLoading] = useState(false);
+  const [commandes, setCommandes] = useState(null);
   const [dataList, setDataList] = useState(null);
   const [newLivraison, setNewLivraison] = useState({
     serie_bc: "",
@@ -46,6 +50,9 @@ const LivraisonCreate = () => {
       ...prevState,
       [name]: value,
     }));
+    if (name === "serie_bc") {
+      setSelectedCommande(value);
+    }
   };
 
   const handleCreate = async (event) => {
@@ -55,9 +62,10 @@ const LivraisonCreate = () => {
       if (!token) {
         throw new Error("Token not found");
       }
+      const selectedSerieBc = selectedCommande || commandes[0]?.serie_bc;
       const response = await createNewLivraison(
         token,
-        newLivraison,
+        { ...newLivraison, serie_bc: selectedSerieBc },
         societeId,
         productId
       );
@@ -149,6 +157,21 @@ const LivraisonCreate = () => {
     fetchData();
   };
 
+  useEffect(() => {
+    const getCommandes = async () => {
+      try {
+        const res = await getAllCommandesByCompany(societeId);
+        if (res.status === 200) {
+          setCommandes(res.data.commandes);
+        }
+      } catch (err) {
+        console.error(err.response.data.message);
+      }
+    };
+
+    getCommandes();
+  }, [societeId]);
+
   return (
     <div className="row">
       <div className="col-md-12 grid-margin stretch-card">
@@ -159,15 +182,22 @@ const LivraisonCreate = () => {
                 <label htmlFor="serie_bc" className="form-label">
                   Série BC
                 </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="serie_bc"
+                <select
+                  className="form-select"
                   name="serie_bc"
                   value={serie_bc}
                   onChange={handleChange}
-                />
+                  required
+                >
+                  <option value="">Select a commande</option>
+                  {commandes?.map((com, index) => (
+                    <option value={com.serie_bc} key={index}>
+                      {com.serie_bc}
+                    </option>
+                  ))}
+                </select>
               </div>
+
               <div className="mb-3">
                 <label htmlFor="designation" className="form-label">
                   Désignation
@@ -179,8 +209,10 @@ const LivraisonCreate = () => {
                   name="designation"
                   value={designation}
                   onChange={handleChange}
+                  required
                 />
               </div>
+
               <div className="mb-3">
                 <label htmlFor="quantity" className="form-label">
                   Quantité
@@ -192,13 +224,15 @@ const LivraisonCreate = () => {
                   name="quantity"
                   value={quantity}
                   onChange={handleChange}
+                  required
                 />
               </div>
+
               <button
                 type="submit"
                 className="btn btn-primary btn-fw text-white"
               >
-                Create livraison
+                {loading ? "loading..." : "Create livraison"}
               </button>
             </form>
           </div>
