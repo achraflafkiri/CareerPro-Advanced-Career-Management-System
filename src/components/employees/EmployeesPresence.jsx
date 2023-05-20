@@ -130,7 +130,9 @@ const EmployeesPresence = () => {
         },
       },
     };
-    pdfMake.createPdf(documentDefinition).download(`employees_${date}.pdf`);
+    pdfMake
+      .createPdf(documentDefinition)
+      .download(`List_of_absences_employees_${date}.pdf`);
   };
 
   return (

@@ -54,16 +54,7 @@ const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
         throw new Error("failed");
       }
     } catch (err) {
-      toast.error(`${err.response.data.message}`, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
+      console.log(err.response.data.message);
     }
   };
 
@@ -82,6 +73,7 @@ const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
               name="serie_bc"
               value={serie_bc}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="mb-3">
@@ -95,6 +87,7 @@ const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
               name="designation"
               value={designation}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="mb-3">
@@ -108,6 +101,7 @@ const CommandeEdit = ({ clientId, commandeId, fetchData }) => {
               name="quantity"
               value={quantity}
               onChange={handleChange}
+              required
             />
           </div>
           <button type="submit" className="btn btn-inverse-primary btn-fw">

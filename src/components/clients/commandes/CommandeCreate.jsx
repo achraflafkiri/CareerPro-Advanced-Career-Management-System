@@ -71,6 +71,7 @@ const CommandeCreate = ({ clientId }) => {
             name="serie_bc"
             value={serie_bc}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-3">
@@ -84,6 +85,7 @@ const CommandeCreate = ({ clientId }) => {
             name="designation"
             value={designation}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-3">
@@ -97,6 +99,7 @@ const CommandeCreate = ({ clientId }) => {
             name="quantity"
             value={quantity}
             onChange={handleChange}
+            required
           />
         </div>
         <button type="submit" className="btn btn-success text-white">

@@ -23,7 +23,7 @@ const EditProfile = () => {
       const res = await getOneUser(userId);
       if (res.status === 200) {
         setUserImage(res.data.user.image);
-        // console.log(" ", res.data.user.image);
+
         setFormData({
           username: res.data.user.username,
           email: res.data.user.email,
