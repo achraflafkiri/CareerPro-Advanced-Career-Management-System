@@ -10,7 +10,7 @@ import "./style.css";
 const Profile = () => {
   const { userId, setUserImage, token } = useStateContext();
 
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
 
   const [userInfo, setUserInfo] = useState({
     username: "",
@@ -69,7 +69,9 @@ const Profile = () => {
     form.append("email", email);
     form.append("location", location);
     form.append("bio", bio);
-    form.append("image", image);
+    if (imageUrl) {
+      form.append("image", image);
+    }
 
     try {
       const res = await updateUser(token, form, userId);
