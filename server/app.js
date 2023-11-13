@@ -19,18 +19,12 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 const corsOptions = {
-  origin: "*",
-  credentials: true
+  origin: [
+    "http://localhost:3000",
+    "http://careerpro.lafkiri.com",
+  ],
 };
 app.use(cors(corsOptions));
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://www.careerpro.lafkiri.com");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
-});
 
 connectDB();
 

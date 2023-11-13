@@ -10,8 +10,8 @@ const LoginForm = () => {
   const [isError, setIsError] = useState("");
 
   const initialValues = {
-    username: "",
-    password: "",
+    username: "lafkiri",
+    password: "test1234",
   };
 
   const validationSchema = Yup.object().shape({

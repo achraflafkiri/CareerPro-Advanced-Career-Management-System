@@ -90,7 +90,7 @@ const updateUser = catchAsync(async (req, res, next) => {
           email,
           bio,
           location,
-          image: `https://ktm-gamma.vercel.app/profile/${
+          image: `http://localhost:8080/profile/${
             req.file?.filename === undefined
               ? "default.png"
               : req.file?.filename
