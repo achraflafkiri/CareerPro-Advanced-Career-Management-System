@@ -45,7 +45,7 @@ const Sidebar = ({ isLinkActive }) => {
           <Link className="nav-link">
             <div className="nav-profile-image">
               <img
-                src={image || `http://localhost:8080/profile/default.png`}
+                src={image || `https://careerpro-api.onrender.com/api/v1//profile/default.png`}
                 alt="profile"
               />
               <span class="availability-status online"></span>
