@@ -19,7 +19,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 const corsOptions = {
-  origin: "*"
+  origin: "*",
+  credentials: true
 };
 app.use(cors(corsOptions));
 
