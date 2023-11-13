@@ -17,12 +17,14 @@ Welcome to Gestion de Carrier! This MERN stack application is a robust tool for 
 ## Getting Started
 
 1. Clone the repository
+    git clone https://github.com/achraflafkiri/CareerPro-Advanced-Career-Management-System.git CareerPro
+    cd CareerPro
 2. Set up the backend:
-    - Install backend dependencies with `npm install` in the `backend` directory
+    - Install backend dependencies with `npm install` in the `server` directory
     - Configure the `.env` file with necessary details
     - Start the backend server with `npm start`
 3. Set up the frontend:
-    - Install frontend dependencies with `npm install` in the `frontend` directory
+    - Install frontend dependencies with `npm install` in the `clients` directory
     - Modify API endpoints to connect to the backend
     - Start the frontend server with `npm start`
 
@@ -53,8 +55,8 @@ NODE_ENV=
 ![Project Image](./demo/4.png)
 ![Project Image](./demo/5.png)
 ![Project Image](./demo/6.png)
-![Project Image](./demo/7.png)
+![Project Image](./demo/7.png)    
 
-## Say Hello
+## Contact US
 
 [My Profile](https://www.lafkiri.com)
