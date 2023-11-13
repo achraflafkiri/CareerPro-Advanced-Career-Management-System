@@ -20,11 +20,8 @@ app.use(bodyParser.json());
 
 const corsOptions = {
   origin: [
-    "http://localhost:3001",
     "http://localhost:3000",
-    "https://ktm-49ye8ycrd-achraflafkiri.vercel.app",
-    "https://ktm-git-main-achraflafkiri.vercel.app",
-    "https://ktm-gamma.vercel.app",
+    "http://careerpro.lafkiri.com",
   ],
 };
 app.use(cors(corsOptions));

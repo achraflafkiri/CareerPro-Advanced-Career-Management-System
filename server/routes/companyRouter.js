@@ -23,13 +23,13 @@ router.use("/:CompanyId/clients", clientRouter);
 router
   .route("/")
   .get(getAllCompanies)
-  .post(checkAdmin, addNewCompany)
-  .delete(checkAdmin, deleteAllCompanies);
+  .post(addNewCompany)
+  .delete(deleteAllCompanies);
 
 router
   .route("/:CompanyId")
   .get(getOneCompany)
-  .put(checkAdmin, updateCompany)
-  .delete(checkAdmin, deleteOneCompany);
+  .put(updateCompany)
+  .delete(deleteOneCompany);
 
 module.exports = router;
