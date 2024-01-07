@@ -59,4 +59,4 @@ NODE_ENV=
 
 ## Contact US
 
-[My Profile](https://www.lafkiri.com)
+[My Portfolio](https://www.lafkiri.com)
