@@ -60,3 +60,5 @@ NODE_ENV=
 ## Contact US
 
 [My Portfolio](https://www.lafkiri.com)
+[Linkedin](https://www.linkedin.com/in/achraf-lafkiri/)
+[Email](achraf.lafkiri.2@gmail.com)
