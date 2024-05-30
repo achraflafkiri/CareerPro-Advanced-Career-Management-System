@@ -52,7 +52,7 @@ const EditProfile = () => {
     form.append("image", image);
 
     try {
-      const res = await axios.put(
+      const res = await axios.patch(
         `${BACKEND_URL}/profile/${userId}`,
         form,
         {
