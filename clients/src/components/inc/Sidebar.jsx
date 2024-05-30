@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { getOneUser } from "../../api/functions/profile";
 import { useStateContext } from "../../context/ContextProvider";
 
+const BACKEND_IMAGE = process.env.REACT_APP_BACKEND_IMAGE;
+
 const Sidebar = ({ isLinkActive }) => {
   const [active, setActive] = useState();
   const [userInfo, setUserInfo] = useState("");
@@ -45,7 +47,7 @@ const Sidebar = ({ isLinkActive }) => {
           <Link className="nav-link">
             <div className="nav-profile-image">
               <img
-                src={image || `https://careerpro-api.onrender.com/api/v1//profile/default.png`}
+                src={image || `${BACKEND_IMAGE}/default.png`}
                 alt="profile"
               />
               <span class="availability-status online"></span>

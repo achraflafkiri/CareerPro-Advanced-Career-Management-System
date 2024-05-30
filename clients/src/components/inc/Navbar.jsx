@@ -6,7 +6,7 @@ import { getOneUser } from "../../api/functions/profile";
 import { mdiLogout, mdiAccountCircleOutline } from "@mdi/js";
 import styled from "styled-components";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_IMAGE = process.env.REACT_APP_BACKEND_IMAGE;
 
 const Navbar = ({ handleNavToggle }) => {
   const navigate = useNavigate();
@@ -183,7 +183,7 @@ const Navbar = ({ handleNavToggle }) => {
             >
               <div className="nav-profile-img">
                 <img
-                  src={image || `${BACKEND_URL}/default.png`}
+                  src={image || `${BACKEND_IMAGE}/default.png`}
                   alt="user"
                 />{" "}
                 <span className="availability-status online"></span>
