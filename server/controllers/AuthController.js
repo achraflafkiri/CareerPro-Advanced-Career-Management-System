@@ -4,12 +4,11 @@ const AppError = require("../utils/AppError");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-// get the passport
 const passport = async (user, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWTEXPIRESDELAI,
   });
-  console.log("token => ", token);
+
   res.status(201).json({
     status: "success",
     user,
@@ -17,7 +16,6 @@ const passport = async (user, res) => {
   });
 };
 
-// Sign up
 const Signup = catchAsync(async (req, res, next) => {
   const { username, email, password, confirmPassword } = req.body;
 
@@ -27,14 +25,11 @@ const Signup = catchAsync(async (req, res, next) => {
     password,
     confirmPassword,
   });
-  // console.log("signup user ****", newUser);
+
   passport(newUser, res);
 });
 
-// SIGN IN
-
 const Signin = catchAsync(async (req, res, next) => {
-  console.log("**********Signin***********");
   const { username, password } = req.body;
 
   const user = await User.findOne({ username: username });

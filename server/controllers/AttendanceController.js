@@ -4,11 +4,13 @@ const Attendance = require("../models/AttendanceModel");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
+
+
 const AddNewAttendance = catchAsync(async (req, res, next) => {
   const { employeeId, date, isPresent } = req.body;
 
   const existingAttendance = await Attendance.findOne({ employeeId, date });
-  console.log("existingAttendance => ", existingAttendance);
+
   if (existingAttendance) {
     existingAttendance.isPresent = true;
     await existingAttendance.save();

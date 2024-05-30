@@ -1,6 +1,10 @@
 const { Schema, model } = require("mongoose");
 var validator = require("validator");
 const bcrypt = require("bcrypt");
+const dotenv = require("dotenv");
+dotenv.config();
+
+const BACKEND_URL = process.env.IMAGE_URL;
 
 const UserSchema = new Schema(
   {
@@ -48,7 +52,7 @@ const UserSchema = new Schema(
     },
     image: {
       type: String,
-      default: `https://ktm-gamma.vercel.app/profile/default.png`,
+      default: `${BACKEND_URL}/default.png`,
     },
     changedAt: {
       type: Date,

@@ -38,8 +38,6 @@ const addNewClient = catchAsync(async (req, res, next) => {
 });
 
 const updateClient = catchAsync(async (req, res, next) => {
-  console.log("*****UPDATE Client*****");
-
   const { ClientId } = req.params;
   const { client_name, volume, matricule } = req.body;
 
@@ -63,8 +61,6 @@ const updateClient = catchAsync(async (req, res, next) => {
 });
 
 const getAllClients = catchAsync(async (req, res, next) => {
-  console.log("*****get All clients*****");
-
   const company_id = req.params.CompanyId;
   if (!company_id) {
     return next(AppError(404, "Company id is not found"));

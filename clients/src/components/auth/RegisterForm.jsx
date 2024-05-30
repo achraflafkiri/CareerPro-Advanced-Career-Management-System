@@ -11,8 +11,6 @@ const RegisterForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      console.log("****", values);
-
       const response = await Signup(values);
       setUserID(response.data.user.id);
       setToken(response.data.token);

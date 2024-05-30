@@ -7,6 +7,6 @@ const {
 const router = Router();
 
 router.route("/users/").get(getAllUsers);
-router.route("/:UserId").get(getOneUser).put(updateUser);
+router.route("/:UserId").get(getOneUser).patch(updateUser);
 
 module.exports = router;

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../context/ContextProvider";
 import Icon from "@mdi/react";
 import { getOneUser } from "../../api/functions/profile";
 import { mdiLogout, mdiAccountCircleOutline } from "@mdi/js";
 import styled from "styled-components";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Navbar = ({ handleNavToggle }) => {
   const navigate = useNavigate();
@@ -91,7 +93,7 @@ const Navbar = ({ handleNavToggle }) => {
             height="30"
             version="1.1"
             viewBox="0 0 700 700"
-            
+
           >
             <defs>
               <symbol id="v" overflow="visible">
@@ -181,7 +183,7 @@ const Navbar = ({ handleNavToggle }) => {
             >
               <div className="nav-profile-img">
                 <img
-                  src={image || `http://localhost:8080/profile/default.png`}
+                  src={image || `${BACKEND_URL}/default.png`}
                   alt="user"
                 />{" "}
                 <span className="availability-status online"></span>

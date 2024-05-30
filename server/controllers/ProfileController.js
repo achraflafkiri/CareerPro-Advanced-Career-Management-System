@@ -1,10 +1,10 @@
 const User = require("../models/UserModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const multer = require("multer");
 const path = require("path");
+
+const IMAGE_URL = process.env.IMAGE_URL;
 
 const getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
@@ -56,20 +56,15 @@ const fileFilter = function (req, file, cb) {
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 const updateUser = catchAsync(async (req, res, next) => {
-  console.log("*** update User  ***");
-
-  // handle user uploaded image
   try {
     upload.single("image")(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
-        // A Multer error occurred when uploading.
+
         return next(new AppError(400, err.message));
       } else if (err) {
-        // An unknown error occurred when uploading.
+
         return next(new AppError(400, err.message));
       }
-
-      console.log("file => ", req.file);
 
       const { UserId } = req.params;
 
@@ -82,7 +77,6 @@ const updateUser = catchAsync(async (req, res, next) => {
         return next(new AppError(404, "ww"));
       }
 
-      // update user profile fields
       const user = await User.findByIdAndUpdate(
         UserId,
         {
@@ -90,11 +84,10 @@ const updateUser = catchAsync(async (req, res, next) => {
           email,
           bio,
           location,
-          image: `http://localhost:8080/profile/${
-            req.file?.filename === undefined
-              ? "default.png"
-              : req.file?.filename
-          }`,
+          image: `${IMAGE_URL}/${req.file?.filename === undefined
+            ? "default.png"
+            : req.file?.filename
+            }`,
         },
         { new: true, runValidators: true }
       );

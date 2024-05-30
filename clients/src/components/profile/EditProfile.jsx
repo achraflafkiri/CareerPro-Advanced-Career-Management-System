@@ -5,6 +5,8 @@ import { getOneUser } from "../../api/functions/profile";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -51,7 +53,7 @@ const EditProfile = () => {
 
     try {
       const res = await axios.put(
-        `https://test-afxm.onrender.com/api/v1/api/v1/profile/${userId}`,
+        `${BACKEND_URL}/profile/${userId}`,
         form,
         {
           headers: { "Content-Type": "multipart/form-data" },
