@@ -18,13 +18,13 @@ dotenv.config();
 app.use(express.json());
 app.use(bodyParser.json());
 
-const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://careerpro.lafkiri.com",
-  ],
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: [
+//     "http://localhost:3000",
+//     "http://careerpro.lafkiri.com",
+//   ],
+// };
+app.use(cors());
 
 connectDB();
 
